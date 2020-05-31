@@ -1,0 +1,60 @@
+Artifact
+
+rethink view
+
+World energy static or not
+actors getting energy through sleep or activity
+
+Can use binary for trait numbers for lower memory consumption
+
+
+World has dimensions [x] || [x,x] or more
+Explorer takes journey on world "map"
+
+Randomly generated environment
+ - landmarks (are static and can have benefits)
+ - food can be consumed or left
+ - nothing [empty fields, user can place artefacts]
+ - NPCs? Monsters or other entities
+ - Artefacts User generated environment
+
+
+Traits
+  - Randomly generated for each explorer
+  - Can be upgradable? (could use modifiers for random generation then upgadable based on that)
+    can even have upper limit
+
+
+  + Awareness (can know more about environment, even about game mechanics or personal stats as health and stamina)
+  + Stamina (how much free movement you can do, also movement cost)
+  + Memory (can help see movement history and tips with previous experience)
+  + Stealth (how well one can hide from other players npcs)
+  + Constitution (health and regeneration)
+  + Efficiency (Skill cost? cost of existance?)
+  + Spirit (Energy and "luck")
+  + Mass? (strength and )
+  + Vision?
+
+
+Skills
+  - Can be learned
+  - Have trait requirements
+
+
+Artefacts
+  For now we only create user posts somewhat like twitter
+  There will be interactions with artefacts though somewhat like social media
+  iteractions can either be skills or artefact special (in case of special posts)
+  or higher energy artefacts
+
+
+  Later people could post images or sound snippets (maybe parts of rulesets)
+
+
+
+
+
+
+Monsters
+
+ - Troll (feeds of note artecats and hackles players) xD

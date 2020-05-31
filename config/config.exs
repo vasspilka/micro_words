@@ -8,7 +8,8 @@
 use Mix.Config
 
 config :micro_words,
-  ecto_repos: [MicroWords.Repo]
+  ecto_repos: [MicroWords.Repo],
+  generators: [binary_id: true]
 
 # Configures the endpoint
 config :micro_words, MicroWordsWeb.Endpoint,
@@ -17,6 +18,23 @@ config :micro_words, MicroWordsWeb.Endpoint,
   render_errors: [view: MicroWordsWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: MicroWords.PubSub,
   live_view: [signing_salt: "33vX93sb"]
+
+config :micro_words, MicroWords.EventStore,
+  username: "postgres",
+  password: "postgres",
+  database: "micro_words_eventstore_dev",
+  hostname: "localhost",
+  serializer: Commanded.Serialization.JsonSerializer
+
+config :micro_words, event_stores: [MicroWords.EventStore]
+
+config :micro_words, MicroWords,
+  event_store: [
+    adapter: Commanded.EventStore.Adapters.EventStore,
+    event_store: MicroWords.EventStore
+  ],
+  pubsub: :local,
+  registry: :local
 
 # Configures Elixir's Logger
 config :logger, :console,

@@ -6,17 +6,14 @@ defmodule MicroWords.Application do
   use Application
 
   def start(_type, _args) do
+    # List all child processes to be supervised
     children = [
-      # Start the Ecto repository
+      # Microwords Commanded Application
+      MicroWords,
       MicroWords.Repo,
-      # Start the Telemetry supervisor
-      MicroWordsWeb.Telemetry,
-      # Start the PubSub system
-      {Phoenix.PubSub, name: MicroWords.PubSub},
-      # Start the Endpoint (http/https)
-      MicroWordsWeb.Endpoint
-      # Start a worker by calling: MicroWords.Worker.start_link(arg)
-      # {MicroWords.Worker, arg}
+      MicroWordsWeb.Endpoint,
+      # Commanded Handlers
+      MicroWords.Worlds.Explorers.Journey
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
