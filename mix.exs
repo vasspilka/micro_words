@@ -20,7 +20,7 @@ defmodule MicroWords.MixProject do
   def application do
     [
       mod: {MicroWords.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
@@ -37,13 +37,12 @@ defmodule MicroWords.MixProject do
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_live_view, "~> 0.12.0"},
+      {:phoenix_live_view, "~> 0.14.0"},
       {:floki, ">= 0.0.0", only: :test},
-      {:eventstore, "~> 1.0.0"},
-      {:commanded,
-       git: "https://github.com/commanded/commanded", branch: "master", override: true},
-      {:commanded_ecto_projections, "~> 1.0.0"},
-      {:commanded_eventstore_adapter, "~> 1.0.0"},
+      {:eventstore, "~> 1.1.0"},
+      {:commanded, "~> 1.2.0"},
+      {:commanded_ecto_projections, "~> 1.2.0"},
+      {:commanded_eventstore_adapter, "~> 1.2.0"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_dashboard, "~> 0.2.0"},

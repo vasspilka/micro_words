@@ -2,8 +2,8 @@ defmodule MicroWords.Worlds.Artefacts.Artefact do
   alias MicroWords.Worlds.Artefacts.Artefact
 
   alias MicroWords.Worlds.Artefacts.Commands.{
-    Spawn,
-    ReceiveAction
+    Forge,
+    React
   }
 
   alias MicroWords.Events.{
@@ -21,7 +21,7 @@ defmodule MicroWords.Worlds.Artefacts.Artefact do
     :state
   ]
 
-  def execute(%Artefact{id: nil}, %Spawn{} = cmd) do
+  def execute(%Artefact{id: nil}, %Forge{} = cmd) do
     %ArtefactForged{
       id: cmd.id,
       explorer_id: cmd.explorer_id,
@@ -30,7 +30,7 @@ defmodule MicroWords.Worlds.Artefacts.Artefact do
     }
   end
 
-  def execute(%Artefact{id: id} = state, %ReceiveAction{id: id} = cmd) do
+  def execute(%Artefact{id: id} = state, %React{id: id} = cmd) do
     %ArtefactReceivedAction{
       id: id,
       world: cmd.world,

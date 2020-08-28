@@ -8,6 +8,8 @@ defmodule MicroWords.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
+      # Start Pubsub
+      {Phoenix.PubSub, name: MicroWords.PubSub},
       # Microwords Commanded Application
       MicroWords,
       MicroWords.Repo,

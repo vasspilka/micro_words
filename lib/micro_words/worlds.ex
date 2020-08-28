@@ -7,7 +7,7 @@ defmodule MicroWords.Worlds do
 
   alias MicroWords.Worlds.World
   alias MicroWords.Rulesets.Default
-  alias MicroWords.Worlds.Artefacts.Commands.Spawn
+  alias MicroWords.Worlds.Artefacts.Commands.Forge
 
   def get(name \\ "default") do
     %TouchWorld{name: name}

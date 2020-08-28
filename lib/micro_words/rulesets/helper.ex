@@ -1,7 +1,7 @@
 defmodule MicroWords.Ruleset.Helper do
   # Possible actions
   # Visit Artefact: Visits artefact receiving some of its energy (artefact -> explorer)
-  # Spawn Artefact: Spawn a artefact by spending some energy (explorer -> artefact)
+  # Forge Artefact: Forge a artefact by spending some energy (explorer -> artefact)
   # Feed Artefact: Spend some energy to give to artefact (explorer -> artefact)
   # Smack Artefact: Spend some energy to distrupt the bost (both lose, world gets)
   # Leach Artefact: (artefact -> explorer)

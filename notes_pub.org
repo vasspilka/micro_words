@@ -9,7 +9,7 @@ Can use binary for trait numbers for lower memory consumption
 
 
 World has dimensions [x] || [x,x] or more
-Explorer takes journey on world "map"
+Explorer takes journey on world "map" through locations
 
 Randomly generated environment
  - landmarks (are static and can have benefits)
@@ -41,10 +41,20 @@ Skills
   - Have trait requirements
 
 
+  scope: explorer
+  + Assume Identity
+
+  scope: artefact
+  + Boost
+  + Impair
+  + Harvest (can seed same artefact)
+  + Sign (seeds will have author name, only can sign own)?
+
+
 Artefacts
   For now we only create user posts somewhat like twitter
   There will be interactions with artefacts though somewhat like social media
-  iteractions can either be skills or artefact special (in case of special posts)
+  interactions can either be skills or artifact special (in case of special artefact like landmarks)
   or higher energy artefacts
 
 
@@ -52,9 +62,7 @@ Artefacts
 
 
 
+NPCs
 
-
-
-Monsters
-
- - Troll (feeds of note artecats and hackles players) xD
+ - Druid will harvest and plant to random locations
+ - Troll (feeds of note  and hackles players) xD

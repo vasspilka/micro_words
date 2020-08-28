@@ -4,18 +4,17 @@ defmodule MicroWords.Rulesets.Default do
   alias MicroWords.Worlds.Artefacts.Artefact
   alias MicroWords.Rulesets.Action
 
-
   # Actions
-  alias MicroWords.Worlds.Artefacts.Commands.Spawn, as: SpawnArtefact
+  alias MicroWords.Worlds.Artefacts.Commands.Forge, as: ForgeArtefact
 
   def initial_energy(%Explorer{}) do
     200
   end
 
-  # SpawnArtefact
+  # ForgeArtefact
   def reaction(%Journey{explorer_id: id}, %Action{action_name: "spawn_artefact"} = action) do
     %{world: world, explorer_id: id, context: %{text: text}} = action
-    %SpawnArtefact{id: UUID.uuid4(), world: world, explorer_id: id, content: text}
+    %ForgeArtefact{id: UUID.uuid4(), world: world, explorer_id: id, content: text}
   end
 
   def apply(%Explorer{} = o, %Action{action_name: "spawn_artefact"}) do
@@ -29,7 +28,7 @@ defmodule MicroWords.Rulesets.Default do
   # ViewArtefact
   def reaction(%Journey{explorer_id: id}, %Action{action_name: "spawn_artefact"} = action) do
     %{world: world, explorer_id: id, context: %{text: text}} = action
-    %SpawnArtefact{id: UUID.uuid4(), world: world, explorer_id: id, content: text}
+    %ForgeArtefact{id: UUID.uuid4(), world: world, explorer_id: id, content: text}
   end
 
   def apply(%Explorer{} = o, %Action{action_name: "spawn_artefact"}) do

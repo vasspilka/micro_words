@@ -18,7 +18,7 @@ defmodule MicroWords.Worlds.Explorers do
   end
 
   def take_action(explorer, %Action{} = action) do
-    %TakeAction{id: explorer.id, world: explorer.world, action: action}
+    %TakeAction{id: explorer.id, action: action}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 end
