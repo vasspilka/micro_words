@@ -11,15 +11,14 @@ defmodule MicroWords.Worlds.Explorers.Journey do
   ]
 
   alias MicroWords.Events.{
+    ArtefactForged,
+    ArtefactReceivedAction,
+    # ArtefactUnfolded,
     ExplorerEnteredWorld,
     ExplorerActionTaken
   }
 
   alias MicroWords.Worlds.Explorers.Journey
-
-  alias MicroWords.Worlds.Artefacts.Commands.{
-    Forge
-  }
 
   alias MicroWords.Worlds.Explorers.Commands.{
     ReceiveRuleset,
@@ -34,14 +33,15 @@ defmodule MicroWords.Worlds.Explorers.Journey do
     %ReceiveRuleset{id: evt.id, ruleset: MicroWords.Rulesets.Default}
   end
 
-  def handle(%Journey{}, %ExplorerActionTaken{action: %{type: "create_artefact"}}) do
-    [%Forge{}]
+  def handle(%Journey{}, %ExplorerActionTaken{action: action}) do
+    []
   end
 
   def apply(%Journey{}, %ExplorerEnteredWorld{id: id}) do
     %Journey{explorer_id: id}
   end
 
-  def apply(%Journey{}, %ExplorerActionTaken{}) do
+  def apply(%Journey{} = state, %ExplorerActionTaken{}) do
+    state
   end
 end

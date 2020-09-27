@@ -16,7 +16,17 @@ defmodule MicroWords.Events do
 
   defmodule ExplorerActionTaken do
     @derive Jason.Encoder
-    defstruct [:id, :world, :artefact_id, :action]
+    defstruct [:id, :world, :action, :data]
+  end
+
+  defmodule ExplorerMoved do
+    @derive Jason.Encoder
+    defstruct [:id, :world, :action]
+  end
+
+  defmodule ExplorerEncounter do
+    @derive Jason.Encoder
+    defstruct [:id, :world, :action]
   end
 
   defmodule ArtefactForged do
