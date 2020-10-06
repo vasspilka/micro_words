@@ -6,7 +6,7 @@ defmodule MicroWords.Events do
 
   defmodule ExplorerEnteredWorld do
     @derive Jason.Encoder
-    defstruct [:id, :world]
+    defstruct [:id, :world, :starting_position]
   end
 
   defmodule ExplorerReceivedRuleset do
@@ -19,12 +19,12 @@ defmodule MicroWords.Events do
     defstruct [:id, :world, :action, :data]
   end
 
-  defmodule ExplorerMoved do
+  defmodule ExplorerAffected do
     @derive Jason.Encoder
-    defstruct [:id, :world, :action]
+    defstruct [:id, :action, :data]
   end
 
-  defmodule ExplorerEncounter do
+  defmodule ExplorerMoved do
     @derive Jason.Encoder
     defstruct [:id, :world, :action]
   end

@@ -14,8 +14,8 @@ defmodule MicroWords.Rulesets.Default do
 
   # ForgeArtefact
   def reaction(%Journey{explorer_id: id}, %Action{action_name: "forge_artefact"} = action) do
-    %{world: world, explorer_id: id, context: %{text: text}} = action
-    %ForgeArtefact{id: UUID.uuid4(), world: world, explorer_id: id, content: text}
+    # %{world: world, explorer_id: id, context: %{text: text}} = action
+    # %ForgeArtefact{id: UUID.uuid4(), world: world, explorer_id: id, content: text}
   end
 
   def apply(%Explorer{} = o, %Action{action_name: "spawn_artefact"}) do
@@ -29,7 +29,7 @@ defmodule MicroWords.Rulesets.Default do
   # ViewArtefact
   def reaction(%Journey{explorer_id: id}, %Action{action_name: "view_artefact"} = action) do
     %{world: world, explorer_id: id, context: %{text: text}} = action
-    %React{id: UUID.uuid4(), world: world, explorer_id: id, content: text}
+    %React{id: UUID.uuid4(), world: world, explorer_id: id}
   end
 
   def apply(%Explorer{} = o, %Action{action_name: "spawn_artefact"}) do

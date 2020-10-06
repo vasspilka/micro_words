@@ -14,7 +14,13 @@ defmodule MicroWords.Worlds do
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 
-  def create_world(name \\ "default", ruleset \\ Default) do
+  @doc """
+  Creates a new world with name from a ruleset.
+
+  A world is generally represented by a two dimentional array
+  on which spaces artefacts can exists and explorers can travel through.
+  """
+  def create(name \\ "default", ruleset \\ Default) do
     %CreateWorld{name: name}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end

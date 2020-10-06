@@ -5,6 +5,5 @@ defmodule MicroWords.Worlds.Explorers.JourneyTest do
   end
 
   test "user reaction causes reaction" do
-   
   end
 end
