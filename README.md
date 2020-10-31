@@ -39,14 +39,14 @@ Based on the energy the artefacts they will
 
 Note that content will begin as short text in the beggining but then can be extended to hyperlinks, images, video and audio content.
 
-Artefacts start with some energy that the user has spend, then by interactions they can either gain or lose energy.
+Artefacts start with some energy that the user spend to create them, then by interactions they can either gain or lose energy.
 Depending on the ruleset an artefact after obtaining a certain amount of energy will "evolve" to a new stage, the opossite can happen if from a higher stage
 an artefact will lose enough energy it will be devolved to a lower stage.
 
 The type of stages and their behaviour will also be part of the defined ruleset.
 
-An artefact can have a death when it's energy is depleted (getting to 0). That will destroy the artefact and release the space it was occupiying.
-Allowing for other artefact to take its place.
+An artefact can die (gets removd) when it's energy is depleted (getting to 0). That will destroy the artefact and release the space it was occupiying to
+allow for other artefact to take its place.
 
 ### Ruleset & Mechanics
 
