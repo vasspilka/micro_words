@@ -4,7 +4,11 @@ defmodule MicroWordsWeb.PageLive do
   @allowed_actions ["w", "a", "s", "d", "ArrowUp", "ArrowLeft", "ArrowRight", "ArrowDown"]
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(params, session, socket) do
+    world = socket.private.connect_params["world"]
+    explorer_id = socket.private.connect_params["explorer_uuid"]
+
+    # Get or create exlorer.
     {:ok, assign(socket, content: "Hello explorer!")}
   end
 
@@ -13,12 +17,12 @@ defmodule MicroWordsWeb.PageLive do
 
     case action_type do
       "Move" ->
+        Enum
         nil
 
       _ ->
         nil
     end
-
 
     {:noreply, socket}
   end

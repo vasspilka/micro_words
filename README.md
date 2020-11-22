@@ -69,3 +69,4 @@ In order to make the game more interesting there are going to be "special" syste
 Overall these will be used to aid players generate content (by providing energy or helping with seed dispersal).
 How many and types of NPCs and Landmarks are also part of world ruleset.
 
+    

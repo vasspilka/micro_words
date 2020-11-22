@@ -1,0 +1,12 @@
+
+*** Movement and content display
+We want to test that on Explorer can move across the field and that doing so will return new content.
+
+
+*** Creation of new content
+We want the functionlity to insert new pieces of content.
+
+*** Interaction with existing posts
+
+
+*** Evolving how a world can be represented

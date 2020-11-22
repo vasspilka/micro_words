@@ -26,7 +26,7 @@ defmodule MicroWords.Events do
 
   defmodule ExplorerMoved do
     @derive Jason.Encoder
-    defstruct [:id, :world, :action]
+    defstruct [:id, :world, :direction]
   end
 
   defmodule ArtefactForged do
