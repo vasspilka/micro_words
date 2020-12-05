@@ -8,6 +8,7 @@ defmodule MicroWords.Worlds.Router do
   alias MicroWords.Worlds.Explorers.Commands.{
     EnterWorld,
     ReceiveRuleset,
+    Move,
     TakeAction
   }
 
@@ -28,7 +29,7 @@ defmodule MicroWords.Worlds.Router do
   )
 
   dispatch(
-    [EnterWorld, ReceiveRuleset, TakeAction, TouchExplorer],
+    [EnterWorld, ReceiveRuleset, TakeAction, Move, TouchExplorer],
     to: MicroWords.Worlds.Explorers.Explorer,
     identity: :id,
     identity_prefix: "micro_word_world_explorer-"

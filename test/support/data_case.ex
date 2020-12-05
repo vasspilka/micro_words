@@ -16,6 +16,8 @@ defmodule MicroWords.DataCase do
 
   use ExUnit.CaseTemplate
 
+  alias EventStore.Storage
+
   using do
     quote do
       alias MicroWords.Repo
@@ -33,6 +35,19 @@ defmodule MicroWords.DataCase do
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(MicroWords.Repo, {:shared, self()})
     end
+
+    on_exit(fn ->
+      :ok = Application.stop(:micro_words)
+
+      {:ok, conn} =
+        MicroWords.EventStore.config()
+        |> EventStore.Config.default_postgrex_opts()
+        |> Postgrex.start_link()
+
+      Storage.Initializer.reset!(conn)
+
+      {:ok, _apps} = Application.ensure_all_started(:micro_words)
+    end)
 
     :ok
   end

@@ -5,8 +5,7 @@ defmodule MicroWords.Worlds.Explorers do
     Move
   }
 
-  @type types :: String.t()
-
+  alias MicroWords.Worlds.Explorers.Explorer
   alias MicroWords.Rulesets.Action
   alias MicroWords.Worlds.Explorers.Commands.EnterWorld
 
@@ -15,14 +14,15 @@ defmodule MicroWords.Worlds.Explorers do
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 
-  def move(explorer, direction) do
-    %Move{id: UUID.uuid4(), direction: direction}
+  @spec enter_world(binary(), binary()) :: {:ok, %Explorer{}} | {:error, term()}
+  def enter_world(explorer_id, world \\ "default") do
+    %EnterWorld{id: explorer_id, world: world}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 
-  @spec enter_world(types) :: term()
-  def enter_world(world \\ "default") do
-    %EnterWorld{id: UUID.uuid4(), world: world}
+  @spec move(binary(), MicroWords.direction()) :: {:ok, %Explorer{}} | {:error, term()}
+  def move(explorer_id, direction) do
+    %Move{id: explorer_id, direction: direction}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 

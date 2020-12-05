@@ -1,12 +1,17 @@
 defmodule MicroWords.Rulesets.Default do
   alias MicroWords.Worlds.Explorers.Explorer
   alias MicroWords.Worlds.Explorers.Journey
-  alias MicroWords.Worlds.Artefacts.Artefact
+  # alias MicroWords.Worlds.Artefacts.Artefact
   alias MicroWords.Rulesets.Action
 
   # Actions
-  alias MicroWords.Worlds.Artefacts.Commands.Forge
+  # alias MicroWords.Worlds.Artefacts.Commands.Forge
   alias MicroWords.Worlds.Artefacts.Commands.React
+
+  @spec dimensions() :: {integer(), integer()}
+  def dimensions() do
+    {100, 100}
+  end
 
   def initial_energy(%Explorer{}) do
     200

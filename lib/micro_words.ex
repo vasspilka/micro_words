@@ -7,6 +7,8 @@ defmodule MicroWords do
   if it comes from the database, an external API or others.
   """
 
+  @type direction :: :north | :east | :south | :west
+
   use Commanded.Application, otp_app: :micro_words
 
   router(MicroWords.Worlds.Router)

@@ -47,6 +47,7 @@ defmodule MicroWords.MixProject do
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:stream_data, "~> 0.4"},
+      {:typed_struct, "~> 0.2.1"},
       {:norm, "~> 0.12"},
       {:matrex, "~> 0.6.8"},
       {:gettext, "~> 0.11"},
