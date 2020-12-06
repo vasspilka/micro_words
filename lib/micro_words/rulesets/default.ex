@@ -8,6 +8,8 @@ defmodule MicroWords.Rulesets.Default do
   # alias MicroWords.Worlds.Artefacts.Commands.Forge
   alias MicroWords.Worlds.Artefacts.Commands.React
 
+  @type action_types :: :forge_artefact | :boost_artefact | :impair_artefact
+
   @spec dimensions() :: {integer(), integer()}
   def dimensions() do
     {100, 100}
@@ -18,12 +20,12 @@ defmodule MicroWords.Rulesets.Default do
   end
 
   # ForgeArtefact
-  def reaction(%Journey{explorer_id: id}, %Action{action_name: "forge_artefact"} = action) do
+  def reaction(%Journey{explorer_id: id}, %Action{action_name: :forge_artefact} = action) do
     # %{world: world, explorer_id: id, context: %{text: text}} = action
     # %ForgeArtefact{id: UUID.uuid4(), world: world, explorer_id: id, content: text}
   end
 
-  def apply(%Explorer{} = o, %Action{action_name: "spawn_artefact"}) do
+  def apply(%Explorer{} = o, %Action{action_name: :forge_artefact}) do
     %Explorer{energy: o.energy - 40}
   end
 
@@ -31,8 +33,8 @@ defmodule MicroWords.Rulesets.Default do
     energy >= 40
   end
 
-  # ViewArtefact
-  def reaction(%Journey{explorer_id: id}, %Action{action_name: "view_artefact"} = action) do
+  # BoostArtefact
+  def reaction(%Journey{explorer_id: id}, %Action{action_name: :boost_artefact} = action) do
     %{world: world, explorer_id: id, context: %{text: text}} = action
     %React{id: UUID.uuid4(), world: world, explorer_id: id}
   end
@@ -45,7 +47,20 @@ defmodule MicroWords.Rulesets.Default do
     true
   end
 
-  # BoostArtefact
-
   # ImpairArtefact
+  #
+
+  @spec build_action(Explorer.t(), action_type(), map()) :: Action.t()
+  def build_action(explorer, :forge_artefact, %{content: content}) do
+    {x, y} = explorer.location
+    location_id = "{#{x},#{y}:#{explorer.world}}"
+
+    %Action{
+      type: :forge_artefact,
+      explorer_id: explorer.id,
+      location_id: location_id,
+      ruleset: __MODULE__,
+      data: data
+    }
+  end
 end

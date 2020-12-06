@@ -1,40 +1,43 @@
 defmodule MicroWords.Worlds.Explorers.Commands do
   use TypedStruct
 
-  # Development aid to get aggregate state.
-  defmodule Touch do
-    typedstruct do
-      field :id, String.t()
-    end
-  end
+  alias MicroWords.Rulesets.Action
 
-  # Create user command
+  # Create user command, also serves as waking up
+  # and getting the user info.
   defmodule EnterWorld do
     typedstruct do
-      field :id, String.t()
-      field :world, String.t()
+      field :id, binary()
+      field :world, binary()
     end
   end
 
   # Accept ruleset from world (happens after create)
   defmodule ReceiveRuleset do
-    defstruct [:id, :ruleset]
+    typedstruct do
+      field :id, binary()
+      field :ruleset, module()
+    end
   end
 
   # Move around the world
   defmodule Move do
     typedstruct do
-      field :id, String.t()
+      field :id, binary()
       field :direction, MicroWords.direction()
     end
   end
 
   # Take an action on your current location.
   defmodule TakeAction do
-    defstruct [:id, :action]
+    typedstruct do
+      field :id, binary()
+      field :action, Action.t()
+    end
   end
 
-  defmodule React do
+  # A user is affected by an action
+  defmodule Affect do
     # TODO:
     defstruct [:id]
   end

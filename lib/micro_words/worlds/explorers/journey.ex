@@ -7,12 +7,13 @@ defmodule MicroWords.Worlds.Explorers.Journey do
   @derive Jason.Encoder
   defstruct [
     :world,
-    :explorer_id
+    :explorer_id,
+    :location
   ]
 
   alias MicroWords.Events.{
-    ArtefactForged,
-    ArtefactReceivedAction,
+    # ArtefactForged,
+    # ArtefactReceivedAction,
     # ArtefactUnfolded,
     ExplorerEnteredWorld,
     ExplorerActionTaken
@@ -21,8 +22,8 @@ defmodule MicroWords.Worlds.Explorers.Journey do
   alias MicroWords.Worlds.Explorers.Journey
 
   alias MicroWords.Worlds.Explorers.Commands.{
-    ReceiveRuleset,
-    TakeAction
+    ReceiveRuleset
+    # TakeAction
   }
 
   def interested?(%ExplorerEnteredWorld{id: id}), do: {:start!, id}
@@ -33,9 +34,9 @@ defmodule MicroWords.Worlds.Explorers.Journey do
     %ReceiveRuleset{id: evt.id, ruleset: MicroWords.Rulesets.Default}
   end
 
-  def handle(%Journey{}, %ExplorerActionTaken{action: action}) do
-    []
-  end
+  # def handle(%Journey{}, %ExplorerActionTaken{action: action}) do
+  #   []
+  # end
 
   def apply(%Journey{}, %ExplorerEnteredWorld{id: id}) do
     %Journey{explorer_id: id}

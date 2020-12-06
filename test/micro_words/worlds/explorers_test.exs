@@ -71,5 +71,10 @@ defmodule MicroWords.Worlds.ExplorersTest do
       #   assert event.location == {2, max_y}
       # end)
     end
+
+    test "explorer can create artefact through action", %{world: world, explorer: explorer} do
+      action = nil
+      assert {:ok, %{} = Worlds.Explorers.make_action(explorer.id, action)
+    end
   end
 end

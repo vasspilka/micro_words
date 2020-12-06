@@ -8,6 +8,8 @@
 use Mix.Config
 
 config :micro_words,
+  # consider list and using macro for types.
+  ruleset_module: MicroWords.Rulesets.Default,
   ecto_repos: [MicroWords.Repo],
   generators: [binary_id: true]
 

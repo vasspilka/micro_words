@@ -4,31 +4,29 @@ defmodule MicroWords.Worlds.Explorers.Explorer do
   alias MicroWords.Worlds.Explorers.Commands.{
     EnterWorld,
     ReceiveRuleset,
-    Touch,
     Move,
     TakeAction
-    # React
-    # LevelUp
+    # Affect
   }
 
   alias MicroWords.Events.{
     ExplorerEnteredWorld,
     ExplorerReceivedRuleset,
     ExplorerMoved,
-    ExplorerActionTaken
+    ExplorerActionTaken,
+    ExplorerAffected
   }
 
   defstruct [
     :id,
     :world,
+    :ruleset,
     :location,
     :energy,
-    :ruleset,
-    level: 1
+    artefacts: [],
+    xp: 0,
+    stats: %{}
   ]
-
-  def execute(%Explorer{id: id}, %Touch{}) when is_binary(id), do: []
-  def execute(%Explorer{}, %Touch{}), do: {:error, :not_existing}
 
   def execute(%Explorer{id: nil}, %EnterWorld{} = cmd) do
     %ExplorerEnteredWorld{
@@ -38,8 +36,17 @@ defmodule MicroWords.Worlds.Explorers.Explorer do
     }
   end
 
-  def execute(%Explorer{id: nil}, %ReceiveRuleset{}) do
-    {:error, :not_found}
+  def execute(%Explorer{world: world}, %EnterWorld{world: cmd_world})
+      when cmd_world in [nil, world] do
+    []
+  end
+
+  def execute(%Explorer{}, %EnterWorld{}) do
+    {:error, :worlds_dont_match}
+  end
+
+  def execute(%Explorer{id: nil}, %_cmd{}) do
+    {:error, :explorer_not_found}
   end
 
   def execute(%Explorer{id: id}, %ReceiveRuleset{id: id} = cmd) do
@@ -107,5 +114,9 @@ defmodule MicroWords.Worlds.Explorers.Explorer do
 
   def apply(%Explorer{} = state, %ExplorerActionTaken{} = evt) do
     state.ruleset.apply(state, evt.action)
+  end
+
+  def apply(%Explorer{} = state, %ExplorerAffect{} = evt) do
+    # TODO
   end
 end

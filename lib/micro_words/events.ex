@@ -14,6 +14,11 @@ defmodule MicroWords.Events do
     defstruct [:id, :ruleset]
   end
 
+  defmodule ExplorerMoved do
+    @derive Jason.Encoder
+    defstruct [:id, :world, :location]
+  end
+
   defmodule ExplorerActionTaken do
     @derive Jason.Encoder
     defstruct [:id, :world, :action, :data]
@@ -21,20 +26,15 @@ defmodule MicroWords.Events do
 
   defmodule ExplorerAffected do
     @derive Jason.Encoder
-    defstruct [:id, :action, :data]
-  end
-
-  defmodule ExplorerMoved do
-    @derive Jason.Encoder
-    defstruct [:id, :world, :location]
+    defstruct [:id, :energy]
   end
 
   defmodule ArtefactForged do
     @derive Jason.Encoder
-    defstruct [:id, :world, :explorer_id, :content]
+    defstruct [:location_id, :explorer_id, :content]
   end
 
-  defmodule ArtefactReceivedAction do
+  defmodule ArtefactAffected do
     @derive Jason.Encoder
     defstruct [:id, :world, :explorer_id, :action]
   end

@@ -26,8 +26,9 @@ defmodule MicroWords.Worlds.Explorers do
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 
-  def take_action(explorer, %Action{} = action) do
-    %TakeAction{id: explorer.id, action: action}
+  @spec make_action(binary(), %Action{}) :: {:ok, %Explorer{}} | {:error, term()}
+  def make_action(explorer_id, %Action{} = action) do
+    %TakeAction{id: explorer_id, action: action}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 end
