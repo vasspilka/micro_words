@@ -1,14 +1,14 @@
 defmodule MicroWords.Rulesets.Default do
+  alias MicroWords.Artefact
   alias MicroWords.Worlds.Explorers.Explorer
   alias MicroWords.Worlds.Explorers.Journey
-  # alias MicroWords.Worlds.Artefacts.Artefact
   alias MicroWords.Rulesets.Action
 
   # Actions
   # alias MicroWords.Worlds.Artefacts.Commands.Forge
   alias MicroWords.Worlds.Artefacts.Commands.React
 
-  @type action_types :: :forge_artefact | :boost_artefact | :impair_artefact
+  @type action_type :: :forge_artefact | :boost_artefact | :impair_artefact
 
   @spec dimensions() :: {integer(), integer()}
   def dimensions() do
@@ -20,30 +20,39 @@ defmodule MicroWords.Rulesets.Default do
   end
 
   # ForgeArtefact
-  def reaction(%Journey{explorer_id: id}, %Action{action_name: :forge_artefact} = action) do
+  def reaction(%Journey{explorer_id: id}, %Action{type: :forge_artefact} = action) do
     # %{world: world, explorer_id: id, context: %{text: text}} = action
     # %ForgeArtefact{id: UUID.uuid4(), world: world, explorer_id: id, content: text}
   end
 
-  def apply(%Explorer{} = o, %Action{action_name: :forge_artefact}) do
-    %Explorer{energy: o.energy - 40}
+  def apply(%Explorer{} = o, %Action{type: :forge_artefact} = act) do
+    artefact_id = UUID.uuid4()
+
+    artefact = %Artefact{
+      id: artefact_id,
+      originator: o.id,
+      world: o.world,
+      content: act.data.content
+    }
+
+    %Explorer{energy: o.energy - 40, artefacts: Map.put(o.artefacts, artefact_id, artefact)}
   end
 
-  def valid_for?(%Explorer{energy: energy}, %Action{action_name: "spawn_artefact"}) do
+  def valid_for?(%Explorer{energy: energy}, %Action{type: :forge_artefact}) do
     energy >= 40
   end
 
   # BoostArtefact
-  def reaction(%Journey{explorer_id: id}, %Action{action_name: :boost_artefact} = action) do
+  def reaction(%Journey{explorer_id: id}, %Action{type: :boost_artefact} = action) do
     %{world: world, explorer_id: id, context: %{text: text}} = action
     %React{id: UUID.uuid4(), world: world, explorer_id: id}
   end
 
-  def apply(%Explorer{} = o, %Action{action_name: "spawn_artefact"}) do
+  def apply(%Explorer{} = o, %Action{type: :boost_artefact} = act) do
     %Explorer{energy: o.energy + 40}
   end
 
-  def valid_for?(%Explorer{energy: energy}, %Action{action_name: "spawn_artefact"}) do
+  def valid_for?(%Explorer{energy: energy}, %Action{type: :boost_artefact}) do
     true
   end
 
@@ -60,7 +69,7 @@ defmodule MicroWords.Rulesets.Default do
       explorer_id: explorer.id,
       location_id: location_id,
       ruleset: __MODULE__,
-      data: data
+      data: %{content: content}
     }
   end
 end

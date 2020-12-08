@@ -11,6 +11,9 @@ defmodule MicroWords.Worlds.ExplorersTest do
     ExplorerMoved
   }
 
+  alias MicroWords.Artefact
+  alias MicroWords.Worlds.Explorers.Explorer
+
   describe "common explorer cases" do
     setup do
       {:ok, world} = Worlds.create("test_world")
@@ -37,44 +40,81 @@ defmodule MicroWords.Worlds.ExplorersTest do
 
       assert {:ok, %{location: {^max_x, 1}}} = Worlds.Explorers.move(explorer.id, :west)
 
-      assert_receive_event(MicroWords, ExplorerMoved, fn event, _recorded_event ->
-        assert event.location == {max_x, 1}
-      end)
+      assert_receive_event(
+        MicroWords,
+        ExplorerMoved,
+        fn evt -> evt.location == {max_x, 1} end,
+        fn event, _recorded_event ->
+          assert event.location == {max_x, 1}
+          assert event.id == explorer.id
+        end
+      )
 
       assert {:ok, %{location: {1, 1}}} = Worlds.Explorers.move(explorer.id, :east)
 
-      # assert_receive_event(MicroWords, ExplorerMoved, fn event, _recorded_event ->
-      #   assert event.location == {1, 1}
-      # end)
+      assert_receive_event(
+        MicroWords,
+        ExplorerMoved,
+        fn evt -> evt.location == {1, 1} end,
+        fn event, _recorded_event ->
+          assert event.location == {1, 1}
+          assert event.id == explorer.id
+        end
+      )
 
       assert {:ok, %{location: {2, 1}}} = Worlds.Explorers.move(explorer.id, :east)
 
-      # assert_receive_event(MicroWords, ExplorerMoved, fn event, _recorded_event ->
-      #   assert event.location == {2, 1}
-      # end)
+      assert_receive_event(
+        MicroWords,
+        ExplorerMoved,
+        fn evt -> evt.location == {2, 1} end,
+        fn event, _recorded_event ->
+          assert event.location == {2, 1}
+          assert event.id == explorer.id
+        end
+      )
 
       assert {:ok, %{location: {2, 2}}} = Worlds.Explorers.move(explorer.id, :north)
 
-      # assert_receive_event(MicroWords, ExplorerMoved, fn event, _recorded_event ->
-      #   assert event.location == {2, 2}
-      # end)
+      assert_receive_event(
+        MicroWords,
+        ExplorerMoved,
+        fn evt -> evt.location == {2, 2} end,
+        fn event, _recorded_event ->
+          assert event.location == {2, 2}
+          assert event.id == explorer.id
+        end
+      )
 
       assert {:ok, %{location: {2, 1}}} = Worlds.Explorers.move(explorer.id, :south)
 
-      # assert_receive_event(MicroWords, ExplorerMoved, fn event, _recorded_event ->
-      #   assert event.location == {2, 1}
-      # end)
+      assert_receive_event(
+        MicroWords,
+        ExplorerMoved,
+        fn evt -> evt.location == {2, 1} end,
+        fn event, _recorded_event ->
+          assert event.location == {2, 1}
+          assert event.id == explorer.id
+        end
+      )
 
       assert {:ok, %{location: {2, ^max_y}}} = Worlds.Explorers.move(explorer.id, :south)
 
-      # assert_receive_event(MicroWords, ExplorerMoved, fn event, _recorded_event ->
-      #   assert event.location == {2, max_y}
-      # end)
+      assert_receive_event(
+        MicroWords,
+        ExplorerMoved,
+        fn evt -> evt.location == {2, max_y} end,
+        fn event, _recorded_event ->
+          assert event.location == {2, max_y}
+          assert event.id == explorer.id
+        end
+      )
     end
 
     test "explorer can create artefact through action", %{world: world, explorer: explorer} do
-      action = nil
-      assert {:ok, %{} = Worlds.Explorers.make_action(explorer.id, action)
+      assert {:ok, %Explorer{}} =
+               Worlds.Explorers.make_action(explorer.id, :forge_artefact, %{content: "Hello"})
+               |> IO.inspect()
     end
   end
 end

@@ -4,7 +4,7 @@ defmodule MicroWords.Worlds.Orchestrator do
   """
   use DynamicSupervisor
 
-  def start_world(name) do
+  def start_world(_name) do
     DynamicSupervisor.start_child(__MODULE__, {Agent, fn -> %{} end})
   end
 

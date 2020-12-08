@@ -1,5 +1,8 @@
 defmodule MicroWords.Worlds.Explorers.Explorer do
+  use TypedStruct
+
   alias MicroWords.Worlds.Explorers.Explorer
+  alias MicroWords.Artefact
 
   alias MicroWords.Worlds.Explorers.Commands.{
     EnterWorld,
@@ -17,16 +20,16 @@ defmodule MicroWords.Worlds.Explorers.Explorer do
     ExplorerAffected
   }
 
-  defstruct [
-    :id,
-    :world,
-    :ruleset,
-    :location,
-    :energy,
-    artefacts: [],
-    xp: 0,
-    stats: %{}
-  ]
+  typedstruct do
+    field :id, binary()
+    field :world, binary()
+    field :ruleset, module()
+    field :location, {integer(), integer()}
+    field :energy, integer()
+    field :artefacts, %{binary() => Artefact.t()}, default: %{}
+    field :xp, integer(), default: 0
+    field :stats, map(), default: %{}
+  end
 
   def execute(%Explorer{id: nil}, %EnterWorld{} = cmd) do
     %ExplorerEnteredWorld{
@@ -91,11 +94,13 @@ defmodule MicroWords.Worlds.Explorers.Explorer do
   end
 
   def execute(%Explorer{id: id} = state, %TakeAction{id: id} = cmd) do
-    if state.ruleset.valid_for?(state, cmd.action) do
+    action = state.ruleset.build_action(state, cmd.type, cmd.data)
+
+    if state.ruleset.valid_for?(state, action) do
       %ExplorerActionTaken{
         id: id,
-        world: cmd.world,
-        action: cmd.action
+        world: state.world,
+        action: action
       }
     end
   end
@@ -116,7 +121,7 @@ defmodule MicroWords.Worlds.Explorers.Explorer do
     state.ruleset.apply(state, evt.action)
   end
 
-  def apply(%Explorer{} = state, %ExplorerAffect{} = evt) do
+  def apply(%Explorer{} = state, %ExplorerAffected{} = evt) do
     # TODO
   end
 end

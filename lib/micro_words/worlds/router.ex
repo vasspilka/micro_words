@@ -14,10 +14,10 @@ defmodule MicroWords.Worlds.Router do
 
   alias MicroWords.Worlds.Explorers.Commands.Touch, as: TouchExplorer
 
-  alias MicroWords.Worlds.Artefacts.Commands.{
-    Forge,
-    React
-  }
+  # alias MicroWords.Worlds.Artefacts.Commands.{
+  #   Forge,
+  #   React
+  # }
 
   use Commanded.Commands.Router
 
@@ -29,16 +29,16 @@ defmodule MicroWords.Worlds.Router do
   )
 
   dispatch(
-    [EnterWorld, ReceiveRuleset, TakeAction, Move, TouchExplorer],
+    [EnterWorld, ReceiveRuleset, TakeAction, Move],
     to: MicroWords.Worlds.Explorers.Explorer,
     identity: :id,
     identity_prefix: "micro_word_world_explorer-"
   )
 
-  dispatch(
-    [Forge, React],
-    to: MicroWords.Worlds.Artefacts.Artefact,
-    identity: :id,
-    identity_prefix: "micro_word_world_artefact-"
-  )
+  # dispatch(
+  #   [Forge, React],
+  #   to: MicroWords.Worlds.Artefacts.Artefact,
+  #   identity: :id,
+  #   identity_prefix: "micro_word_world_artefact-"
+  # )
 end

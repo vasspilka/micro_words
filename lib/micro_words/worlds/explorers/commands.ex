@@ -32,7 +32,8 @@ defmodule MicroWords.Worlds.Explorers.Commands do
   defmodule TakeAction do
     typedstruct do
       field :id, binary()
-      field :action, Action.t()
+      field :type, atom()
+      field :data, map()
     end
   end
 

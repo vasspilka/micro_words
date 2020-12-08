@@ -1,6 +1,5 @@
 defmodule MicroWords.Worlds.Explorers do
   alias MicroWords.Worlds.Explorers.Commands.{
-    Touch,
     TakeAction,
     Move
   }
@@ -8,11 +7,6 @@ defmodule MicroWords.Worlds.Explorers do
   alias MicroWords.Worlds.Explorers.Explorer
   alias MicroWords.Rulesets.Action
   alias MicroWords.Worlds.Explorers.Commands.EnterWorld
-
-  def get(uuid) do
-    %Touch{id: uuid}
-    |> MicroWords.dispatch(returning: :aggregate_state)
-  end
 
   @spec enter_world(binary(), binary()) :: {:ok, %Explorer{}} | {:error, term()}
   def enter_world(explorer_id, world \\ "default") do
@@ -26,9 +20,9 @@ defmodule MicroWords.Worlds.Explorers do
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 
-  @spec make_action(binary(), %Action{}) :: {:ok, %Explorer{}} | {:error, term()}
-  def make_action(explorer_id, %Action{} = action) do
-    %TakeAction{id: explorer_id, action: action}
+  @spec make_action(binary(), atom(), map()) :: {:ok, %Explorer{}} | {:error, term()}
+  def make_action(explorer_id, type, data) do
+    %TakeAction{id: explorer_id, type: type, data: data}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 end
