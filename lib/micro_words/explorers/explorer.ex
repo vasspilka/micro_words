@@ -8,8 +8,8 @@ defmodule MicroWords.Worlds.Explorers.Explorer do
     EnterWorld,
     ReceiveRuleset,
     Move,
-    TakeAction
-    # Affect
+    TakeAction,
+    Affect
   }
 
   alias MicroWords.Events.{
@@ -99,10 +99,16 @@ defmodule MicroWords.Worlds.Explorers.Explorer do
     if state.ruleset.valid_for?(state, action) do
       %ExplorerActionTaken{
         id: id,
-        world: state.world,
         action: action
       }
     end
+  end
+
+  def execute(%Explorer{id: id} = state, %Affect{id: id} = cmd) do
+    %ExplorerAffected{
+      id: id,
+      action: cmd.action
+    }
   end
 
   def apply(%Explorer{}, %ExplorerEnteredWorld{} = evt) do
@@ -122,6 +128,6 @@ defmodule MicroWords.Worlds.Explorers.Explorer do
   end
 
   def apply(%Explorer{} = state, %ExplorerAffected{} = evt) do
-    # TODO
+    state.ruleset.react(state, evt.action)
   end
 end

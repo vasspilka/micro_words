@@ -1,35 +1,35 @@
-# defmodule MicroWords.Worlds.Location do
-#   alias MicroWords.Worlds.Location
+defmodule MicroWords.Worlds.Location do
+  use TypedStruct
 
-#   alias MicroWords.Worlds.Commands.{}
+  alias MicroWords.Artefact
+  alias MicroWords.Worlds.Location
 
-#   alias MicroWords.Events.{
-#     WorldCreated
-#   }
+  alias MicroWords.Worlds.Commands.{
+    GetLocation,
+    AffectLocation
+  }
 
-#   defstruct [
-#     :id,
-#     :artefact
-#   ]
+  alias MicroWords.Events.{
+    LocationAffected
+  }
 
-#   def execute(%Location{}, %Touch{}), do: []
+  typedstruct do
+    field :id, binary()
+    field :artefact, Artefact.t()
+  end
 
-#   def execute(%Location{}, %{} = cmd) do
-#   end
+  def execute(%Location{}, %GetLocation{} = cmd) do
+    []
+  end
 
-#   def apply(%World{}, %WorldCreated{} = evt) do
-#     %World{
-#       name: evt.name,
-#       # energy: evt.energy,
-#       ruleset: evt.ruleset
-#     }
-#   end
+  def execute(%Location{}, %AffectLocation{} = cmd) do
+    %LocationAffected{
+      id: cmd.id,
+      action: cmd.action
+    }
+  end
 
-#   # def energy_from_ruleset(ruleset) do
-#   #   100
-#   # end
-#   #
-#   def location_id(location, world) do
-#     ""
-#   end
-# end
+  def apply(%Location{}, %LocationAffected{} = evt) do
+    %LocationAffected{id: evt}
+  end
+end

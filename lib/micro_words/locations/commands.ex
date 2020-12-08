@@ -1,5 +1,4 @@
 defmodule MicroWords.Locations.Commands do
-
   # Since this will be called often we should create cached view
   # the cached view can be updated as projection.
   defmodule Get do

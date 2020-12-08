@@ -1,9 +1,20 @@
 defmodule MicroWords.Worlds.Commands do
-  defmodule CreateWorld do
-    defstruct [:name, :ruleset]
+  use TypedStruct
+
+  typedstruct module: CreateWorld do
+    field :name, binary()
+    field :ruleset, module()
   end
 
-  defmodule Touch do
-    defstruct [:name]
+  typedstruct module: Touch do
+    field :name, binary()
+  end
+
+  typedstruct module: GetLocation do
+    field :location_id, binary()
+  end
+
+  typedstruct module: AffectLocation do
+    field :location_id, binary()
   end
 end

@@ -11,6 +11,7 @@ defmodule MicroWords.Artefact do
     field :content, binary()
     field :world, binary()
     field :originator, binary()
+    field :energy, integer(), default: 0
     field :gen, integer(), default: 0
   end
 end

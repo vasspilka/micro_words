@@ -1,41 +1,55 @@
 defmodule MicroWords.Events do
-  defmodule WorldCreated do
-    @derive Jason.Encoder
-    defstruct [:name, :energy, :ruleset]
+  use TypedStruct
+
+  @derive Jason.Encoder
+  typedstruct module: WorldCreated do
+    field :name, binary()
+    field :energy, integer()
+    field :ruleset, module()
   end
 
-  defmodule ExplorerEnteredWorld do
-    @derive Jason.Encoder
-    defstruct [:id, :world, :location]
+  @derive Jason.Encoder
+  typedstruct module: ExplorerEnteredWorld do
+    field :id, binary()
+    field :world, binary()
+    field :location, {integer(), integer()}
   end
 
-  defmodule ExplorerReceivedRuleset do
-    @derive Jason.Encoder
-    defstruct [:id, :ruleset]
+  @derive Jason.Encoder
+  typedstruct module: ExplorerReceivedRuleset do
+    field :id, binary()
+    field :ruleset, module()
   end
 
-  defmodule ExplorerMoved do
-    @derive Jason.Encoder
-    defstruct [:id, :world, :location]
+  @derive Jason.Encoder
+  typedstruct module: ExplorerMoved do
+    field :id, binary()
+    field :world, binary()
+    field :location, {integer(), integer()}
   end
 
-  defmodule ExplorerActionTaken do
-    @derive Jason.Encoder
-    defstruct [:id, :world, :action, :data]
+  @derive Jason.Encoder
+  typedstruct module: ExplorerMoved do
+    field :id, binary()
+    field :world, binary()
+    field :location, {integer(), integer()}
   end
 
-  defmodule ExplorerAffected do
-    @derive Jason.Encoder
-    defstruct [:id, :action]
+  @derive Jason.Encoder
+  typedstruct module: ExplorerActionTaken do
+    field :id, binary()
+    field :action, MicroWords.Rulesets.Action
   end
 
-  defmodule ArtefactForged do
-    @derive Jason.Encoder
-    defstruct [:location_id, :explorer_id, :content]
+  @derive Jason.Encoder
+  typedstruct module: ExplorerAffected do
+    field :id, binary()
+    field :action, MicroWords.Rulesets.Action
   end
 
-  defmodule ArtefactAffected do
-    @derive Jason.Encoder
-    defstruct [:id, :world, :explorer_id, :action]
+  @derive Jason.Encoder
+  typedstruct module: LocationAffected do
+    field :id, binary()
+    field :action, MicroWords.Rulesets.Action
   end
 end
