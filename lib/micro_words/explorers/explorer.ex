@@ -1,10 +1,10 @@
-defmodule MicroWords.Worlds.Explorers.Explorer do
+defmodule MicroWords.Explorers.Explorer do
   use TypedStruct
 
-  alias MicroWords.Worlds.Explorers.Explorer
+  alias MicroWords.Explorers.Explorer
   alias MicroWords.Artefact
 
-  alias MicroWords.Worlds.Explorers.Commands.{
+  alias MicroWords.Explorers.Commands.{
     EnterWorld,
     ReceiveRuleset,
     Move,
@@ -96,7 +96,7 @@ defmodule MicroWords.Worlds.Explorers.Explorer do
   def execute(%Explorer{id: id} = state, %TakeAction{id: id} = cmd) do
     action = state.ruleset.build_action(state, cmd.type, cmd.data)
 
-    if state.ruleset.valid_for?(state, action) do
+    if state.ruleset.is_valid?(state, action) do
       %ExplorerActionTaken{
         id: id,
         action: action
@@ -128,6 +128,6 @@ defmodule MicroWords.Worlds.Explorers.Explorer do
   end
 
   def apply(%Explorer{} = state, %ExplorerAffected{} = evt) do
-    state.ruleset.react(state, evt.action)
+    state.ruleset.reaction(state, evt.action)
   end
 end

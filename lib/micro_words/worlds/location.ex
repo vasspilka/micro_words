@@ -14,8 +14,7 @@ defmodule MicroWords.Worlds.Location do
   }
 
   typedstruct do
-    field :id, binary()
-    field :artefact, Artefact.t()
+    field :artefact, Artefact.t(), default: nil
   end
 
   def execute(%Location{}, %GetLocation{} = cmd) do
@@ -29,7 +28,13 @@ defmodule MicroWords.Worlds.Location do
     }
   end
 
-  def apply(%Location{}, %LocationAffected{} = evt) do
-    %LocationAffected{id: evt}
+  def apply(%Location{} = state, %LocationAffected{} = evt) do
+    evt.action.ruleset.reaction(state, evt.action)
+  end
+
+  @spec id_from_attrs(%{location: {integer(), integer()}, world: binary()}) :: binary()
+  @doc "Get location_id from attributes of an entity."
+  def id_from_attrs(%{location: {x, y}, world: world}) do
+    "{#{x},#{y}:#{world}}"
   end
 end

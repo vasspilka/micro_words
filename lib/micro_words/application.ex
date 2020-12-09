@@ -15,7 +15,7 @@ defmodule MicroWords.Application do
       MicroWords.Repo,
       MicroWordsWeb.Endpoint,
       # Commanded Handlers
-      MicroWords.Worlds.Explorers.Journey
+      MicroWords.Explorers.Journey
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

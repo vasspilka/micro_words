@@ -1,7 +1,7 @@
 defmodule MicroWords.Worlds do
   alias MicroWords.Worlds.Commands.{
     CreateWorld,
-    Touch
+    GetWorld
   }
 
   alias MicroWords.Worlds.World
@@ -23,7 +23,7 @@ defmodule MicroWords.Worlds do
 
   @spec get(binary()) :: {:ok, %World{}} | {:error, term()}
   def get(name \\ "default") do
-    %Touch{name: name}
+    %GetWorld{name: name}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 end

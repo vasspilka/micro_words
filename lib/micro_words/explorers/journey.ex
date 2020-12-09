@@ -1,4 +1,4 @@
-defmodule MicroWords.Worlds.Explorers.Journey do
+defmodule MicroWords.Explorers.Journey do
   use Commanded.ProcessManagers.ProcessManager,
     name: "explorers_journey",
     application: MicroWords,
@@ -15,23 +15,25 @@ defmodule MicroWords.Worlds.Explorers.Journey do
   end
 
   alias MicroWords.Events.{
-    # ArtefactForged,
-    # ArtefactReceivedAction,
-    # ArtefactUnfolded,
     ExplorerActionTaken,
     ExplorerEnteredWorld,
-    ExplorerReceivedRuleset
+    ExplorerReceivedRuleset,
+    ExplorerAffected
   }
 
-  alias MicroWords.Worlds.Explorers.Journey
+  alias MicroWords.Explorers.Journey
 
-  alias MicroWords.Worlds.Explorers.Commands.{
+  alias MicroWords.Explorers.Commands.{
     ReceiveRuleset
   }
 
   def interested?(%ExplorerEnteredWorld{id: id}), do: {:start!, id}
 
+  def interested?(%ExplorerReceivedRuleset{id: id}), do: {:start!, id}
+
   def interested?(%ExplorerActionTaken{id: id}), do: {:continue!, id}
+
+  def interested?(%ExplorerAffected{id: id}), do: {:continue!, id}
 
   def handle(%Journey{}, %ExplorerEnteredWorld{} = evt) do
     %ReceiveRuleset{id: evt.id, ruleset: MicroWords.Rulesets.Default}

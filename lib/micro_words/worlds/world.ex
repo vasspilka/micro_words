@@ -3,7 +3,7 @@ defmodule MicroWords.Worlds.World do
 
   alias MicroWords.Worlds.Commands.{
     CreateWorld,
-    Touch
+    GetWorld
   }
 
   alias MicroWords.Events.{
@@ -24,7 +24,7 @@ defmodule MicroWords.Worlds.World do
     }
   end
 
-  def execute(%World{}, %Touch{}), do: []
+  def execute(%World{}, %GetWorld{}), do: []
 
   def apply(%World{}, %WorldCreated{} = evt) do
     %World{

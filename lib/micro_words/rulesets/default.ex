@@ -1,8 +1,9 @@
 defmodule MicroWords.Rulesets.Default do
   # TODO: rename to Basic and make it so that other rulesets can extend basic
+  alias MicroWords.Worlds.Location
   alias MicroWords.Artefact
-  alias MicroWords.Worlds.Explorers.Explorer
-  alias MicroWords.Worlds.Explorers.Journey
+  alias MicroWords.Explorers.Explorer
+  alias MicroWords.Explorers.Journey
   alias MicroWords.Rulesets.Action
 
   # Actions
@@ -28,10 +29,8 @@ defmodule MicroWords.Rulesets.Default do
   end
 
   def apply(%Explorer{} = o, %Action{type: :forge_artefact} = act) do
-    artefact_id = UUID.uuid4()
-
     artefact = %Artefact{
-      id: artefact_id,
+      id: act.artefact_id,
       originator: o.id,
       world: o.world,
       energy: @artefact_energy_cost,
@@ -39,12 +38,13 @@ defmodule MicroWords.Rulesets.Default do
     }
 
     %Explorer{
-      energy: o.energy - @artefact_energy_cost,
-      artefacts: Map.put(o.artefacts, artefact_id, artefact)
+      o
+      | energy: o.energy - @artefact_energy_cost,
+        artefacts: Map.put(o.artefacts, act.artefact_id, artefact)
     }
   end
 
-  def valid_for?(%Explorer{energy: energy}, %Action{type: :forge_artefact}) do
+  def is_valid?(%Explorer{energy: energy}, %Action{type: :forge_artefact}) do
     energy >= @artefact_energy_cost
   end
 
@@ -56,12 +56,10 @@ defmodule MicroWords.Rulesets.Default do
 
   def apply(%Explorer{} = o, %Action{type: :plant_artefact} = act) do
     # TODO: actually should be on UserAffected after we confirm it was placed
-    artefact_id = act.data.artefact_id
-
-    %Explorer{artefacts: Map.drop(o.artefacts, artefact_id)}
+    %Explorer{o | artefacts: Map.delete(o.artefacts, act.data.artefact.id)}
   end
 
-  def valid_for?(%Explorer{}, %Action{type: :plant_artefact}) do
+  def is_valid?(%Explorer{}, %Action{type: :plant_artefact}) do
     true
   end
 
@@ -71,27 +69,39 @@ defmodule MicroWords.Rulesets.Default do
   end
 
   def apply(%Explorer{} = o, %Action{type: :boost_artefact}) do
-    %Explorer{energy: o.energy - 20}
+    %Explorer{o | energy: o.energy - 20}
   end
 
-  def valid_for?(%Explorer{energy: energy}, %Action{type: :boost_artefact}) do
+  # maybe we can use norm to validate if an action can be taken
+  # would be also usefull if we want to do property testing with
+  # actions
+  def is_valid?(%Explorer{energy: energy}, %Action{type: :boost_artefact}) do
     energy > 20
   end
 
   # ImpairArtefact
-  #
+  # TODO: Would harm artefact to kill it
 
   @spec build_action(Explorer.t(), action_type(), map()) :: Action.t()
   def build_action(explorer, :forge_artefact, %{content: content}) do
-    {x, y} = explorer.location
-    location_id = "{#{x},#{y}:#{explorer.world}}"
-
     %Action{
       type: :forge_artefact,
+      artefact_id: UUID.uuid4(),
       explorer_id: explorer.id,
-      location_id: location_id,
+      location_id: Location.id_from_attrs(explorer),
       ruleset: __MODULE__,
       data: %{content: content}
+    }
+  end
+
+  def build_action(explorer, :plant_artefact, %{artefact_id: artefact_id}) do
+    %Action{
+      type: :plant_artefact,
+      artefact_id: artefact_id,
+      explorer_id: explorer.id,
+      location_id: Location.id_from_attrs(explorer),
+      ruleset: __MODULE__,
+      data: %{artefact: explorer.artefacts[artefact_id]}
     }
   end
 end

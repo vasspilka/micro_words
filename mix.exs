@@ -54,6 +54,7 @@ defmodule MicroWords.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:credo, "~> 1.3", only: [:dev, :test], runtime: false},
       {:faker, "~> 0.16", only: [:test, :dev]},
       {:floki, ">= 0.0.0", only: :test}
     ]

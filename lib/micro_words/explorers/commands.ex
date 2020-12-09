@@ -1,4 +1,4 @@
-defmodule MicroWords.Worlds.Explorers.Commands do
+defmodule MicroWords.Explorers.Commands do
   use TypedStruct
 
   alias MicroWords.Rulesets.Action

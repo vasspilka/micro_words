@@ -6,7 +6,7 @@ defmodule MicroWords.Worlds.Commands do
     field :ruleset, module()
   end
 
-  typedstruct module: Touch do
+  typedstruct module: GetWorld do
     field :name, binary()
   end
 
