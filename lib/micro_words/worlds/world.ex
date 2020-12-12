@@ -1,10 +1,7 @@
 defmodule MicroWords.Worlds.World do
   alias MicroWords.Worlds.World
 
-  alias MicroWords.Worlds.Commands.{
-    CreateWorld,
-    GetWorld
-  }
+  alias MicroWords.Worlds.Commands.CreateWorld
 
   alias MicroWords.Events.{
     WorldCreated
@@ -24,7 +21,7 @@ defmodule MicroWords.Worlds.World do
     }
   end
 
-  def execute(%World{}, %GetWorld{}), do: []
+  def execute(%World{}, %CreateWorld{}), do: []
 
   def apply(%World{}, %WorldCreated{} = evt) do
     %World{

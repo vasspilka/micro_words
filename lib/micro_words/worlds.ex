@@ -1,10 +1,10 @@
 defmodule MicroWords.Worlds do
   alias MicroWords.Worlds.Commands.{
     CreateWorld,
-    GetWorld
+    GetLocation
   }
 
-  alias MicroWords.Worlds.World
+  alias MicroWords.Worlds.{Location, World}
   alias MicroWords.Rulesets.Default
 
   # def what_is_on({x, y})
@@ -21,9 +21,15 @@ defmodule MicroWords.Worlds do
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 
-  @spec get(binary()) :: {:ok, %World{}} | {:error, term()}
-  def get(name \\ "default") do
-    %GetWorld{name: name}
+  # @spec get(binary()) :: {:ok, %World{}} | {:error, term()}
+  # def get(name \\ "default") do
+  #   %GetWorld{name: name}
+  #   |> MicroWords.dispatch(returning: :aggregate_state)
+  # end
+
+  @spec get_location(binary()) :: {:ok, %Location{}} | {:error, term()}
+  def get_location(location_id) do
+    %GetLocation{location_id: location_id}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 end

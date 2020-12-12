@@ -24,7 +24,7 @@ defmodule MicroWords.Explorers.Explorer do
     field :id, binary()
     field :world, binary()
     field :ruleset, module()
-    field :location, {integer(), integer()}
+    field :location, MicroWords.Worlds.Location.coord()
     field :energy, integer()
     field :artefacts, %{binary() => Artefact.t()}, default: %{}
     field :xp, integer(), default: 0
@@ -35,7 +35,7 @@ defmodule MicroWords.Explorers.Explorer do
     %ExplorerEnteredWorld{
       id: cmd.id,
       world: cmd.world,
-      location: {1, 1}
+      location: [1, 1]
     }
   end
 
@@ -60,13 +60,13 @@ defmodule MicroWords.Explorers.Explorer do
   end
 
   def execute(
-        %Explorer{id: id, location: {current_x, current_y}} = state,
+        %Explorer{id: id, location: [current_x, current_y]} = state,
         %Move{
           id: id,
           direction: direction
         }
       ) do
-    {max_x, max_y} = state.ruleset.dimensions()
+    [max_x, max_y] = state.ruleset.dimensions()
 
     x =
       case {current_x, direction} do
@@ -89,7 +89,7 @@ defmodule MicroWords.Explorers.Explorer do
     %ExplorerMoved{
       id: id,
       world: state.world,
-      location: {x, y}
+      location: [x, y]
     }
   end
 
@@ -99,12 +99,12 @@ defmodule MicroWords.Explorers.Explorer do
     if state.ruleset.is_valid?(state, action) do
       %ExplorerActionTaken{
         id: id,
-        action: action
+        action: %{action | progress: :taken}
       }
     end
   end
 
-  def execute(%Explorer{id: id} = state, %Affect{id: id} = cmd) do
+  def execute(%Explorer{id: id}, %Affect{id: id} = cmd) do
     %ExplorerAffected{
       id: id,
       action: cmd.action
@@ -124,10 +124,10 @@ defmodule MicroWords.Explorers.Explorer do
   end
 
   def apply(%Explorer{} = state, %ExplorerActionTaken{} = evt) do
-    state.ruleset.apply(state, evt.action)
+    state.ruleset.apply(state, evt)
   end
 
   def apply(%Explorer{} = state, %ExplorerAffected{} = evt) do
-    state.ruleset.reaction(state, evt.action)
+    state.ruleset.apply(state, evt)
   end
 end

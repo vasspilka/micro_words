@@ -30,22 +30,22 @@ defmodule MicroWords.DataCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(MicroWords.Repo)
+    # :ok = Ecto.Adapters.SQL.Sandbox.checkout(MicroWords.Repo)
 
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(MicroWords.Repo, {:shared, self()})
-    end
+    # unless tags[:async] do
+    #   Ecto.Adapters.SQL.Sandbox.mode(MicroWords.Repo, {:shared, self()})
+    # end
 
     on_exit(fn ->
       :ok = Application.stop(:micro_words)
+      :ok = Application.stop(:commanded)
 
-      {:ok, conn} =
-        MicroWords.EventStore.config()
-        |> EventStore.Config.default_postgrex_opts()
-        |> Postgrex.start_link()
+      #   {:ok, conn} =
+      #     MicroWords.EventStore.config()
+      #     |> EventStore.Config.default_postgrex_opts()
+      #     |> Postgrex.start_link()
 
-      Storage.Initializer.reset!(conn)
-
+      #   Storage.Initializer.reset!(conn, %{})
       {:ok, _apps} = Application.ensure_all_started(:micro_words)
     end)
 

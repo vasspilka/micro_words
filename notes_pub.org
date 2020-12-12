@@ -70,6 +70,9 @@ NPCs
 
 
 
+ World Ticks
+
+ We can use a relativy theory for ticks time ticks. For example every 100 user actions is one world time tick
 
 
 

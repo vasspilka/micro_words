@@ -26,7 +26,8 @@ config :micro_words, MicroWords.EventStore,
   password: "postgres",
   database: "micro_words_eventstore_dev",
   hostname: "localhost",
-  serializer: Commanded.Serialization.JsonSerializer
+  # Commanded.Serialization.JsonSerializer
+  serializer: EventStore.TermSerializer
 
 config :micro_words, event_stores: [MicroWords.EventStore]
 

@@ -16,5 +16,6 @@ defmodule MicroWords.Worlds.Commands do
 
   typedstruct module: AffectLocation do
     field :location_id, binary()
+    field :action, MicroWords.Action.t()
   end
 end

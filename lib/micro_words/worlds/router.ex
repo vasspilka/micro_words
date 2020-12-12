@@ -32,7 +32,7 @@ defmodule MicroWords.Worlds.Router do
   dispatch(
     [GetLocation, AffectLocation],
     to: MicroWords.Worlds.Location,
-    identity: :id,
+    identity: :location_id,
     identity_prefix: "micro_word_world_location-"
   )
 end

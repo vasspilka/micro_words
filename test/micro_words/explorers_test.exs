@@ -5,7 +5,7 @@ defmodule MicroWords.ExplorersTest do
   alias MicroWords.Artefact
   alias MicroWords.Explorers
   alias MicroWords.Explorers.Explorer
-  alias MicroWords.Rulesets.Action
+  alias MicroWords.Action
   alias MicroWords.Worlds
   alias MicroWords.Worlds.Location
 
@@ -41,76 +41,76 @@ defmodule MicroWords.ExplorersTest do
     end
 
     test "explorer can move around correctly", %{world: world, explorer: explorer} do
-      {max_x, max_y} = world.ruleset.dimensions()
+      [max_x, max_y] = world.ruleset.dimensions()
 
-      assert {:ok, %{location: {^max_x, 1}}} = Explorers.move(explorer.id, :west)
+      assert {:ok, %{location: [^max_x, 1]}} = Explorers.move(explorer.id, :west)
 
       assert_receive_event(
         MicroWords,
         ExplorerMoved,
-        fn evt -> evt.location == {max_x, 1} end,
+        fn evt -> evt.location == [max_x, 1] end,
         fn event, _recorded_event ->
-          assert event.location == {max_x, 1}
+          assert event.location == [max_x, 1]
           assert event.id == explorer.id
         end
       )
 
-      assert {:ok, %{location: {1, 1}}} = Explorers.move(explorer.id, :east)
+      assert {:ok, %{location: [1, 1]}} = Explorers.move(explorer.id, :east)
 
       assert_receive_event(
         MicroWords,
         ExplorerMoved,
-        fn evt -> evt.location == {1, 1} end,
+        fn evt -> evt.location == [1, 1] end,
         fn event, _recorded_event ->
-          assert event.location == {1, 1}
+          assert event.location == [1, 1]
           assert event.id == explorer.id
         end
       )
 
-      assert {:ok, %{location: {2, 1}}} = Explorers.move(explorer.id, :east)
+      assert {:ok, %{location: [2, 1]}} = Explorers.move(explorer.id, :east)
 
       assert_receive_event(
         MicroWords,
         ExplorerMoved,
-        fn evt -> evt.location == {2, 1} end,
+        fn evt -> evt.location == [2, 1] end,
         fn event, _recorded_event ->
-          assert event.location == {2, 1}
+          assert event.location == [2, 1]
           assert event.id == explorer.id
         end
       )
 
-      assert {:ok, %{location: {2, 2}}} = Explorers.move(explorer.id, :north)
+      assert {:ok, %{location: [2, 2]}} = Explorers.move(explorer.id, :north)
 
       assert_receive_event(
         MicroWords,
         ExplorerMoved,
-        fn evt -> evt.location == {2, 2} end,
+        fn evt -> evt.location == [2, 2] end,
         fn event, _recorded_event ->
-          assert event.location == {2, 2}
+          assert event.location == [2, 2]
           assert event.id == explorer.id
         end
       )
 
-      assert {:ok, %{location: {2, 1}}} = Explorers.move(explorer.id, :south)
+      assert {:ok, %{location: [2, 1]}} = Explorers.move(explorer.id, :south)
 
       assert_receive_event(
         MicroWords,
         ExplorerMoved,
-        fn evt -> evt.location == {2, 1} end,
+        fn evt -> evt.location == [2, 1] end,
         fn event, _recorded_event ->
-          assert event.location == {2, 1}
+          assert event.location == [2, 1]
           assert event.id == explorer.id
         end
       )
 
-      assert {:ok, %{location: {2, ^max_y}}} = Explorers.move(explorer.id, :south)
+      assert {:ok, %{location: [2, ^max_y]}} = Explorers.move(explorer.id, :south)
 
       assert_receive_event(
         MicroWords,
         ExplorerMoved,
-        fn evt -> evt.location == {2, max_y} end,
+        fn evt -> evt.location == [2, max_y] end,
         fn event, _recorded_event ->
-          assert event.location == {2, max_y}
+          assert event.location == [2, max_y]
           assert event.id == explorer.id
         end
       )
@@ -124,7 +124,7 @@ defmodule MicroWords.ExplorersTest do
       content = "Hello MicroWord!"
 
       assert {:ok, %Explorer{} = explorer, %Action{} = forge_action} =
-               Explorers.make_action(explorer.id, :forge_artefact, %{content: "Hello"})
+               Explorers.make_action(explorer.id, :forge_artefact, %{content: content})
 
       artefact_id = forge_action.artefact_id
 

@@ -1,14 +1,19 @@
 defmodule MicroWords.Rulesets.Default do
   # TODO: rename to Basic and make it so that other rulesets can extend basic
-  alias MicroWords.Worlds.Location
+  alias MicroWords.Action
   alias MicroWords.Artefact
   alias MicroWords.Explorers.Explorer
   alias MicroWords.Explorers.Journey
-  alias MicroWords.Rulesets.Action
+  alias MicroWords.Worlds.Location
 
-  # Actions
-  # alias MicroWords.Worlds.Artefacts.Commands.Forge
-  # alias MicroWords.Worlds.Artefacts.Commands.React
+  alias MicroWords.Events.{
+    ExplorerActionTaken,
+    ExplorerAffected,
+    LocationAffected
+  }
+
+  alias MicroWords.Worlds.Commands.AffectLocation
+  # alias MicroWords.Explorers.Commands.Affect, as: AffectExplorer
 
   @type action_type :: :forge_artefact | :plant_arteface | :boost_artefact | :impair_artefact
 
@@ -16,19 +21,14 @@ defmodule MicroWords.Rulesets.Default do
 
   @spec dimensions() :: {integer(), integer()}
   def dimensions() do
-    {100, 100}
+    [100, 100]
   end
 
   def initial_energy(%Explorer{}) do
     200
   end
 
-  # ForgeArtefact
-  def reaction(%Journey{} = journey, %Action{type: :forge_artefact}) do
-    []
-  end
-
-  def apply(%Explorer{} = o, %Action{type: :forge_artefact} = act) do
+  def apply(%Explorer{} = o, %ExplorerActionTaken{action: %{type: :forge_artefact} = act}) do
     artefact = %Artefact{
       id: act.artefact_id,
       originator: o.id,
@@ -44,43 +44,55 @@ defmodule MicroWords.Rulesets.Default do
     }
   end
 
-  def is_valid?(%Explorer{energy: energy}, %Action{type: :forge_artefact}) do
-    energy >= @artefact_energy_cost
+  def apply(%Explorer{} = o, %ExplorerAffected{
+        action: %{type: :plant_artefact, progress: :passed} = act
+      }) do
+    %Explorer{o | artefacts: Map.delete(o.artefacts, act.data.artefact.id)}
   end
 
-  # PlantArtefact
-  def reaction(%Journey{} = journey, %Action{type: :plant_artefact}) do
-    # TODO
+  def apply(%Location{} = o, %LocationAffected{action: %{type: :plant_artefact} = act}) do
+    %Location{o | artefact: act.data.artefact}
+  end
+
+  # def apply(%Explorer{} = o, %Action{type: :boost_artefact}) do
+  #   %Explorer{o | energy: o.energy - 20}
+  # end
+
+  def apply(o, _), do: o
+
+  def reaction(%Journey{}, %ExplorerActionTaken{action: %{type: :plant_artefact} = act}) do
+    %AffectLocation{location_id: act.location_id, action: act}
+  end
+
+  def reaction(%Journey{}, %ExplorerActionTaken{}) do
     []
   end
 
-  def apply(%Explorer{} = o, %Action{type: :plant_artefact} = act) do
-    # TODO: actually should be on UserAffected after we confirm it was placed
-    %Explorer{o | artefacts: Map.delete(o.artefacts, act.data.artefact.id)}
+  def react(%Location{artefact: nil}, %AffectLocation{action: %{type: :plant_artefact} = act}) do
+    %LocationAffected{id: act.location_id, action: %{act | progress: :passed}}
+  end
+
+  def react(%Location{}, %AffectLocation{action: %{type: :plant_artefact}}) do
+    {:error, :location_not_empty}
+  end
+
+  # maybe we can use norm to validate if an action can be taken
+  # would be also usefull if we want to do property testing with
+  # actions
+  def is_valid?(%Explorer{energy: energy}, %Action{type: :forge_artefact}) do
+    energy >= @artefact_energy_cost
   end
 
   def is_valid?(%Explorer{}, %Action{type: :plant_artefact}) do
     true
   end
 
-  # BoostArtefact
-  def reaction(%Journey{explorer_id: _id}, %Action{type: :boost_artefact}) do
-    []
-  end
-
-  def apply(%Explorer{} = o, %Action{type: :boost_artefact}) do
-    %Explorer{o | energy: o.energy - 20}
-  end
-
-  # maybe we can use norm to validate if an action can be taken
-  # would be also usefull if we want to do property testing with
-  # actions
   def is_valid?(%Explorer{energy: energy}, %Action{type: :boost_artefact}) do
     energy > 20
   end
 
-  # ImpairArtefact
-  # TODO: Would harm artefact to kill it
+  # BoostArtefact: Would give energy to artefact
+  # ImpairArtefact: Would harm artefact to destroy it
 
   @spec build_action(Explorer.t(), action_type(), map()) :: Action.t()
   def build_action(explorer, :forge_artefact, %{content: content}) do

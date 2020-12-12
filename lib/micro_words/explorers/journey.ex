@@ -24,12 +24,13 @@ defmodule MicroWords.Explorers.Journey do
   alias MicroWords.Explorers.Journey
 
   alias MicroWords.Explorers.Commands.{
+    Affect,
     ReceiveRuleset
   }
 
   def interested?(%ExplorerEnteredWorld{id: id}), do: {:start!, id}
 
-  def interested?(%ExplorerReceivedRuleset{id: id}), do: {:start!, id}
+  def interested?(%ExplorerReceivedRuleset{id: id}), do: {:continue!, id}
 
   def interested?(%ExplorerActionTaken{id: id}), do: {:continue!, id}
 
@@ -39,8 +40,10 @@ defmodule MicroWords.Explorers.Journey do
     %ReceiveRuleset{id: evt.id, ruleset: MicroWords.Rulesets.Default}
   end
 
-  def handle(%Journey{} = state, %ExplorerActionTaken{action: action}) do
-    state.ruleset.reaction(state, action)
+  def handle(%Journey{} = state, %ExplorerActionTaken{} = evt) do
+    with {:error, _} <- state.ruleset.reaction(state, evt) do
+      %Affect{id: state.explorer_id, action: %{evt.action | progress: :failed}}
+    end
   end
 
   def apply(%Journey{} = state, %ExplorerReceivedRuleset{ruleset: ruleset}) do

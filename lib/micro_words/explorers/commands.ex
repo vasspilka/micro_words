@@ -1,7 +1,7 @@
 defmodule MicroWords.Explorers.Commands do
   use TypedStruct
 
-  alias MicroWords.Rulesets.Action
+  alias MicroWords.Action
 
   typedstruct module: EnterWorld do
     @moduledoc """
