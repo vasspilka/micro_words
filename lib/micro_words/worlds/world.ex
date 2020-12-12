@@ -1,7 +1,7 @@
 defmodule MicroWords.Worlds.World do
   alias MicroWords.Worlds.World
 
-  alias MicroWords.Worlds.Commands.CreateWorld
+  alias MicroWords.Commands.CreateWorld
 
   alias MicroWords.Events.{
     WorldCreated

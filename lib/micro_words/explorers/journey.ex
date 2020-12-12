@@ -18,23 +18,22 @@ defmodule MicroWords.Explorers.Journey do
     ExplorerActionTaken,
     ExplorerEnteredWorld,
     ExplorerReceivedRuleset,
-    ExplorerAffected
+    ExplorerAffected,
+    LocationAffected
   }
 
   alias MicroWords.Explorers.Journey
 
-  alias MicroWords.Explorers.Commands.{
-    Affect,
+  alias MicroWords.Commands.{
+    AffectExplorer,
     ReceiveRuleset
   }
 
   def interested?(%ExplorerEnteredWorld{id: id}), do: {:start!, id}
-
   def interested?(%ExplorerReceivedRuleset{id: id}), do: {:continue!, id}
-
   def interested?(%ExplorerActionTaken{id: id}), do: {:continue!, id}
-
   def interested?(%ExplorerAffected{id: id}), do: {:continue!, id}
+  def interested?(%LocationAffected{action: %{explorer_id: id}}), do: {:continue!, id}
 
   def handle(%Journey{}, %ExplorerEnteredWorld{} = evt) do
     %ReceiveRuleset{id: evt.id, ruleset: MicroWords.Rulesets.Basic}
@@ -42,8 +41,12 @@ defmodule MicroWords.Explorers.Journey do
 
   def handle(%Journey{} = state, %ExplorerActionTaken{} = evt) do
     with {:error, _} <- state.ruleset.reaction(state, evt) do
-      %Affect{id: state.explorer_id, action: %{evt.action | progress: :failed}}
+      %AffectExplorer{id: state.explorer_id, action: %{evt.action | progress: :failed}}
     end
+  end
+
+  def handle(%Journey{} = state, %LocationAffected{} = evt) do
+    %AffectExplorer{id: state.explorer_id, action: evt.action}
   end
 
   def apply(%Journey{} = state, %ExplorerReceivedRuleset{ruleset: ruleset}) do

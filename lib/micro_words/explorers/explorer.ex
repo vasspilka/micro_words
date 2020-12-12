@@ -4,12 +4,12 @@ defmodule MicroWords.Explorers.Explorer do
   alias MicroWords.Explorers.Explorer
   alias MicroWords.Artefact
 
-  alias MicroWords.Explorers.Commands.{
+  alias MicroWords.Commands.{
     EnterWorld,
     ReceiveRuleset,
     Move,
     TakeAction,
-    Affect
+    AffectExplorer
   }
 
   alias MicroWords.Events.{
@@ -97,7 +97,7 @@ defmodule MicroWords.Explorers.Explorer do
   def execute(%Explorer{id: id} = state, %TakeAction{id: id} = cmd) do
     action = state.ruleset.build_action(state, cmd.type, cmd.data)
 
-    if state.ruleset.is_valid?(state, action) do
+    if state.ruleset.valid_action?(state, action) do
       %ExplorerActionTaken{
         id: id,
         action: %{action | progress: :taken}
@@ -105,7 +105,7 @@ defmodule MicroWords.Explorers.Explorer do
     end
   end
 
-  def execute(%Explorer{id: id}, %Affect{id: id} = cmd) do
+  def execute(%Explorer{id: id}, %AffectExplorer{id: id} = cmd) do
     %ExplorerAffected{
       id: id,
       action: cmd.action

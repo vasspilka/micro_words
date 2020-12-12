@@ -6,7 +6,7 @@ defmodule MicroWords.Worlds.Location do
   alias MicroWords.Artefact
   alias MicroWords.Worlds.Location
 
-  alias MicroWords.Worlds.Commands.{
+  alias MicroWords.Commands.{
     GetLocation,
     AffectLocation
   }
@@ -24,7 +24,7 @@ defmodule MicroWords.Worlds.Location do
   end
 
   def execute(%Location{} = state, %AffectLocation{} = cmd) do
-    cmd.action.ruleset.react(state, cmd)
+    cmd.action.ruleset.execute(state, cmd)
   end
 
   def apply(%Location{} = state, %LocationAffected{} = evt) do

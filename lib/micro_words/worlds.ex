@@ -1,5 +1,5 @@
 defmodule MicroWords.Worlds do
-  alias MicroWords.Worlds.Commands.{
+  alias MicroWords.Commands.{
     CreateWorld,
     GetLocation
   }

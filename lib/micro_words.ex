@@ -11,5 +11,5 @@ defmodule MicroWords do
 
   use Commanded.Application, otp_app: :micro_words
 
-  router(MicroWords.Worlds.Router)
+  router(MicroWords.Router)
 end

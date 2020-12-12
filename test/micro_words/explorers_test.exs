@@ -14,6 +14,7 @@ defmodule MicroWords.ExplorersTest do
     ExplorerEnteredWorld,
     ExplorerReceivedRuleset,
     ExplorerMoved,
+    ExplorerAffected,
     ExplorerActionTaken,
     LocationAffected
   }
@@ -117,7 +118,7 @@ defmodule MicroWords.ExplorersTest do
     end
 
     test "explorer can create and plant artefact through action", %{
-      world: world,
+      world: _world,
       explorer: explorer
     } do
       explorer_id = explorer.id
@@ -154,6 +155,26 @@ defmodule MicroWords.ExplorersTest do
         end
       )
 
+      assert_receive_event(
+        MicroWords,
+        LocationAffected,
+        fn evt -> evt.action.type == :plant_artefact end,
+        fn event, _recorded_event ->
+          passed_plant_action = %{plant_action | progress: :passed}
+          assert event.action == passed_plant_action
+        end
+      )
+
+      assert_receive_event(
+        MicroWords,
+        ExplorerAffected,
+        fn evt -> evt.action.type == :plant_artefact end,
+        fn event, _recorded_event ->
+          passed_plant_action = %{plant_action | progress: :passed}
+          assert event.action == passed_plant_action
+        end
+      )
+
       {:ok, location} =
         explorer
         |> Location.id_from_attrs()
@@ -166,6 +187,11 @@ defmodule MicroWords.ExplorersTest do
                  originator: ^explorer_id
                }
              } = location
+
+      {:ok, %{artefacts: artefacts_after_placement}} =
+        Explorers.enter_world(explorer_id, "test_world")
+
+      refute artefacts_after_placement[artefact_id]
     end
   end
 end

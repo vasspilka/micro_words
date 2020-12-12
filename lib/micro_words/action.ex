@@ -3,7 +3,8 @@ defmodule MicroWords.Action do
 
   @type progress :: :drafted | :taken | :passed | :failed
 
-  @ruleset_module Application.get_env(:micro_words, :ruleset_module)
+  # todo make this dynamic
+  @ruleset_module MicroWords.Rulesets.Basic
 
   @derive Jason.Encoder
   typedstruct do

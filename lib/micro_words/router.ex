@@ -1,36 +1,35 @@
-defmodule MicroWords.Worlds.Router do
-  alias MicroWords.Worlds.Commands.{
-    AffectLocation,
-    CreateWorld,
-    GetWorld,
-    GetLocation
-  }
-
-  alias MicroWords.Explorers.Commands.{
-    EnterWorld,
-    ReceiveRuleset,
-    Move,
-    TakeAction
-  }
-
+defmodule MicroWords.Router do
   use Commanded.Commands.Router
 
+  alias MicroWords.Commands
+
   dispatch(
-    [CreateWorld, GetWorld],
+    [
+      Commands.CreateWorld
+    ],
     to: MicroWords.Worlds.World,
     identity: :name,
     identity_prefix: "micro_word_world-"
   )
 
   dispatch(
-    [EnterWorld, ReceiveRuleset, TakeAction, Move],
+    [
+      Commands.EnterWorld,
+      Commands.ReceiveRuleset,
+      Commands.Move,
+      Commands.TakeAction,
+      Commands.AffectExplorer
+    ],
     to: MicroWords.Explorers.Explorer,
     identity: :id,
     identity_prefix: "micro_word_explorer-"
   )
 
   dispatch(
-    [GetLocation, AffectLocation],
+    [
+      Commands.GetLocation,
+      Commands.AffectLocation
+    ],
     to: MicroWords.Worlds.Location,
     identity: :location_id,
     identity_prefix: "micro_word_world_location-"

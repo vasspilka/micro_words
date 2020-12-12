@@ -1,7 +1,21 @@
-defmodule MicroWords.Explorers.Commands do
+defmodule MicroWords.Commands do
   use TypedStruct
 
   alias MicroWords.Action
+
+  typedstruct module: CreateWorld do
+    field :name, binary()
+    field :ruleset, module()
+  end
+
+  typedstruct module: GetLocation do
+    field :location_id, binary()
+  end
+
+  typedstruct module: AffectLocation do
+    field :location_id, binary()
+    field :action, MicroWords.Action.t()
+  end
 
   typedstruct module: EnterWorld do
     @moduledoc """
@@ -35,7 +49,7 @@ defmodule MicroWords.Explorers.Commands do
     field :data, map()
   end
 
-  typedstruct module: Affect do
+  typedstruct module: AffectExplorer do
     @moduledoc "A user is affected by an action."
 
     field :id, binary()

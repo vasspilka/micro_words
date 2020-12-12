@@ -1,5 +1,5 @@
 defmodule MicroWords.Explorers do
-  alias MicroWords.Explorers.Commands.{
+  alias MicroWords.Commands.{
     EnterWorld,
     TakeAction,
     Move
