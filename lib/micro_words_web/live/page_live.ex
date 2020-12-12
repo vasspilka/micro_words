@@ -5,6 +5,7 @@ defmodule MicroWordsWeb.PageLive do
 
   @impl true
   def mount(_params, _session, socket) do
+    explorer = MicroWords.Explorers.enter_world("dev_user", "basic")
     _world = socket.private.connect_params["world"]
     _explorer_id = socket.private.connect_params["explorer_uuid"]
 

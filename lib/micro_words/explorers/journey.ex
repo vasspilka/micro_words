@@ -37,7 +37,7 @@ defmodule MicroWords.Explorers.Journey do
   def interested?(%ExplorerAffected{id: id}), do: {:continue!, id}
 
   def handle(%Journey{}, %ExplorerEnteredWorld{} = evt) do
-    %ReceiveRuleset{id: evt.id, ruleset: MicroWords.Rulesets.Default}
+    %ReceiveRuleset{id: evt.id, ruleset: MicroWords.Rulesets.Basic}
   end
 
   def handle(%Journey{} = state, %ExplorerActionTaken{} = evt) do

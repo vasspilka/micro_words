@@ -1,5 +1,4 @@
-defmodule MicroWords.Rulesets.Default do
-  # TODO: rename to Basic and make it so that other rulesets can extend basic
+defmodule MicroWords.Rulesets.Basic do
   alias MicroWords.Action
   alias MicroWords.Artefact
   alias MicroWords.Explorers.Explorer
@@ -94,7 +93,6 @@ defmodule MicroWords.Rulesets.Default do
   # BoostArtefact: Would give energy to artefact
   # ImpairArtefact: Would harm artefact to destroy it
 
-  @spec build_action(Explorer.t(), action_type(), map()) :: Action.t()
   def build_action(explorer, :forge_artefact, %{content: content}) do
     %Action{
       type: :forge_artefact,

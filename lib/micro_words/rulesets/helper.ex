@@ -23,11 +23,11 @@ defmodule MicroWords.Ruleset.Helper do
       explorer: %{
         actions: [
           %{
-            module: MicroWords.Ruleset.Default,
+            module: MicroWords.Ruleset.Basic,
             name: :spawn
           },
           %{
-            module: MicroWords.Ruleset.Default,
+            module: MicroWords.Ruleset.Basic,
             name: :view_artefact
           }
         ]

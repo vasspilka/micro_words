@@ -59,6 +59,7 @@ defmodule MicroWords.Explorers.Explorer do
     }
   end
 
+  # credo:disable-for-next-line
   def execute(
         %Explorer{id: id, location: [current_x, current_y]} = state,
         %Move{

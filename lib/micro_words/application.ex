@@ -18,6 +18,8 @@ defmodule MicroWords.Application do
       MicroWords.Explorers.Journey
     ]
 
+    Application.get_env(:micro_words, :worlds)
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: MicroWords.Supervisor]

@@ -5,7 +5,7 @@ defmodule MicroWords.Worlds do
   }
 
   alias MicroWords.Worlds.{Location, World}
-  alias MicroWords.Rulesets.Default
+  alias MicroWords.Rulesets.Basic
 
   # def what_is_on({x, y})
 
@@ -16,7 +16,7 @@ defmodule MicroWords.Worlds do
   on which spaces artefacts can exists and explorers can travel through.
   """
   @spec create(binary(), module()) :: {:ok, %World{}} | {:error, term()}
-  def create(name \\ "default", ruleset \\ Default) do
+  def create(name \\ "default", ruleset \\ Basic) do
     %CreateWorld{name: name, ruleset: ruleset}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
