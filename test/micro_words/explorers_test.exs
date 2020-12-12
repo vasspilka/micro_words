@@ -129,9 +129,10 @@ defmodule MicroWords.ExplorersTest do
 
       artefact_id = forge_action.artefact_id
 
-      assert Enum.count(explorer.artefacts) == 1
-      assert is_binary(artefact_id)
       assert forge_action.type == :forge_artefact
+      assert is_binary(artefact_id)
+      assert Enum.count(explorer.artefacts) == 1
+      assert explorer.artefacts[artefact_id]
 
       assert_receive_event(
         MicroWords,

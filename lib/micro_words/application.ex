@@ -18,12 +18,19 @@ defmodule MicroWords.Application do
       MicroWords.Explorers.Journey
     ]
 
-    Application.get_env(:micro_words, :worlds)
-
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: MicroWords.Supervisor]
-    Supervisor.start_link(children, opts)
+    app = Supervisor.start_link(children, opts)
+
+    # Create worlds provided in config
+    :micro_words
+    |> Application.get_env(:worlds)
+    |> Enum.each(fn {world, ruleset} ->
+      MicroWords.Worlds.create(world, ruleset)
+    end)
+
+    app
   end
 
   # Tell Phoenix to update the endpoint configuration

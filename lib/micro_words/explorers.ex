@@ -9,7 +9,7 @@ defmodule MicroWords.Explorers do
   alias MicroWords.Action
 
   @spec enter_world(binary(), binary()) :: {:ok, Explorer.t()} | {:error, term()}
-  def enter_world(explorer_id, world \\ "default") do
+  def enter_world(explorer_id, world \\ "basic") do
     %EnterWorld{id: explorer_id, world: world}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
