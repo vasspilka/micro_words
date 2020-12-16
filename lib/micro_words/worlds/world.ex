@@ -1,22 +1,22 @@
 defmodule MicroWords.Worlds.World do
-  alias MicroWords.Worlds.World
+  use TypedStruct
 
+  alias MicroWords.Worlds.World
   alias MicroWords.Commands.CreateWorld
 
   alias MicroWords.Events.{
     WorldCreated
   }
 
-  defstruct [
-    :name,
-    # :energy,
-    ruleset: %{}
-  ]
+  typedstruct do
+    field :name, binary()
+    field :ruleset, module()
+  end
 
   def execute(%World{name: nil}, %CreateWorld{} = cmd) do
     %WorldCreated{
       name: cmd.name,
-      # energy: energy_from_ruleset(cmd.ruleset),
+      # energy: cmd.ruleset.initial_energy(%World{}),
       ruleset: cmd.ruleset
     }
   end
@@ -30,8 +30,4 @@ defmodule MicroWords.Worlds.World do
       ruleset: evt.ruleset
     }
   end
-
-  # def energy_from_ruleset(ruleset) do
-  #   100
-  # end
 end

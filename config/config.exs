@@ -9,7 +9,9 @@ use Mix.Config
 
 config :micro_words,
   # consider list and using macro for types.
-  worlds: %{"basic" => MicroWords.Rulesets.Basic},
+  worlds: %{
+    "dev_world" => MicroWords.Rulesets.Basic
+  },
   ecto_repos: [MicroWords.Repo],
   generators: [binary_id: true]
 

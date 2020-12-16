@@ -60,8 +60,8 @@ defmodule MicroWords.Events do
     happen given the explorer state and action.
     """
 
-    field :id, binary()
-    field :action, MicroWords.Action
+    field :id, binary(), enforce: true
+    field :action, MicroWords.Action, enforce: true
   end
 
   typedstruct module: ExplorerAffected do
@@ -74,8 +74,8 @@ defmodule MicroWords.Events do
 
     Not all actions create a user affected event.
     """
-    field :id, binary()
-    field :action, MicroWords.Action
+    field :id, binary(), enforce: true
+    field :action, MicroWords.Action, enforce: true
   end
 
   typedstruct module: LocationAffected do
@@ -87,7 +87,7 @@ defmodule MicroWords.Events do
     determine how a location gets affected by an action.
     """
 
-    field :id, binary()
-    field :action, MicroWords.Action
+    field :id, binary(), enforce: true
+    field :action, MicroWords.Action, enforce: true
   end
 end

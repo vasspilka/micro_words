@@ -22,15 +22,15 @@ defmodule MicroWords.ExplorersTest do
   describe "common explorer cases" do
     setup do
       explorer_id = UUID.uuid4()
-      {:ok, world} = Worlds.create("test_world")
-      {:ok, %{id: ^explorer_id} = explorer} = Explorers.enter_world(explorer_id, "test_world")
+      {:ok, world} = Worlds.create("dev_world")
+      {:ok, %{id: ^explorer_id} = explorer} = Explorers.enter_world(explorer_id, "dev_world")
 
       assert_receive_event(MicroWords, WorldCreated, fn event, _recorded_event ->
-        assert event.name == "test_world"
+        assert event.name == "dev_world"
       end)
 
       assert_receive_event(MicroWords, ExplorerEnteredWorld, fn event, _recorded_event ->
-        assert event.world == "test_world"
+        assert event.world == "dev_world"
         assert event.id == explorer_id
       end)
 
@@ -190,7 +190,7 @@ defmodule MicroWords.ExplorersTest do
              } = location
 
       {:ok, %{artefacts: artefacts_after_placement}} =
-        Explorers.enter_world(explorer_id, "test_world")
+        Explorers.enter_world(explorer_id, "dev_world")
 
       refute artefacts_after_placement[artefact_id]
     end

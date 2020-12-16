@@ -8,12 +8,13 @@ defmodule MicroWords.Action do
 
   @derive Jason.Encoder
   typedstruct do
-    field :type, @ruleset_module.action_types()
+    field :type, @ruleset_module.action_type()
     field :explorer_id, binary()
     field :artefact_id, binary()
     field :location_id, binary()
-    field :data, binary()
+    field :data, map()
     field :ruleset, module()
     field :progress, progress(), default: :drafted
+    field :cost, integer(), default: 0
   end
 end

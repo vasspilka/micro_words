@@ -14,7 +14,7 @@ defmodule MicroWords.Worlds do
   on which spaces artefacts can exists and explorers can travel through.
   """
   @spec create(binary(), module()) :: {:ok, %World{}} | {:error, term()}
-  def create(name, ruleset) do
+  def create(name, ruleset \\ Basic) do
     %CreateWorld{name: name, ruleset: ruleset}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end

@@ -14,7 +14,7 @@ defmodule MicroWords.Commands do
 
   typedstruct module: AffectLocation do
     field :location_id, binary()
-    field :action, MicroWords.Action.t()
+    field :action, MicroWords.Action.t(), enforce: true
   end
 
   typedstruct module: EnterWorld do
@@ -53,6 +53,6 @@ defmodule MicroWords.Commands do
     @moduledoc "A user is affected by an action."
 
     field :id, binary()
-    field :action, Action.t()
+    field :action, Action.t(), enforce: true
   end
 end

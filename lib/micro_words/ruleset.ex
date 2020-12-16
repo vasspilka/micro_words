@@ -18,7 +18,7 @@ defmodule MicroWords.Ruleset do
 
   alias MicroWords.Commands.{
     AffectLocation,
-    EnterWorld,
+    # EnterWorld,
     TakeAction,
     AffectExplorer
   }

@@ -4,6 +4,7 @@ defmodule MicroWords.Worlds.Location do
   @type coord :: [integer()]
 
   alias MicroWords.Artefact
+  alias MicroWords.Explorers.Explorer
   alias MicroWords.Worlds.Location
 
   alias MicroWords.Commands.{
@@ -31,9 +32,9 @@ defmodule MicroWords.Worlds.Location do
     evt.action.ruleset.apply(state, evt)
   end
 
-  @spec id_from_attrs(%{location: coord(), world: binary()}) :: binary()
+  @spec id_from_attrs(Explorer.t()) :: binary()
   @doc "Get location_id from attributes of an entity."
-  def id_from_attrs(%{location: [x, y], world: world}) do
+  def id_from_attrs(%{location: [x, y | []], world: world}) do
     "{#{x},#{y}:#{world}}"
   end
 end

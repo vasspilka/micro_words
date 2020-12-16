@@ -22,9 +22,9 @@ defmodule MicroWords.Explorers.Explorer do
 
   typedstruct do
     field :id, binary()
-    field :world, binary()
+    field :world, binary(), enforce: true
     field :ruleset, module()
-    field :location, MicroWords.Worlds.Location.coord()
+    field :location, MicroWords.Worlds.Location.coord(), enforce: true
     field :energy, integer()
     field :artefacts, %{binary() => Artefact.t()}, default: %{}
     field :xp, integer(), default: 0
