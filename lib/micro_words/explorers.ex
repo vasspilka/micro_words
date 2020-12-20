@@ -26,6 +26,12 @@ defmodule MicroWords.Explorers do
            %TakeAction{id: explorer_id, type: type, data: data}
            |> MicroWords.dispatch(returning: :execution_result) do
       {:ok, explorer, action}
+    else
+      {:ok, %{aggregate_state: explorer, events: []}} ->
+        {:ok, explorer, nil}
+
+      error ->
+        error
     end
   end
 end

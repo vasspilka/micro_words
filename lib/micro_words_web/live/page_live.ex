@@ -4,7 +4,21 @@ defmodule MicroWordsWeb.PageLive do
   alias MicroWords.Explorers
   alias MicroWords.Worlds
   alias MicroWords.Worlds.Location
-  @allowed_actions ["w", "a", "s", "d", "ArrowUp", "ArrowLeft", "ArrowRight", "ArrowDown"]
+
+  @allowed_actions [
+    # actions
+    "p",
+    "m",
+    # movement
+    "w",
+    "a",
+    "s",
+    "d",
+    "ArrowUp",
+    "ArrowLeft",
+    "ArrowRight",
+    "ArrowDown"
+  ]
 
   @impl true
   def mount(_params, _session, socket) do
@@ -22,20 +36,37 @@ defmodule MicroWordsWeb.PageLive do
 
   @impl true
   def handle_event("explorer-keypress", %{"key" => key}, socket) when key in @allowed_actions do
-    {action_type, action_data} = action(key)
-
     explorer = socket.assigns.explorer
 
-    case action_type do
-      :move ->
-        Explorers.move(explorer.id, action_data.direction)
+    {:ok, explorer} =
+      case action(key) do
+        {:move, %{direction: direction}} ->
+          Explorers.move(explorer.id, direction)
 
-      _ ->
-        nil
-    end
+        {:action, %{name: action, data: data}} ->
+          ### Random action experimentation
+          data =
+            case action do
+              :plant_artefact ->
+                random_artefact_id =
+                  Enum.map(explorer.artefacts, &elem(&1, 1).id) |> Enum.random()
 
-    # {:ok, assign(socket, location_id: location_id, location: location)}
-    {:noreply, socket}
+                %{artefact_id: random_artefact_id}
+
+              _ ->
+                data
+            end
+
+          ### END
+
+          {:ok, explorer, _} = Explorers.make_action(explorer.id, action, data)
+          {:ok, explorer}
+      end
+
+    location_id = Location.id_from_attrs(explorer)
+    {:ok, location} = Worlds.get_location(location_id)
+
+    {:noreply, assign(socket, explorer: explorer, location_id: location_id, location: location)}
   end
 
   def handle_event("explorer-keypress", %{"key" => _key}, socket) do
@@ -52,13 +83,22 @@ defmodule MicroWordsWeb.PageLive do
         {:move, %{direction: :east}}
 
       key when key in ["s", "ArrowDown"] ->
-        {:move, %{directrion: :south}}
+        {:move, %{direction: :south}}
 
       key when key in ["a", "ArrowLeft"] ->
-        {:move, %{directrion: :west}}
+        {:move, %{direction: :west}}
+
+      key when key in ["m"] ->
+        content = :crypto.strong_rand_bytes(16) |> Base.url_encode64() |> binary_part(0, 16)
+
+        {:action,
+         %{
+           name: :forge_artefact,
+           data: %{content: content}
+         }}
 
       key when key in ["p"] ->
-        {:action, %{name: :plant_artefact}}
+        {:action, %{name: :plant_artefact, data: %{}}}
     end
   end
 end
