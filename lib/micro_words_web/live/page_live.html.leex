@@ -1,10 +1,36 @@
-<div class="field" phx-window-keyup="explorer-keypress">
-    <div class="flex flex-row">
-        <div><%= @location_id %></div>
-    </div>
-    <div class="flex flex-row">
-        <%= if @location.artefact do %>
-            <div><%= @location.artefact.content %></div>
-        <% end %>
-    </div>
+<h1 class="text-3xl font-bold text-center mb-8">
+    You are at: <%= @location_id %>
+</h1>
+
+<div class="grid grid-cols-6 gap-4" phx-window-keyup="explorer-keypress">
+    <section class="grid grid-cols-1">
+        <div>ID: <%= @explorer.id %></div>
+        <div>ENERGY: <%= @explorer.energy %></div>
+        <div>XP: <%= @explorer.xp %></div>
+
+        <div class="mt-8 mb-4">Inventory: </div>
+        <table class="border-separate border border-green-800">
+            <tbody>
+            <%= for {_id, artefact} <- @explorer.artefacts do %>
+                <tr>
+                    <td class="border"><%= artefact.content %></td>
+                </tr>
+                <!-- <div>ID: <%= artefact.id  %></div>
+                     <div></div>
+                     <div>ENERGY: <%= artefact.energy %></div>
+                     <div>GEN: <%= artefact.gen %> </div> -->
+            <%= end %>
+            </tbody>
+        </table>
+        </table>
+    </section>
+    <section class="col-span-4 text-center">
+        Content
+            <%= if @location.artefact do %>
+                <div><%= @location.artefact.content %></div>
+            <% end %>
+    </section>
+    <section>
+        Available Actions
+    </section>
 </div>

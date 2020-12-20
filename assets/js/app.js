@@ -22,6 +22,13 @@ let csrfToken = document
   .getAttribute("content");
 
 let liveSocket = new LiveSocket("/live", Socket, {
+  dom: {
+    onBeforeElUpdated(from, to) {
+      if (from.__x) {
+        window.Alpine.clone(from.__x, to);
+      }
+    },
+  },
   params: {
     _csrf_token: csrfToken,
     explorer_uuid: "first_explorer",

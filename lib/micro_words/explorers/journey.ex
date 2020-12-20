@@ -25,6 +25,7 @@ defmodule MicroWords.Explorers.Journey do
   alias MicroWords.Explorers.Journey
 
   alias MicroWords.Commands.{
+    AffectLocation,
     AffectExplorer,
     ReceiveRuleset
   }
@@ -37,6 +38,10 @@ defmodule MicroWords.Explorers.Journey do
 
   def handle(%Journey{}, %ExplorerEnteredWorld{} = evt) do
     %ReceiveRuleset{id: evt.id, ruleset: MicroWords.Rulesets.Basic}
+  end
+
+  def handle(%Journey{} = state, %ExplorerActionTaken{} = evt) do
+    state.ruleset.reaction(state, evt)
   end
 
   def handle(%Journey{} = state, %ExplorerActionTaken{} = evt) do
@@ -59,5 +64,9 @@ defmodule MicroWords.Explorers.Journey do
 
   def apply(%Journey{} = state, %ExplorerActionTaken{}) do
     state
+  end
+
+  def error(_error, %AffectLocation{action: act}, ctx) do
+    {:continue, [%AffectExplorer{id: act.explorer_id, action: %{act | progress: :failed}}], ctx}
   end
 end

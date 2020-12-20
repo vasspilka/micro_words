@@ -1,10 +1,25 @@
 /* This file is for your main application css. */
-@import "./phoenix.css";
 @import "../node_modules/nprogress/nprogress.css";
 
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 1.5rem; /* Footer height */
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 1.5rem; /* Footer height */
+}
 
 /* LiveView specific classes for your customizations */
 .invalid-feedback {
