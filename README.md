@@ -2,29 +2,27 @@
 
 Microwords is an online content sharing platform/game.
 As a "character" you create and explore a world of content.
+One can think of it as a mix between minecraft and twitter.
 
 ## Introduction to Concept
 
-The game consists of three main entities. Worlds, Explorers and Artefacts.
+The game consists of the following entities. Worlds & Locations, Explorers and Artefacts.
 
-### World
+### World & Location
 
-A world is a space in which
+A world is a space that can be explored and is consisted of locations and
+a Ruleset.
 
-Worlds are spaces that can be explored and content can be created.
-They are represented by a two dimensional field in which each "square" is a place where explorers can move to and view or create content.
+A World can be explored and content can be created inside it.
+The space available in a world can be represented by a 2 dimensional (or more) integer field where each coordinate e.x `[12,34]` represents a location in that world.
 
-Multiple worlds can exist each with it's own explorers, content and ruleset.
+Multiple worlds can exist each with it's own explorers, contentm ruleset and dimensions.
 
 World rulesets define how a world functions, we will explain them in more details in _Rulesets & Mechanics_.
 
 To consider:
 
----
-
-World can have global tick (time), for evolution of artefacts and explorers
-
----
+- World can have global tick (time), for evolution of artefacts and explorers
 
 ### Explorer
 
@@ -52,11 +50,10 @@ Artefacts with sufficient energy will create seeds that can be planted for the s
 
 ### Ruleset & Mechanics
 
-As explained earlier how can an explorer act and how the artefacts reacts as well as various other characteristics of the world are defined
-by the world ruleset. However to better understand what the ruleset actually does lets explore the mechanics.
+As explained earlier how an explorer can act and how the artefacts reacts as well as various other characteristics of the world are defined by the world ruleset. However to better understand what the ruleset actually does lets explore the mechanics.
 
 The explorer can move across the world field, on each step the "land" below him (lets call it a field) can have a piece of content or be empty.
-On empty fields the explorer can create new pieces of content (artefacts) however on fields that there are existing artefacts the explorer can interact with them.
+On empty fields the explorer can place pieces of content (artefacts) they have and on fields that already have placed artefacts the explorer can interact with them.
 
 Overall how interactions happen is that a user will receive a set of actions that they can do at this moment to the artefact. When they do an action the artefact will do a reaction that in turn affects the explorer.
 
@@ -67,6 +64,6 @@ All these will be defined by the ruleset the world is under but the ExplorerActi
 
 ### Landmarks & NPCs
 
-In order to make the game more interesting there are going to be "special" system generated artefacts and explorers.
+In order to make the game more interesting there is a vision to create "special" system generated artefacts and NPCs.
 Overall these will be used to aid players generate content (by providing energy or helping with seed dispersal).
 How many and types of NPCs and Landmarks are also part of world ruleset.
