@@ -1,4 +1,5 @@
 {
+@import "./phoenix.css";
   "repository": {},
   "description": " ",
   "license": "MIT",
@@ -11,22 +12,19 @@
     "nprogress": "^0.2.0",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
-    "phoenix_live_view": "file:../deps/phoenix_live_view"
+    "phoenix_live_view": "file:../deps/phoenix_live_view",
+    "tailwindcss": "^1.9.6"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
     "@babel/preset-env": "^7.11.0",
-    "autoprefixer": "^10.1.0",
     "babel-loader": "^8.1.0",
     "copy-webpack-plugin": "^6.0.3",
     "css-loader": "^4.2.2",
-    "mini-css-extract-plugin": "^0.11.0",
-    "node-sass": "^4.14.1",
-    "optimize-css-assets-webpack-plugin": "^5.0.3",
-    "postcss": "^8.2.1",
-    "postcss-loader": "^4.1.0",
     "sass-loader": "^10.0.1",
-    "tailwindcss": "^1.9.6",
+    "node-sass": "^4.14.1",
+    "mini-css-extract-plugin": "^0.11.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "4.44.1",
     "webpack-cli": "^3.3.12"

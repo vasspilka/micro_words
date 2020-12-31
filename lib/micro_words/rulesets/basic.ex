@@ -10,6 +10,8 @@ defmodule MicroWords.Rulesets.Basic do
   @impl true
   def initial_energy(%Explorer{}), do: 200
 
+  # include_rules []
+
   @impl true
   def apply(%Explorer{} = o, %ExplorerActionTaken{action: %{type: :forge_artefact} = act}) do
     artefact = %Artefact{

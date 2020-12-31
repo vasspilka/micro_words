@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
-  <body id="page-container">
+  <body>
     <header>
     </header>
-    <section id="content-wrap">
+    <section id="content-wrap" class="min-h-screen">
       <%= @inner_content %>
     </section>
     <footer id="footer">

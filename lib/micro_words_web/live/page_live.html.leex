@@ -1,9 +1,8 @@
 <h1 class="text-3xl font-bold text-center mb-8">
     You are at: <%= @location_id %>
 </h1>
-
-<div class="grid grid-cols-6 gap-4" phx-window-keyup="explorer-keypress">
-    <section class="grid grid-cols-1">
+<div class="grid grid-cols-6 gap-4 min-h-full" phx-window-keyup="explorer-keypress">
+    <section class="grid grid-cols-1 bg-blue-100 ">
         <div>ID: <%= @explorer.id %></div>
         <div>ENERGY: <%= @explorer.energy %></div>
         <div>XP: <%= @explorer.xp %></div>
@@ -24,13 +23,13 @@
         </table>
         </table>
     </section>
-    <section class="col-span-4 text-center">
+    <section class="col-span-4 text-center bg-green-100">
         Content
             <%= if @location.artefact do %>
                 <div><%= @location.artefact.content %></div>
             <% end %>
     </section>
-    <section>
+    <section class="bg-purple-100">
         Available Actions
     </section>
 </div>

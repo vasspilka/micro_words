@@ -23,30 +23,28 @@ defmodule MicroWords.Ruleset do
     AffectExplorer
   }
 
-  defmodule Behaviour do
-    @type entity :: World.t() | Location.t() | Explorer.t() | Journey.t()
-    @type command :: AffectLocation.t() | TakeAction.t() | AffectExplorer.t()
-    @type event ::
-            WorldCreated.t()
-            | ExplorerEnteredWorld.t()
-            | ExplorerMoved.t()
-            | ExplorerActionTaken.t()
-            | ExplorerAffected.t()
-            | LocationAffected.t()
+  @type entity :: World.t() | Location.t() | Explorer.t() | Journey.t()
+  @type command :: AffectLocation.t() | TakeAction.t() | AffectExplorer.t()
+  @type event ::
+          WorldCreated.t()
+          | ExplorerEnteredWorld.t()
+          | ExplorerMoved.t()
+          | ExplorerActionTaken.t()
+          | ExplorerAffected.t()
+          | LocationAffected.t()
 
-    # Defined by params
-    @callback dimensions() :: [integer()]
+  # Defined by params
+  @callback dimensions() :: [integer()]
 
-    # Defined in ruleset module without fallback
-    @callback initial_energy(Explorer.t()) :: integer()
-    @callback build_action(Explorer.t(), atom(), map()) :: Action.t()
-    @callback valid_action?(Explorer.t(), Action.t()) :: boolean()
-    @callback execute(entity(), command()) :: event | [event] | {:error, term()}
+  # Defined in ruleset module without fallback
+  @callback initial_energy(Explorer.t()) :: integer()
+  @callback build_action(Explorer.t(), atom(), map()) :: Action.t()
+  @callback valid_action?(Explorer.t(), Action.t()) :: boolean()
+  @callback execute(entity(), command()) :: event | [event] | {:error, term()}
 
-    # Defined in ruleset module with fallback that does not change state
-    @callback apply(entity(), event()) :: entity()
-    @callback reaction(entity(), event()) :: command | [command]
-  end
+  # Defined in ruleset module with fallback that does not change state
+  @callback apply(entity(), event()) :: entity()
+  @callback reaction(entity(), event()) :: command | [command]
 
   defmacro __using__(dimensions: dimensions, action_names: _action_names) do
     quote do
@@ -70,7 +68,7 @@ defmodule MicroWords.Ruleset do
         TakeAction
       }
 
-      @behaviour MicroWords.Ruleset.Behaviour
+      @behaviour MicroWords.Ruleset
       @before_compile MicroWords.Ruleset
 
       @impl MicroWords.Ruleset.Behaviour
@@ -79,6 +77,24 @@ defmodule MicroWords.Ruleset do
       end
 
       # defoverridable some: 1
+    end
+
+    defmodule Action do
+      defmacro defaction(args, reaction: reaction) do
+        quote do
+          def reaction(event, metadata) do
+            unquote(reaction).()
+          end
+
+          # def reaction(unquote(event), unquote(metadata)) do
+          #   {:error, exception, __STACKTRACE__}
+          # end
+
+          # def apply(unquote(event), unquote(metadata)) do
+          #   {:error, exception, __STACKTRACE__}
+          # end
+        end
+      end
     end
   end
 

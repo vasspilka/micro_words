@@ -44,12 +44,6 @@ defmodule MicroWords.Explorers.Journey do
     state.ruleset.reaction(state, evt)
   end
 
-  def handle(%Journey{} = state, %ExplorerActionTaken{} = evt) do
-    with {:error, _} <- state.ruleset.reaction(state, evt) do
-      %AffectExplorer{id: state.explorer_id, action: %{evt.action | progress: :failed}}
-    end
-  end
-
   def handle(%Journey{} = state, %LocationAffected{} = evt) do
     %AffectExplorer{id: state.explorer_id, action: evt.action}
   end
