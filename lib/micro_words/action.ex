@@ -12,8 +12,9 @@ defmodule MicroWords.Action do
     field :explorer_id, binary()
     field :artefact_id, binary()
     field :location_id, binary()
-    field :data, map()
     field :ruleset, module()
+    field :data, map(), default: %{}
+    field :result, map(), default: %{}
     field :progress, progress(), default: :drafted
     field :cost, integer(), default: 0
   end

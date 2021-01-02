@@ -79,23 +79,23 @@ defmodule MicroWords.Ruleset do
       # defoverridable some: 1
     end
 
-    defmodule Action do
-      defmacro defaction(args, reaction: reaction) do
-        quote do
-          def reaction(event, metadata) do
-            unquote(reaction).()
-          end
+    # defmodule Action do
+    #   defmacro defaction(args, reaction: reaction) do
+    #     quote do
+    #       def reaction(event, metadata) do
+    #         unquote(reaction).()
+    #       end
 
-          # def reaction(unquote(event), unquote(metadata)) do
-          #   {:error, exception, __STACKTRACE__}
-          # end
+    #       # def reaction(unquote(event), unquote(metadata)) do
+    #       #   {:error, exception, __STACKTRACE__}
+    #       # end
 
-          # def apply(unquote(event), unquote(metadata)) do
-          #   {:error, exception, __STACKTRACE__}
-          # end
-        end
-      end
-    end
+    #       # def apply(unquote(event), unquote(metadata)) do
+    #       #   {:error, exception, __STACKTRACE__}
+    #       # end
+    #     end
+    #   end
+    # end
   end
 
   defmacro __before_compile__(_env) do
