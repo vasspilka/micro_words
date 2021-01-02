@@ -18,7 +18,7 @@ defmodule MicroWords.Rulesets.Basic do
       id: act.artefact_id,
       originator: o.id,
       world: o.world,
-      energy: @artefact_energy_cost,
+      energy: act.cost,
       content: act.data.content
     }
 
