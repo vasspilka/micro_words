@@ -4,6 +4,24 @@ Microwords is an online content sharing platform/game.
 As a "character" you create and explore a world of content.
 One can think of it as a mix between minecraft and twitter.
 
+## How to get up and running
+
+To setup run the following commands.
+
+```
+$> mix do ecto.create, event_store.create, event_store.init, event_store.migrate
+$> npm install --prefix ./assets
+```
+
+After Everything was succesfully installed you can start the server with
+
+`mix phx.server`
+
+One can move around with the `aswd` keys as well as the arrows.
+To create a random artefact press `m` to place a random artefact to your current location press `p`
+
+Due to asynchronous actions, right now placing an artefact will only show up after you move back to the location. This will be fixed once a PubSub for locations gets implemented.
+
 ## Introduction to Concept
 
 The game consists of the following entities. Worlds & Locations, Explorers and Artefacts.

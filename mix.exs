@@ -54,6 +54,8 @@ defmodule MicroWords.MixProject do
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:typed_struct, "~> 0.2.1"},
+      # Possibly usefull if it will be chosen to store action sideeffect actions in the action itself as a function
+      # {:safeish, "~> 0.5.0"},
       {:dialyxir, "~> 1.0", only: :dev, runtime: false},
       {:credo, "~> 1.3", only: [:dev, :test], runtime: false},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
