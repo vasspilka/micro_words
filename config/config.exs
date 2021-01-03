@@ -12,7 +12,7 @@ config :micro_words,
   worlds: %{
     "dev_world" => MicroWords.Rulesets.Basic
   },
-  ecto_repos: [MicroWords.Repo],
+  ecto_repos: [],
   generators: [binary_id: true]
 
 # Configures the endpoint

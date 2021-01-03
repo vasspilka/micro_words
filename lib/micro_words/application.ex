@@ -12,7 +12,6 @@ defmodule MicroWords.Application do
       {Phoenix.PubSub, name: MicroWords.PubSub},
       # Microwords Commanded Application
       MicroWords,
-      MicroWords.Repo,
       MicroWordsWeb.Endpoint,
       # Commanded Handlers
       MicroWords.Explorers.Journey

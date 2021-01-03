@@ -11,13 +11,6 @@ config :micro_words, MicroWords,
     event_store: AxlePay.Core.EventStore
   ]
 
-config :micro_words, MicroWords.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "micro_words_test#{System.get_env("MIX_TEST_PARTITION")}",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
-
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :micro_words, MicroWordsWeb.Endpoint,

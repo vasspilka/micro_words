@@ -20,8 +20,6 @@ defmodule MicroWords.DataCase do
 
   using do
     quote do
-      alias MicroWords.Repo
-
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
@@ -30,12 +28,6 @@ defmodule MicroWords.DataCase do
   end
 
   setup tags do
-    # :ok = Ecto.Adapters.SQL.Sandbox.checkout(MicroWords.Repo)
-
-    # unless tags[:async] do
-    #   Ecto.Adapters.SQL.Sandbox.mode(MicroWords.Repo, {:shared, self()})
-    # end
-
     on_exit(fn ->
       :ok = Application.stop(:micro_words)
       :ok = Application.stop(:commanded)
