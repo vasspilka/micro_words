@@ -1,4 +1,4 @@
-erlang 23.0.3
-elixir 1.10.4
+erlang 23.2.1
+elixir 1.11.2-otp-23
 nodejs 10.16.3
 python 3.7.3

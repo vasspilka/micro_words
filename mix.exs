@@ -35,14 +35,11 @@ defmodule MicroWords.MixProject do
   defp deps do
     [
       {:commanded, "~> 1.2.0"},
-      {:commanded_ecto_projections, "~> 1.2.0"},
       {:commanded_eventstore_adapter, "~> 1.2.0"},
       {:ecto_sql, "~> 3.4"},
-      {:edantic, "~> 0.1.0"},
       {:eventstore, "~> 1.2.0"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:norm, "~> 0.12"},
       {:phoenix, "~> 1.5.1"},
       {:phoenix_ecto, "~> 4.1"},
       {:phoenix_html, "~> 2.11"},
@@ -50,17 +47,21 @@ defmodule MicroWords.MixProject do
       {:phoenix_live_view, "~> 0.15.0"},
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, ">= 0.0.0"},
-      {:stream_data, "~> 0.4"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:typed_struct, "~> 0.2.1"},
-      # Possibly usefull if it will be chosen to store action sideeffect actions in the action itself as a function
-      # {:safeish, "~> 0.5.0"},
       {:dialyxir, "~> 1.0", only: :dev, runtime: false},
       {:credo, "~> 1.3", only: [:dev, :test], runtime: false},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:faker, "~> 0.16", only: [:test, :dev]},
       {:floki, ">= 0.0.0", only: :test}
+      # Possibly usefull
+      # {:norm, "~> 0.12"},
+      # {:stream_data, "~> 0.4"},
+      # {:edantic, "~> 0.1.0"},
+      # {:commanded_ecto_projections, "~> 1.2.0"},
+      # If it will be chosen to store action sideeffect actions in the action itself as a function
+      # {:safeish, "~> 0.5.0"},
     ]
   end
 
