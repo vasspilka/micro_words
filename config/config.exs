@@ -39,7 +39,17 @@ config :micro_words, MicroWords,
     event_store: MicroWords.EventStore
   ],
   pubsub: :local,
-  registry: :local
+  registry: :local,
+  snapshotting: %{
+    MicroWords.Worlds.Location => [
+      snapshot_every: 1,
+      snapshot_version: 1
+    ],
+    MicroWords.Explorers.Explorer => [
+      snapshot_every: 1,
+      snapshot_version: 1
+    ]
+  }
 
 # Configures Elixir's Logger
 config :logger, :console,

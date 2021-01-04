@@ -27,16 +27,29 @@ defmodule MicroWordsWeb.PageLive do
 
     # _world = socket.private.connect_params["world"]
     # _explorer_id = socket.private.connect_params["explorer_uuid"]
+    #
+
+    :ok = MicroWordsWeb.Endpoint.subscribe("explorer:#{explorer.id}")
 
     location_id = Location.id_from_attrs(explorer)
     {:ok, location} = Worlds.get_location(location_id)
 
-    {:ok, assign(socket, explorer: explorer, location_id: location_id, location: location)}
+    :ok = MicroWordsWeb.Endpoint.subscribe("location:#{location_id}")
+
+    {:ok,
+     assign(socket,
+       explorer: explorer,
+       location_id: location_id,
+       location: location
+     )}
   end
 
   @impl true
   def handle_event("explorer-keypress", %{"key" => key}, socket) when key in @allowed_actions do
     explorer = socket.assigns.explorer
+    location_id = socket.assigns.location_id
+
+    :ok = MicroWordsWeb.Endpoint.unsubscribe("location:#{location_id}")
 
     {:ok, explorer} =
       case action(key) do
@@ -66,11 +79,21 @@ defmodule MicroWordsWeb.PageLive do
     location_id = Location.id_from_attrs(explorer)
     {:ok, location} = Worlds.get_location(location_id)
 
+    :ok = MicroWordsWeb.Endpoint.subscribe("location:#{location_id}")
+
     {:noreply, assign(socket, explorer: explorer, location_id: location_id, location: location)}
   end
 
   def handle_event("explorer-keypress", %{"key" => _key}, socket) do
     {:noreply, socket}
+  end
+
+  def handle_info(%{event: "explorer_affected", payload: explorer}, socket) do
+    {:noreply, assign(socket, explorer: explorer)}
+  end
+
+  def handle_info(%{event: "location_affected", payload: location}, socket) do
+    {:noreply, assign(socket, location: location)}
   end
 
   @spec action(binary()) :: {atom(), map()}

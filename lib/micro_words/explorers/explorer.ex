@@ -129,6 +129,14 @@ defmodule MicroWords.Explorers.Explorer do
   end
 
   def apply(%Explorer{} = state, %ExplorerAffected{} = evt) do
-    state.ruleset.apply(state, evt)
+    explorer = state.ruleset.apply(state, evt)
+
+    MicroWordsWeb.Endpoint.broadcast(
+      "explorer:#{evt.id}",
+      "explorer_affected",
+      explorer
+    )
+
+    explorer
   end
 end

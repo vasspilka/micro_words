@@ -29,7 +29,15 @@ defmodule MicroWords.Worlds.Location do
   end
 
   def apply(%Location{} = state, %LocationAffected{} = evt) do
-    evt.action.ruleset.apply(state, evt)
+    location = evt.action.ruleset.apply(state, evt)
+
+    MicroWordsWeb.Endpoint.broadcast(
+      "location:#{evt.id}",
+      "location_affected",
+      location
+    )
+
+    location
   end
 
   @spec id_from_attrs(Explorer.t()) :: binary()
