@@ -20,7 +20,9 @@ defmodule MicroWords.Ruleset.ActionDefinition do
     field :availability, Ruleset.availability_fn()
     field :on_build, Ruleset.on_build_fn()
     field :on_action_taken, Ruleset.on_action_taken_fn()
+    # , default: fn _, _ -> [] end
     field :world_reaction, Ruleset.world_reaction_fn()
+    # , default: fn _, _ -> [] end
     field :affects, Ruleset.affects_fn()
   end
 end

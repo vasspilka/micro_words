@@ -23,10 +23,12 @@ defmodule MicroWords.Ruleset do
 
   @type entity :: MicroWords.entity()
   @type action :: MicroWords.action()
-  @type command :: MicroWords.command()
   @type world_agent :: MicroWords.world_agent()
   @type affect_command :: MicroWords.affect_command()
+  @type action_command :: MicroWords.action_command()
   @type event :: MicroWords.event()
+
+  @type command :: affect_command() | action_command()
 
   @type availability_fn :: (entity() -> [action()])
   @type on_build_fn :: (entity(), ActionDefinition.action_data() -> action())
@@ -46,10 +48,10 @@ defmodule MicroWords.Ruleset do
 
   # Defined in ruleset module with fallback that does not change state
   @callback apply(entity(), event()) :: entity()
-  @callback reaction(entity(), event()) :: command | [command]
+  @callback reaction(world_agent(), event()) :: command | [command]
 
-  defmacro __using__(dimensions: dimensions, action_definitions: _action_names) do
-    quote do
+  defmacro __using__(dimensions: dimensions, action_definitions: action_definitions) do
+    quote bind_quoted: [dimensions: dimensions, action_definitions: action_definitions] do
       alias MicroWords.{Action, Artefact}
       alias MicroWords.Worlds.{Location, World}
       alias MicroWords.Explorers.{Explorer, Journey}
