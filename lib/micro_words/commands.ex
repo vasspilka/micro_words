@@ -38,7 +38,7 @@ defmodule MicroWords.Commands do
     @moduledoc "Move around the world"
 
     field :id, binary()
-    field :direction, MicroWords.direction()
+    field :direction, MicroWords.d2_direction()
   end
 
   typedstruct module: TakeAction do

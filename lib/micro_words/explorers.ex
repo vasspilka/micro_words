@@ -14,7 +14,7 @@ defmodule MicroWords.Explorers do
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 
-  @spec move(binary(), MicroWords.direction()) :: {:ok, Explorer.t()} | {:error, term()}
+  @spec move(binary(), MicroWords.d2_direction()) :: {:ok, Explorer.t()} | {:error, term()}
   def move(explorer_id, direction) do
     %Move{id: explorer_id, direction: direction}
     |> MicroWords.dispatch(returning: :aggregate_state)

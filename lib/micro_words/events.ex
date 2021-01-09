@@ -28,8 +28,8 @@ defmodule MicroWords.Events do
     @moduledoc """
     Explorer received a ruleset.
 
-    A ruleset determines the available actions and how
-    they affect the user and their reactions.
+    A ruleset determines the available actions how they affect
+    the user and how the world and other entities react.
     """
 
     field :id, binary()

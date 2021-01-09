@@ -21,7 +21,7 @@ defmodule MicroWords.MixProject do
   def application do
     [
       mod: {MicroWords.Application, []},
-      extra_applications: [:logger, :runtime_tools, :os_mon]
+      extra_applications: [:crypto, :logger, :runtime_tools, :os_mon]
     ]
   end
 

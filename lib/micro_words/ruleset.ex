@@ -1,16 +1,15 @@
 defmodule MicroWords.Ruleset do
   @moduledoc """
-  TODO
+  Ruleset modules define actions and a worlds
+  functionality as a whole.
   """
 
   alias MicroWords.Action
   alias MicroWords.Worlds.{Location, World}
   alias MicroWords.Explorers.{Explorer, Journey}
+  alias MicroWords.Ruleset.ActionDefinition
 
   alias MicroWords.Events.{
-    WorldCreated,
-    ExplorerEnteredWorld,
-    ExplorerMoved,
     ExplorerActionTaken,
     ExplorerAffected,
     LocationAffected
@@ -18,23 +17,26 @@ defmodule MicroWords.Ruleset do
 
   alias MicroWords.Commands.{
     AffectLocation,
-    # EnterWorld,
     TakeAction,
     AffectExplorer
   }
 
-  @type entity :: World.t() | Location.t() | Explorer.t() | Journey.t()
-  @type command :: AffectLocation.t() | TakeAction.t() | AffectExplorer.t()
-  @type event ::
-          WorldCreated.t()
-          | ExplorerEnteredWorld.t()
-          | ExplorerMoved.t()
-          | ExplorerActionTaken.t()
-          | ExplorerAffected.t()
-          | LocationAffected.t()
+  @type entity :: MicroWords.entity()
+  @type action :: MicroWords.action()
+  @type command :: MicroWords.command()
+  @type world_agent :: MicroWords.world_agent()
+  @type affect_command :: MicroWords.affect_command()
+  @type event :: MicroWords.event()
 
-  # Defined by params
+  @type availability_fn :: (entity() -> [action()])
+  @type on_build_fn :: (entity(), ActionDefinition.action_data() -> action())
+  @type on_action_taken_fn :: (Explorer.t(), action() -> Explorer.t())
+  @type world_reaction_fn :: (world_agent(), action() -> affect_command())
+  @type affects_fn :: (entity(), action() -> entity())
+
+  # Defined through params
   @callback dimensions() :: [integer()]
+  @callback get_availabe_actions(Explorer.t()) :: [action()]
 
   # Defined in ruleset module without fallback
   @callback initial_energy(Explorer.t()) :: integer()
@@ -46,11 +48,12 @@ defmodule MicroWords.Ruleset do
   @callback apply(entity(), event()) :: entity()
   @callback reaction(entity(), event()) :: command | [command]
 
-  defmacro __using__(dimensions: dimensions, action_names: _action_names) do
+  defmacro __using__(dimensions: dimensions, action_definitions: _action_names) do
     quote do
       alias MicroWords.{Action, Artefact}
       alias MicroWords.Worlds.{Location, World}
       alias MicroWords.Explorers.{Explorer, Journey}
+      alias MicroWords.Ruleset.ActionDefinition
 
       alias MicroWords.Events.{
         # WorldCreated,
