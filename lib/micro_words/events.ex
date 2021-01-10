@@ -20,7 +20,7 @@ defmodule MicroWords.Events do
 
     field :id, binary()
     field :world, binary()
-    field :location, {integer(), integer()}
+    field :location, MicroWords.dimensions()
   end
 
   typedstruct module: ExplorerReceivedRuleset do
@@ -44,7 +44,7 @@ defmodule MicroWords.Events do
 
     field :id, binary()
     field :world, binary()
-    field :location, {integer(), integer()}
+    field :location, MicroWords.dimensions()
   end
 
   typedstruct module: ExplorerActionTaken do
@@ -61,7 +61,7 @@ defmodule MicroWords.Events do
     """
 
     field :id, binary(), enforce: true
-    field :action, MicroWords.Action, enforce: true
+    field :action, MicroWords.action(), enforce: true
   end
 
   typedstruct module: ExplorerAffected do
@@ -75,7 +75,7 @@ defmodule MicroWords.Events do
     Not all actions create a user affected event.
     """
     field :id, binary(), enforce: true
-    field :action, MicroWords.Action, enforce: true
+    field :action, MicroWords.action(), enforce: true
   end
 
   typedstruct module: LocationAffected do
@@ -88,6 +88,6 @@ defmodule MicroWords.Events do
     """
 
     field :id, binary(), enforce: true
-    field :action, MicroWords.Action, enforce: true
+    field :action, MicroWords.action(), enforce: true
   end
 end

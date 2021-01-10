@@ -88,6 +88,7 @@ defmodule MicroWordsWeb.PageLive do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_info(%{event: "explorer_affected", payload: explorer}, socket) do
     {:noreply, assign(socket, explorer: explorer)}
   end
@@ -116,7 +117,7 @@ defmodule MicroWordsWeb.PageLive do
 
         {:action,
          %{
-           name: :forge_artefact,
+           name: :forge_note,
            data: %{content: content}
          }}
 

@@ -16,8 +16,13 @@ defmodule MicroWords.Worlds.Location do
     LocationAffected
   }
 
+  typedstruct module: Ground do
+    field :energy, integer(), default: 0
+  end
+
   typedstruct do
     field :artefact, Artefact.t(), default: nil
+    field :ground, Ground.t(), default: %Ground{}
   end
 
   def execute(%Location{}, %GetLocation{}) do
@@ -25,7 +30,9 @@ defmodule MicroWords.Worlds.Location do
   end
 
   def execute(%Location{} = state, %AffectLocation{} = cmd) do
-    cmd.action.ruleset.execute(state, cmd)
+    with :ok <- cmd.action.ruleset.validate(state, cmd.action) do
+      %LocationAffected{id: cmd.action.location_id, action: %{cmd.action | progress: :passed}}
+    end
   end
 
   def apply(%Location{} = state, %LocationAffected{} = evt) do

@@ -25,12 +25,18 @@ defmodule MicroWords do
   }
 
   @type action :: MicroWords.Action.t()
+  @type ruleset :: MicroWords.Ruleset.t()
   @type dimensions :: [integer()]
   @type d2_direction :: :north | :east | :south | :west
   @type world_agent :: Journey.t()
+  @type world_agent_module :: Journey
   @type entity :: Location.t() | Explorer.t()
   @type affect_command :: AffectLocation.t() | AffectExplorer.t()
+  @type affect_command_module :: AffectLocation | AffectExplorer
+  @type affect_event :: LocationAffected.t() | ExplorerAffected.t()
   @type action_command :: TakeAction.t()
+  @type action_taken_event :: ExplorerActionTaken.t()
+  @type action_taken_module :: ExplorerActionTaken
   @type event ::
           WorldCreated.t()
           | ExplorerEnteredWorld.t()

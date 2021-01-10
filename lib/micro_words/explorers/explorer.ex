@@ -97,7 +97,7 @@ defmodule MicroWords.Explorers.Explorer do
   def execute(%Explorer{id: id} = state, %TakeAction{id: id} = cmd) do
     action = state.ruleset.build_action(state, cmd.type, cmd.data)
 
-    if state.ruleset.valid_action?(state, action) do
+    with :ok <- state.ruleset.validate(state, action) do
       %ExplorerActionTaken{
         id: id,
         action: %{action | progress: :taken}
