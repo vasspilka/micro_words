@@ -7,12 +7,6 @@ defmodule MicroWords.Ruleset.ActionDefinition do
 
   alias MicroWords.Events.ExplorerActionTaken
 
-  # alias MicroWords.Commands.{
-  #   TakeAction,
-  #   AffectExplorer,
-  #   AffectLocation
-  # }
-
   typedstruct module: Reward do
     field :xp, integer(), default: 0
     field :energy, integer(), default: 0
@@ -26,6 +20,10 @@ defmodule MicroWords.Ruleset.ActionDefinition do
 
   @type data_form :: %{atom() => atom()}
   @type action_data :: map()
+  @type action_type :: :basic | :reactive | :movement
+
+  # TODO: 1 length character
+  @type keypress :: binary()
 
   typedstruct do
     field :name, atom()
@@ -33,6 +31,9 @@ defmodule MicroWords.Ruleset.ActionDefinition do
     field :reward, Reward.t(), default: %Reward{}
     field :data_form, data_form(), default: %{}
     field :world_reactions, [WorldReaction.t()], default: []
+    field :description, binary(), default: ""
+    field :key_binding, keypress()
+    field :type, action_type()
   end
 
   # Optional definitions on action modules

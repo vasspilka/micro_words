@@ -21,10 +21,13 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
   defmodule ForgeNote do
     use ActionDefinition, %ActionDefinition{
       name: :forge_note,
+      type: :simple,
       base_cost: 20,
       reward: %Reward{
         xp: 10
       },
+      description: "Creates a small note. Up to 80 characters.",
+      key_binding: "m",
       data_form: %{
         content: :string
       }
@@ -50,6 +53,9 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
   defmodule PlantArtefact do
     use ActionDefinition, %ActionDefinition{
       name: :plant_artefact,
+      type: :reactive,
+      description: "Places selected artefact to location.",
+      key_binding: "p",
       data_form: %{artefact_id: :string},
       world_reactions: [
         %WorldReaction{
@@ -99,6 +105,9 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
     use ActionDefinition, %ActionDefinition{
       name: :support_artefact,
       base_cost: 10,
+      type: :reactive,
+      description: "Supports currect artefact giving it some energy.",
+      key_binding: "s",
       data_form: %{artefact_id: :string},
       world_reactions: [
         %WorldReaction{
@@ -109,7 +118,7 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
       ]
     }
 
-    def valid_on?(%Location{artefact: artefact}, act) do
+    def on_validate(%Location{artefact: artefact}, act) do
       artefact.id == act.artefact_id
     end
 
@@ -130,6 +139,9 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
     use ActionDefinition, %ActionDefinition{
       name: :weaken_artefact,
       base_cost: 15,
+      type: :reactive,
+      description: "Weakens artefact on location taking away some energy.",
+      key_binding: "k",
       data_form: %{artefact_id: :string},
       world_reactions: [
         %WorldReaction{
