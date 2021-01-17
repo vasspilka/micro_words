@@ -125,11 +125,11 @@ defmodule MicroWords.ExplorersTest do
       content = "Hello MicroWord!"
 
       assert {:ok, %Explorer{} = explorer, %Action{} = forge_action} =
-               Explorers.make_action(explorer.id, :forge_artefact, %{content: content})
+               Explorers.make_action(explorer.id, :forge_note, %{content: content})
 
       artefact_id = forge_action.artefact_id
 
-      assert forge_action.type == :forge_artefact
+      assert forge_action.type == :forge_note
       assert is_binary(artefact_id)
       assert Enum.count(explorer.artefacts) == 1
       assert explorer.artefacts[artefact_id]
@@ -137,7 +137,7 @@ defmodule MicroWords.ExplorersTest do
       assert_receive_event(
         MicroWords,
         ExplorerActionTaken,
-        fn evt -> evt.action.type == :forge_artefact end,
+        fn evt -> evt.action.type == :forge_note end,
         fn event, _recorded_event ->
           assert event.action == forge_action
         end
