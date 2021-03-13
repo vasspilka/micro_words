@@ -32,7 +32,7 @@ defmodule MicroWords.Ruleset.Actions.WasdMovement do
       type: :movement,
       base_cost: 0,
       description: "Move right by one.",
-      key_binding: "w"
+      key_binding: "d"
     }
 
     def on_build(%Explorer{} = o, %{}) do
@@ -54,8 +54,8 @@ defmodule MicroWords.Ruleset.Actions.WasdMovement do
       name: :move_south,
       type: :movement,
       base_cost: 0,
-      description: "Move up by one.",
-      key_binding: "w"
+      description: "Move down by one.",
+      key_binding: "s"
     }
 
     def on_build(%Explorer{} = o, %{}) do
@@ -77,8 +77,8 @@ defmodule MicroWords.Ruleset.Actions.WasdMovement do
       name: :move_west,
       type: :movement,
       base_cost: 0,
-      description: "Move right by one.",
-      key_binding: "w"
+      description: "Move left by one.",
+      key_binding: "a"
     }
 
     def on_build(%Explorer{} = o, %{}) do

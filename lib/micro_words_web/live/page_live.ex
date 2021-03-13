@@ -5,6 +5,7 @@ defmodule MicroWordsWeb.PageLive do
   alias MicroWords.Worlds
   alias MicroWords.Worlds.Location
 
+  # TODO: Generate dynamically from ruleset
   @allowed_actions [
     # actions
     "p",
@@ -13,11 +14,7 @@ defmodule MicroWordsWeb.PageLive do
     "w",
     "a",
     "s",
-    "d",
-    "ArrowUp",
-    "ArrowLeft",
-    "ArrowRight",
-    "ArrowDown"
+    "d"
   ]
 
   @impl true
@@ -40,7 +37,8 @@ defmodule MicroWordsWeb.PageLive do
      assign(socket,
        explorer: explorer,
        location_id: location_id,
-       location: location
+       location: location,
+       action_definitions: explorer.ruleset.action_definitions(%{})
      )}
   end
 
@@ -51,34 +49,43 @@ defmodule MicroWordsWeb.PageLive do
 
     :ok = MicroWordsWeb.Endpoint.unsubscribe("location:#{location_id}")
 
-    {:ok, explorer} =
-      case action(key) do
-        %{name: action, data: data} ->
-          ### Random action experimentation
-          data =
-            case action do
-              :plant_artefact ->
-                random_artefact_id =
-                  Enum.map(explorer.artefacts, &elem(&1, 1).id) |> Enum.random()
+    action_definitions = explorer.ruleset.action_definitions(%{})
+    action = Enum.find(action_definitions, &(&1.key_binding == key)).name
 
-                %{artefact_id: random_artefact_id}
+    ### Random action for experimentation DO
+    data =
+      case action do
+        :plant_artefact ->
+          random_artefact_id = Enum.map(explorer.artefacts, &elem(&1, 1).id) |> Enum.random()
 
-              _ ->
-                data
-            end
+          %{artefact_id: random_artefact_id}
 
-          ### END
+        :forge_note ->
+          content = :crypto.strong_rand_bytes(16) |> Base.url_encode64() |> binary_part(0, 16)
 
-          {:ok, explorer, _} = Explorers.make_action(explorer.id, action, data)
-          {:ok, explorer}
+          %{content: content}
+
+        _ ->
+          %{}
       end
 
+    ### END
+
+    {:ok, explorer, _} = Explorers.make_action(explorer.id, action, data)
+
+    # TODO: if action not movement we dont need to reassign location
     location_id = Location.id_from_attrs(explorer)
     {:ok, location} = Worlds.get_location(location_id)
 
     :ok = MicroWordsWeb.Endpoint.subscribe("location:#{location_id}")
 
-    {:noreply, assign(socket, explorer: explorer, location_id: location_id, location: location)}
+    {:noreply,
+     assign(socket,
+       explorer: explorer,
+       location_id: location_id,
+       location: location,
+       action_definitions: explorer.ruleset.action_definitions(%{})
+     )}
   end
 
   def handle_event("explorer-keypress", %{"key" => _key}, socket) do
@@ -92,30 +99,5 @@ defmodule MicroWordsWeb.PageLive do
 
   def handle_info(%{event: "location_affected", payload: location}, socket) do
     {:noreply, assign(socket, location: location)}
-  end
-
-  @spec action(binary()) :: %{name: :atom, data: map()}
-  defp action(key) do
-    case key do
-      key when key in ["w", "ArrowUp"] ->
-        %{name: :move_north, data: %{}}
-
-      key when key in ["d", "ArrowRight"] ->
-        %{name: :move_east, data: %{}}
-
-      key when key in ["s", "ArrowDown"] ->
-        %{name: :move_south, data: %{}}
-
-      key when key in ["a", "ArrowLeft"] ->
-        %{name: :move_west, data: %{}}
-
-      key when key in ["m"] ->
-        content = :crypto.strong_rand_bytes(16) |> Base.url_encode64() |> binary_part(0, 16)
-
-        %{name: :forge_note, data: %{content: content}}
-
-      key when key in ["p"] ->
-        %{name: :plant_artefact, data: %{}}
-    end
   end
 end
