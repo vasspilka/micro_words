@@ -39,6 +39,7 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
 
     def on_action_taken(%Explorer{} = o, act) do
       artefact = %Artefact{
+        type: :note,
         id: act.artefact_id,
         originator: o.id,
         world: o.world,
@@ -106,7 +107,7 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
       name: :support_artefact,
       base_cost: 10,
       type: :reactive,
-      description: "Supports currect artefact giving it some energy.",
+      description: "Supports current artefact giving it some energy.",
       key_binding: "s",
       data_form: %{artefact_id: :string},
       world_reactions: [
@@ -170,5 +171,9 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
         ground: %{energy: ground.energy + act.cost + 10}
       ]
     end
+  end
+
+  # TODO
+  defmodule CopyArtefact do
   end
 end

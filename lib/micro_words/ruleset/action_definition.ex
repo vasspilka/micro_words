@@ -1,4 +1,46 @@
 defmodule MicroWords.Ruleset.ActionDefinition do
+  @moduledoc """
+  Action definition is an abstruction to help defining existing actions for use in rulesets.
+
+  Fields Documentation:
+
+  - name: The action name is used to identify an action. Rulesets must not have more than
+  one action with the same name.
+  - base_cost: The base energy cost of an action, the end action cost can be more depending on the
+  on_build/2 callback.
+  - reward: A reward given to Explorer when the action is succesfull.
+  - data_form: TODO: (Think about user context).
+  - world_reactions: This is a list of WorldReaction structs that helps define any reactions.
+  that can happen and the agents responsible to do them.
+  - descripton: A small description of the action that can be read by users.
+  - key_binding: The key to bind this action to, used in the UI.
+  - type: One of the 4 defined action types.
+
+
+
+  Action Types:
+
+  There are four action types available, each one represents what is the intent of this action.
+
+  - :movement
+  The movement actions result in the Explorer changing it's location.
+
+  - :simple
+  These actions only affect the Explorer and do not require any world reactions.
+
+  - :reactive
+  These actions will react with other entities, reactive actions might fail and in that case need
+  to be reverted. Reactive action can cause a longer chain of events where for example an
+  explorer affects a location that then in turn affects another location that then affects an
+  explorer.
+
+  For reactive functions it is important to know the progress if the action as it affect how it will continue to
+  be handled.
+
+  - :divine
+  These actions are *NOT* taken by the explorer, instead these types of actions can affect any entity
+  and are done by the system.
+  """
   use TypedStruct
 
   alias MicroWords.Action
@@ -20,7 +62,7 @@ defmodule MicroWords.Ruleset.ActionDefinition do
 
   @type data_form :: %{atom() => atom()}
   @type action_data :: map()
-  @type action_type :: :basic | :reactive | :movement
+  @type action_type :: :movement | :simple | :reactive | :divine
 
   # TODO: 1 length character
   @type keypress :: binary()
@@ -41,6 +83,7 @@ defmodule MicroWords.Ruleset.ActionDefinition do
   @callback on_action_taken(Explorer.t(), Action.t()) :: Keyword.t()
   @callback on_validate(MicroWords.entity(), Action.t()) :: :ok | {:error, atom()}
   @callback affects(MicroWords.entity(), Action.t()) :: Keyword.t()
+  # TODO: Maybe available_when
 
   # Defined in __using__
   @callback validate(MicroWords.entity(), Action.t()) :: :ok | {:error, atom()}
@@ -113,8 +156,8 @@ defmodule MicroWords.Ruleset.ActionDefinition do
             ruleset: explorer.ruleset,
             cost: @definition.base_cost
           },
-          fn {k, v}, acc ->
-            Map.replace(acc, k, v)
+          fn {k, v}, action ->
+            Map.replace(action, k, v)
           end
         )
       end

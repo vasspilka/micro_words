@@ -4,7 +4,11 @@ defmodule MicroWords.Ruleset do
   functionality as a whole.
   """
 
-  alias MicroWords.Action
+  alias MicroWords.{
+    Action,
+    UserContext
+  }
+
   alias MicroWords.Worlds.{Location, World}
   alias MicroWords.Explorers.{Explorer, Journey}
   alias MicroWords.Ruleset.ActionDefinition
@@ -39,12 +43,12 @@ defmodule MicroWords.Ruleset do
 
   # Defined through params
   @callback dimensions() :: [integer()]
-  # @callback get_availabe_actions(Explorer.t()) :: [action()]
+  @callback availabe_definitions(UserContext.t()) :: [ActionDefinition.t()]
 
   # Defined in ruleset module without fallback
   @callback initial_energy(Explorer.t()) :: integer()
 
-  # Delegeted to action modules
+  # Delegated to action modules
   @callback build_action(Explorer.t(), atom(), map()) :: Action.t()
   @callback validate(entity(), action()) :: :ok | {:error, atom()}
   @callback apply(entity(), event()) :: entity()
@@ -78,6 +82,11 @@ defmodule MicroWords.Ruleset do
                  {module.definition().name, module}
                end)
                |> Enum.into(%{})
+
+      @impl MicroWords.Ruleset
+      def action_defintions(_ctx) do
+        Enum.map(@action_modules, & &1.definition())
+      end
 
       @impl MicroWords.Ruleset
       def apply(o, evt) do

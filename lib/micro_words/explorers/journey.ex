@@ -9,9 +9,7 @@ defmodule MicroWords.Explorers.Journey do
   @derive Jason.Encoder
   typedstruct do
     field :explorer_id, binary()
-    field :world, binary()
     field :ruleset, module()
-    field :location, {integer(), integer()}
   end
 
   alias MicroWords.Events.{
@@ -48,17 +46,15 @@ defmodule MicroWords.Explorers.Journey do
     %AffectExplorer{id: state.explorer_id, action: evt.action}
   end
 
-  def apply(%Journey{} = state, %ExplorerReceivedRuleset{ruleset: ruleset}) do
-    %Journey{state | ruleset: ruleset}
-  end
-
   def apply(%Journey{}, %ExplorerEnteredWorld{id: id}) do
     %Journey{explorer_id: id}
   end
 
-  def apply(%Journey{} = state, %ExplorerActionTaken{}) do
-    state
+  def apply(%Journey{} = state, %ExplorerReceivedRuleset{ruleset: ruleset}) do
+    %Journey{state | ruleset: ruleset}
   end
+
+  def apply(%Journey{} = state, _evt), do: state
 
   def error(_error, %AffectLocation{action: act}, ctx) do
     {:continue, [%AffectExplorer{id: act.explorer_id, action: %{act | progress: :failed}}], ctx}

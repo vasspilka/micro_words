@@ -10,7 +10,6 @@ defmodule MicroWords.Rulesets.Basic do
     BasicArtefact.PlantArtefact,
     BasicArtefact.SupportArtefact,
     BasicArtefact.WeakenArtefact
-    # Smack Artefact: Spend some energy to distrupt the bost (both lose, world gets)
     # Protect Artefact:
     # Disenchant Artefact:
     # ? Leach Artefact: (artefact -> explorer)

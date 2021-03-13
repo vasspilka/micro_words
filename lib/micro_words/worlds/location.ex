@@ -25,9 +25,7 @@ defmodule MicroWords.Worlds.Location do
     field :ground, Ground.t(), default: %Ground{}
   end
 
-  def execute(%Location{}, %GetLocation{}) do
-    []
-  end
+  def execute(%Location{}, %GetLocation{}), do: []
 
   def execute(%Location{} = state, %AffectLocation{} = cmd) do
     with :ok <- cmd.action.ruleset.validate(state, cmd.action) do
@@ -49,7 +47,7 @@ defmodule MicroWords.Worlds.Location do
 
   @spec id_from_attrs(Explorer.t()) :: binary()
   @doc "Get location_id from attributes of an entity."
-  def id_from_attrs(%{location: [x, y | []], world: world}) do
-    "{#{x},#{y}:#{world}}"
+  def id_from_attrs(%{location: location, world: world}) do
+    Enum.join(location, ",") <> ":" <> world
   end
 end
