@@ -43,7 +43,7 @@ defmodule MicroWords.Ruleset do
 
   # Defined through params
   @callback dimensions() :: [integer()]
-  @callback availabe_definitions(UserContext.t()) :: [ActionDefinition.t()]
+  @callback action_definitions(UserContext.t()) :: [ActionDefinition.t()]
 
   # Defined in ruleset module without fallback
   @callback initial_energy(Explorer.t()) :: integer()
@@ -84,7 +84,7 @@ defmodule MicroWords.Ruleset do
                |> Enum.into(%{})
 
       @impl MicroWords.Ruleset
-      def action_defintions(_ctx) do
+      def action_definitions(_ctx) do
         Enum.map(@action_modules, & &1.definition())
       end
 

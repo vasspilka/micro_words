@@ -4,8 +4,13 @@ defmodule MicroWords.Rulesets.Basic do
   alias MicroWords.{Action, Artefact}
 
   alias MicroWords.Ruleset.Actions.BasicArtefact
+  alias MicroWords.Ruleset.Actions.WasdMovement
 
   @action_modules [
+    WasdMovement.MoveSouth,
+    WasdMovement.MoveEast,
+    WasdMovement.MoveNorth,
+    WasdMovement.MoveWest,
     BasicArtefact.ForgeNote,
     BasicArtefact.PlantArtefact,
     BasicArtefact.SupportArtefact,
