@@ -7,7 +7,6 @@ defmodule MicroWords.Explorers.Explorer do
   alias MicroWords.Commands.{
     EnterWorld,
     ReceiveRuleset,
-    Move,
     TakeAction,
     AffectExplorer
   }
@@ -15,7 +14,6 @@ defmodule MicroWords.Explorers.Explorer do
   alias MicroWords.Events.{
     ExplorerEnteredWorld,
     ExplorerReceivedRuleset,
-    ExplorerMoved,
     ExplorerActionTaken,
     ExplorerAffected
   }
@@ -59,41 +57,6 @@ defmodule MicroWords.Explorers.Explorer do
     }
   end
 
-  # credo:disable-for-next-line
-  def execute(
-        %Explorer{id: id, location: [current_x, current_y]} = state,
-        %Move{
-          id: id,
-          direction: direction
-        }
-      ) do
-    [max_x, max_y] = state.ruleset.dimensions()
-
-    x =
-      case {current_x, direction} do
-        {_, direction} when direction in [:north, :south] -> current_x
-        {1, :west} -> max_x
-        {_, :west} -> current_x - 1
-        {^max_x, :east} -> 1
-        {_, :east} -> current_x + 1
-      end
-
-    y =
-      case {current_y, direction} do
-        {_, direction} when direction in [:east, :west] -> current_y
-        {^max_y, :north} -> 1
-        {_, :north} -> current_y + 1
-        {1, :south} -> max_y
-        {_, :south} -> current_y - 1
-      end
-
-    %ExplorerMoved{
-      id: id,
-      world: state.world,
-      location: [x, y]
-    }
-  end
-
   def execute(%Explorer{id: id} = state, %TakeAction{id: id} = cmd) do
     action = state.ruleset.build_action(state, cmd.type, cmd.data)
 
@@ -118,10 +81,6 @@ defmodule MicroWords.Explorers.Explorer do
 
   def apply(%Explorer{} = state, %ExplorerReceivedRuleset{} = evt) do
     %Explorer{state | ruleset: evt.ruleset, energy: evt.ruleset.initial_energy(state)}
-  end
-
-  def apply(%Explorer{} = state, %ExplorerMoved{location: location}) do
-    %Explorer{state | location: location}
   end
 
   def apply(%Explorer{} = state, %ExplorerActionTaken{} = evt) do

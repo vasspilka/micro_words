@@ -2,7 +2,6 @@ defmodule MicroWords.Explorers do
   alias MicroWords.Commands.{
     EnterWorld,
     TakeAction,
-    Move
   }
 
   alias MicroWords.Explorers.Explorer
@@ -14,14 +13,9 @@ defmodule MicroWords.Explorers do
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 
-  @spec move(binary(), MicroWords.d2_direction()) :: {:ok, Explorer.t()} | {:error, term()}
-  def move(explorer_id, direction) do
-    %Move{id: explorer_id, direction: direction}
-    |> MicroWords.dispatch(returning: :aggregate_state)
-  end
-
+  @spec make_action(binary(), atom()) :: {:ok, Explorer.t(), Action.t()} | {:error, term()}
   @spec make_action(binary(), atom(), map()) :: {:ok, Explorer.t(), Action.t()} | {:error, term()}
-  def make_action(explorer_id, type, data) do
+  def make_action(explorer_id, type, data \\ %{}) do
     case %TakeAction{id: explorer_id, type: type, data: data}
          |> MicroWords.dispatch(returning: :execution_result) do
       {:ok, %{aggregate_state: explorer, events: [%{action: action}]}} ->

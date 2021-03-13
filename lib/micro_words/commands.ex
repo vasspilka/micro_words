@@ -34,13 +34,6 @@ defmodule MicroWords.Commands do
     field :ruleset, module()
   end
 
-  typedstruct module: Move do
-    @moduledoc "Move around the world"
-
-    field :id, binary()
-    field :direction, MicroWords.d2_direction()
-  end
-
   typedstruct module: TakeAction do
     @moduledoc "Take an action on your current location."
 

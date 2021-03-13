@@ -16,7 +16,6 @@ defmodule MicroWords.Router do
     [
       Commands.EnterWorld,
       Commands.ReceiveRuleset,
-      Commands.Move,
       Commands.TakeAction,
       Commands.AffectExplorer
     ],

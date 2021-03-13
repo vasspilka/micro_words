@@ -7,6 +7,7 @@ defmodule MicroWords.Artefact do
 
   typedstruct module: Link do
     @moduledoc """
+
     A link to explorers or other artefacts.
 
     The link type helps us identify the reason of the link

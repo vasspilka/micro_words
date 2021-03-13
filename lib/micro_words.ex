@@ -12,7 +12,6 @@ defmodule MicroWords do
   alias MicroWords.Events.{
     WorldCreated,
     ExplorerEnteredWorld,
-    ExplorerMoved,
     ExplorerActionTaken,
     ExplorerAffected,
     LocationAffected
@@ -27,7 +26,6 @@ defmodule MicroWords do
   @type action :: MicroWords.Action.t()
   @type ruleset :: MicroWords.Ruleset.t()
   @type dimensions :: [integer()]
-  @type d2_direction :: :north | :east | :south | :west
   @type world_agent :: Journey.t()
   @type world_agent_module :: Journey
   @type entity :: Location.t() | Explorer.t()
@@ -40,7 +38,6 @@ defmodule MicroWords do
   @type event ::
           WorldCreated.t()
           | ExplorerEnteredWorld.t()
-          | ExplorerMoved.t()
           | ExplorerActionTaken.t()
           | ExplorerAffected.t()
           | LocationAffected.t()

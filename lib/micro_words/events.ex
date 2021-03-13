@@ -36,17 +36,6 @@ defmodule MicroWords.Events do
     field :ruleset, module()
   end
 
-  typedstruct module: ExplorerMoved do
-    @derive Jason.Encoder
-    @moduledoc """
-    Explorer moved around in the world to a new location.
-    """
-
-    field :id, binary()
-    field :world, binary()
-    field :location, MicroWords.dimensions()
-  end
-
   typedstruct module: ExplorerActionTaken do
     @derive Jason.Encoder
     @moduledoc """
