@@ -3,9 +3,9 @@ defmodule MicroWords.Ruleset.Actions.WasdMovement do
   alias MicroWords.Explorers.Explorer
   alias MicroWords.Ruleset.ActionDefinition
 
-  defmodule MoveSouth do
+  defmodule MoveNorth do
     use ActionDefinition, %ActionDefinition{
-      name: :move_south,
+      name: :move_north,
       type: :movement,
       base_cost: 0,
       description: "Move up by one.",
@@ -49,7 +49,7 @@ defmodule MicroWords.Ruleset.Actions.WasdMovement do
     end
   end
 
-  defmodule MoveNorth do
+  defmodule MoveSouth do
     use ActionDefinition, %ActionDefinition{
       name: :move_south,
       type: :movement,

@@ -53,10 +53,7 @@ defmodule MicroWordsWeb.PageLive do
 
     {:ok, explorer} =
       case action(key) do
-        {:move, %{direction: direction}} ->
-          Explorers.move(explorer.id, direction)
-
-        {:action, %{name: action, data: data}} ->
+        %{name: action, data: data} ->
           ### Random action experimentation
           data =
             case action do
@@ -97,32 +94,28 @@ defmodule MicroWordsWeb.PageLive do
     {:noreply, assign(socket, location: location)}
   end
 
-  @spec action(binary()) :: {atom(), map()}
+  @spec action(binary()) :: %{name: :atom, data: map()}
   defp action(key) do
     case key do
       key when key in ["w", "ArrowUp"] ->
-        {:move, %{direction: :north}}
+        %{name: :move_north, data: %{}}
 
       key when key in ["d", "ArrowRight"] ->
-        {:move, %{direction: :east}}
+        %{name: :move_east, data: %{}}
 
       key when key in ["s", "ArrowDown"] ->
-        {:move, %{direction: :south}}
+        %{name: :move_south, data: %{}}
 
       key when key in ["a", "ArrowLeft"] ->
-        {:move, %{direction: :west}}
+        %{name: :move_west, data: %{}}
 
       key when key in ["m"] ->
         content = :crypto.strong_rand_bytes(16) |> Base.url_encode64() |> binary_part(0, 16)
 
-        {:action,
-         %{
-           name: :forge_note,
-           data: %{content: content}
-         }}
+        %{name: :forge_note, data: %{content: content}}
 
       key when key in ["p"] ->
-        {:action, %{name: :plant_artefact, data: %{}}}
+        %{name: :plant_artefact, data: %{}}
     end
   end
 end
