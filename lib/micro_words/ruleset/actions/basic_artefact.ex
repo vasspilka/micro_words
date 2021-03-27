@@ -108,7 +108,7 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
       base_cost: 10,
       type: :reactive,
       description: "Supports current artefact giving it some energy.",
-      key_binding: "s",
+      key_binding: "g",
       data_form: %{artefact_id: :string},
       world_reactions: [
         %WorldReaction{
@@ -120,19 +120,19 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
     }
 
     def on_validate(%Location{artefact: artefact}, act) do
-      artefact.id == act.artefact_id
+      if artefact.id == act.artefact_id do
+        :ok
+      else
+        {:error, :bad_artefact}
+      end
     end
 
     def on_build(explorer, %{artefact_id: artefact_id}) do
-      %Action{
-        artefact_id: artefact_id,
-        explorer_id: explorer.id,
-        location_id: Location.id_from_attrs(explorer)
-      }
+      [artefact_id: artefact_id]
     end
 
     def affects(%Location{artefact: artefact}, act) do
-      [artefact: %{energy: artefact.energy + act.cost}]
+      [artefact: %{artefact | energy: artefact.energy + act.cost}]
     end
   end
 
@@ -167,8 +167,8 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
 
     def affects(%Location{artefact: artefact, ground: ground}, act) do
       [
-        artefact: %{energy: artefact.energy - 10},
-        ground: %{energy: ground.energy + act.cost + 10}
+        artefact: %{artefact | energy: artefact.energy - 10},
+        ground: %{ground | energy: ground.energy + act.cost + 15}
       ]
     end
   end

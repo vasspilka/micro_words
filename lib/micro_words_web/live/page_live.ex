@@ -8,6 +8,8 @@ defmodule MicroWordsWeb.PageLive do
   # TODO: Generate dynamically from ruleset
   @allowed_actions [
     # actions
+    "g",
+    "k",
     "p",
     "m",
     # movement
@@ -64,6 +66,12 @@ defmodule MicroWordsWeb.PageLive do
           content = :crypto.strong_rand_bytes(16) |> Base.url_encode64() |> binary_part(0, 16)
 
           %{content: content}
+
+        :support_artefact ->
+          %{artefact_id: socket.assigns.location.artefact.id}
+
+        :weaken_artefact ->
+          %{artefact_id: socket.assigns.location.artefact.id}
 
         _ ->
           %{}

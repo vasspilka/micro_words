@@ -21,7 +21,10 @@
     <section class="col-span-5 text-center bg-green-100">
         <p>Content</p>
         <%= if @location.artefact do %>
-            <div><%= @location.artefact.content %></div>
+            <div class="h-64 min-h-max">
+                <%= @location.artefact.content %>
+                <div>Energy: <%=  @location.artefact.energy %></div>
+            </div>
         <%= else %>
             <div class="h-64 min-h-max"></div>
         <% end %>
