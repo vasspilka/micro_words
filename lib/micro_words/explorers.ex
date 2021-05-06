@@ -1,7 +1,7 @@
 defmodule MicroWords.Explorers do
   alias MicroWords.Commands.{
     EnterWorld,
-    TakeAction,
+    TakeAction
   }
 
   alias MicroWords.Explorers.Explorer
@@ -9,7 +9,10 @@ defmodule MicroWords.Explorers do
 
   @spec enter_world(binary(), binary()) :: {:ok, Explorer.t()} | {:error, term()}
   def enter_world(explorer_id, world \\ "basic") do
-    %EnterWorld{id: explorer_id, world: world}
+    {:ok, world_state} = MicroWords.Worlds.view(world)
+    ruleset = world_state.ruleset
+
+    %EnterWorld{id: explorer_id, world: world, ruleset: ruleset}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 

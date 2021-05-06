@@ -2,7 +2,11 @@ defmodule MicroWords.Worlds.World do
   use TypedStruct
 
   alias MicroWords.Worlds.World
-  alias MicroWords.Commands.CreateWorld
+
+  alias MicroWords.Commands.{
+    ViewWorld,
+    CreateWorld
+  }
 
   alias MicroWords.Events.{
     WorldCreated
@@ -16,17 +20,17 @@ defmodule MicroWords.Worlds.World do
   def execute(%World{name: nil}, %CreateWorld{} = cmd) do
     %WorldCreated{
       name: cmd.name,
-      # energy: cmd.ruleset.initial_energy(%World{}),
       ruleset: cmd.ruleset
     }
   end
+
+  def execute(%World{name: name}, %ViewWorld{name: name}) when not is_nil(name), do: []
 
   def execute(%World{}, %CreateWorld{}), do: []
 
   def apply(%World{}, %WorldCreated{} = evt) do
     %World{
       name: evt.name,
-      # energy: evt.energy,
       ruleset: evt.ruleset
     }
   end

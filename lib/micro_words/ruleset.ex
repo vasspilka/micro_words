@@ -46,7 +46,8 @@ defmodule MicroWords.Ruleset do
   @callback action_definitions(UserContext.t()) :: [ActionDefinition.t()]
 
   # Defined in ruleset module without fallback
-  @callback initial_energy(Explorer.t()) :: integer()
+  @callback starting_location() :: [integer()]
+  @callback initial_energy() :: integer()
 
   # Delegated to action modules
   @callback build_action(Explorer.t(), atom(), map()) :: Action.t()

@@ -8,7 +8,6 @@ defmodule MicroWords.Events do
     """
 
     field :name, binary()
-    field :energy, integer()
     field :ruleset, module()
   end
 
@@ -20,20 +19,8 @@ defmodule MicroWords.Events do
 
     field :id, binary()
     field :world, binary()
-    field :location, MicroWords.dimensions()
-  end
-
-  typedstruct module: ExplorerReceivedRuleset do
-    @derive Jason.Encoder
-    @moduledoc """
-    Explorer received a ruleset.
-
-    A ruleset determines the available actions how they affect
-    the user and how the world and other entities react.
-    """
-
-    field :id, binary()
     field :ruleset, module()
+    field :location, MicroWords.dimensions()
   end
 
   typedstruct module: ExplorerActionTaken do

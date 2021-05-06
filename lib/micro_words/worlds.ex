@@ -1,6 +1,7 @@
 defmodule MicroWords.Worlds do
   alias MicroWords.Commands.{
     CreateWorld,
+    ViewWorld,
     GetLocation
   }
 
@@ -16,6 +17,15 @@ defmodule MicroWords.Worlds do
   @spec create(binary(), module()) :: {:ok, %World{}} | {:error, term()}
   def create(name, ruleset \\ Basic) do
     %CreateWorld{name: name, ruleset: ruleset}
+    |> MicroWords.dispatch(returning: :aggregate_state)
+  end
+
+  @doc """
+  Used to get world state.
+  """
+  @spec view(binary()) :: {:ok, %World{}} | {:error, term()}
+  def view(name) do
+    %ViewWorld{name: name}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 

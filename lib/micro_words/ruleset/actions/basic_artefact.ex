@@ -127,7 +127,7 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
       end
     end
 
-    def on_build(explorer, %{artefact_id: artefact_id}) do
+    def on_build(_explorer, %{artefact_id: artefact_id}) do
       [artefact_id: artefact_id]
     end
 

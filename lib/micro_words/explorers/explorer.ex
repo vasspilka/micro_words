@@ -6,20 +6,19 @@ defmodule MicroWords.Explorers.Explorer do
 
   alias MicroWords.Commands.{
     EnterWorld,
-    ReceiveRuleset,
     TakeAction,
     AffectExplorer
   }
 
   alias MicroWords.Events.{
     ExplorerEnteredWorld,
-    ExplorerReceivedRuleset,
     ExplorerActionTaken,
     ExplorerAffected
   }
 
   typedstruct do
     field :id, binary()
+    field :name, binary()
     field :world, binary(), enforce: true
     field :ruleset, module()
     field :location, MicroWords.Worlds.Location.coord(), enforce: true
@@ -29,11 +28,12 @@ defmodule MicroWords.Explorers.Explorer do
     field :stats, map(), default: %{}
   end
 
-  def execute(%Explorer{id: nil}, %EnterWorld{} = cmd) do
+  def execute(%Explorer{id: nil}, %EnterWorld{ruleset: ruleset} = cmd) when not is_nil(ruleset) do
     %ExplorerEnteredWorld{
       id: cmd.id,
       world: cmd.world,
-      location: [1, 1]
+      ruleset: ruleset,
+      location: ruleset.starting_location()
     }
   end
 
@@ -48,13 +48,6 @@ defmodule MicroWords.Explorers.Explorer do
 
   def execute(%Explorer{id: nil}, %_cmd{}) do
     {:error, :explorer_not_found}
-  end
-
-  def execute(%Explorer{id: id}, %ReceiveRuleset{id: id} = cmd) do
-    %ExplorerReceivedRuleset{
-      id: id,
-      ruleset: cmd.ruleset
-    }
   end
 
   def execute(%Explorer{id: id} = state, %TakeAction{id: id} = cmd) do
@@ -76,11 +69,13 @@ defmodule MicroWords.Explorers.Explorer do
   end
 
   def apply(%Explorer{}, %ExplorerEnteredWorld{} = evt) do
-    %Explorer{id: evt.id, world: evt.world, location: evt.location}
-  end
-
-  def apply(%Explorer{} = state, %ExplorerReceivedRuleset{} = evt) do
-    %Explorer{state | ruleset: evt.ruleset, energy: evt.ruleset.initial_energy(state)}
+    %Explorer{
+      id: evt.id,
+      world: evt.world,
+      energy: evt.ruleset.initial_energy(),
+      location: evt.location,
+      ruleset: evt.ruleset
+    }
   end
 
   def apply(%Explorer{} = state, %ExplorerActionTaken{} = evt) do

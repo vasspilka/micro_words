@@ -12,7 +12,6 @@ defmodule MicroWords.ExplorersTest do
   alias MicroWords.Events.{
     WorldCreated,
     ExplorerEnteredWorld,
-    ExplorerReceivedRuleset,
     ExplorerAffected,
     ExplorerActionTaken,
     LocationAffected
@@ -31,10 +30,6 @@ defmodule MicroWords.ExplorersTest do
       assert_receive_event(MicroWords, ExplorerEnteredWorld, fn event, _recorded_event ->
         assert event.world == "dev_world"
         assert event.id == explorer_id
-      end)
-
-      assert_receive_event(MicroWords, ExplorerReceivedRuleset, fn event, _recorded_event ->
-        assert event.ruleset == world.ruleset
       end)
 
       {:ok, world: world, explorer: explorer}

@@ -8,6 +8,10 @@ defmodule MicroWords.Commands do
     field :ruleset, module()
   end
 
+  typedstruct module: ViewWorld do
+    field :name, binary()
+  end
+
   typedstruct module: GetLocation do
     field :location_id, binary()
   end
@@ -24,6 +28,7 @@ defmodule MicroWords.Commands do
     """
 
     field :id, binary()
+    field :ruleset, module()
     field :world, binary()
   end
 

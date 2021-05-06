@@ -25,5 +25,8 @@ defmodule MicroWords.Rulesets.Basic do
     action_modules: @action_modules
 
   @impl true
-  def initial_energy(%Explorer{}), do: 200_000
+  def initial_energy(), do: 200_000
+
+  @impl true
+  def starting_location(), do: [1, 1]
 end
