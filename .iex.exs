@@ -23,5 +23,3 @@ alias MicroWords.Ruleset.Actions.BasicArtefact.{
   SupportArtefact,
   WeakenArtefact
 }
-
-{:ok, explorer} = Explorers.enter_world("user_one")

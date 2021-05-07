@@ -7,8 +7,10 @@ defmodule MicroWords.Artefact do
 
   typedstruct module: Link do
     @moduledoc """
+    A link to explorers, other artefacts or locations.
 
-    A link to explorers or other artefacts.
+    Links are used in order to identify how and with what an artefact is linked.
+    As an artefact received actions reactions can occur to linked objects.
 
     The link type helps us identify the reason of the link
     as well as the type of the linked entity.
@@ -29,6 +31,7 @@ defmodule MicroWords.Artefact do
     field :originator, binary()
     field :links, [Link.t()], default: []
     field :energy, integer(), default: 0
+    field :state, integer(), default: 0
     field :gen, integer(), default: 0
   end
 end

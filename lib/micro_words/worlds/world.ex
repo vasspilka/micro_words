@@ -24,7 +24,8 @@ defmodule MicroWords.Worlds.World do
     }
   end
 
-  def execute(%World{name: name}, %ViewWorld{name: name}) when not is_nil(name), do: []
+  def execute(%World{name: name}, %ViewWorld{name: name}) when not is_nil(name),
+    do: []
 
   def execute(%World{}, %CreateWorld{}), do: []
 
