@@ -29,7 +29,11 @@ defmodule MicroWords.Worlds.Location do
 
   def execute(%Location{} = state, %AffectLocation{} = cmd) do
     with :ok <- cmd.action.ruleset.validate(state, cmd.action) do
-      %LocationAffected{id: cmd.action.location_id, action: %{cmd.action | progress: :passed}}
+      %LocationAffected{
+        id: cmd.action.location_id,
+        world: get_world_from_locaction_id(cmd.action.location_id),
+        action: %{cmd.action | progress: :passed}
+      }
     end
   end
 
@@ -49,5 +53,12 @@ defmodule MicroWords.Worlds.Location do
   @doc "Get location_id from attributes of an entity."
   def id_from_attrs(%{location: location, world: world}) do
     Enum.join(location, ",") <> ":" <> world
+  end
+
+  @spec get_world_from_locaction_id(binary()) :: binary()
+  defp get_world_from_locaction_id(location_id) do
+    location_id
+    |> String.split(":")
+    |> hd()
   end
 end

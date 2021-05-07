@@ -56,14 +56,16 @@ defmodule MicroWords.Explorers.Explorer do
     with :ok <- state.ruleset.validate(state, action) do
       %ExplorerActionTaken{
         id: id,
+        world: state.world,
         action: %{action | progress: :taken}
       }
     end
   end
 
-  def execute(%Explorer{id: id}, %AffectExplorer{id: id} = cmd) do
+  def execute(%Explorer{id: id} = state, %AffectExplorer{id: id} = cmd) do
     %ExplorerAffected{
       id: id,
+      world: state.world,
       action: cmd.action
     }
   end

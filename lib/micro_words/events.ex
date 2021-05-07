@@ -37,6 +37,7 @@ defmodule MicroWords.Events do
     """
 
     field :id, binary(), enforce: true
+    field :world, binary(), enforce: true
     field :action, MicroWords.action(), enforce: true
   end
 
@@ -51,6 +52,7 @@ defmodule MicroWords.Events do
     Not all actions create a user affected event.
     """
     field :id, binary(), enforce: true
+    field :world, binary(), enforce: true
     field :action, MicroWords.action(), enforce: true
   end
 
@@ -64,6 +66,7 @@ defmodule MicroWords.Events do
     """
 
     field :id, binary(), enforce: true
+    field :world, binary(), enforce: true
     field :action, MicroWords.action(), enforce: true
   end
 end
