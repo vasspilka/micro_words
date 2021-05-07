@@ -78,7 +78,7 @@ defmodule MicroWords.Ruleset.ActionDefinition do
     field :type, action_type()
   end
 
-  # Optional definitions on action modules
+  # Optional definitions on action mo didules
   @callback on_build(Explorer.t(), map()) :: Keyword.t()
   @callback on_action_taken(Explorer.t(), Action.t()) :: Keyword.t()
   @callback on_validate(MicroWords.entity(), Action.t()) :: :ok | {:error, atom()}
@@ -152,7 +152,7 @@ defmodule MicroWords.Ruleset.ActionDefinition do
             type: @definition.name,
             explorer_id: explorer.id,
             location_id: Location.id_from_attrs(explorer),
-            data: data,
+            input_data: data,
             ruleset: explorer.ruleset,
             cost: @definition.base_cost
           },

@@ -44,7 +44,7 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
         originator: o.id,
         world: o.world,
         energy: act.cost,
-        content: act.data.content
+        content: act.input_data.content
       }
 
       [artefacts: Map.put(o.artefacts, act.artefact_id, artefact)]
@@ -75,7 +75,7 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
     def on_build(explorer, %{artefact_id: artefact_id}) do
       [
         artefact_id: artefact_id,
-        data: %{artefact: explorer.artefacts[artefact_id]}
+        input_data: %{artefact: explorer.artefacts[artefact_id]}
       ]
     end
 
@@ -94,11 +94,11 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
     def on_validate(%Location{}, _act), do: {:error, :location_has_artefact}
 
     def affects(%Explorer{} = o, %Action{progress: :passed} = act) do
-      [artefacts: Map.delete(o.artefacts, act.data.artefact.id)]
+      [artefacts: Map.delete(o.artefacts, act.input_data.artefact.id)]
     end
 
     def affects(%Location{artefact: nil}, act) do
-      [artefact: act.data.artefact]
+      [artefact: act.input_data.artefact]
     end
   end
 

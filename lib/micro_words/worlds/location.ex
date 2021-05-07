@@ -59,6 +59,6 @@ defmodule MicroWords.Worlds.Location do
   defp get_world_from_locaction_id(location_id) do
     location_id
     |> String.split(":")
-    |> hd()
+    |> List.last()
   end
 end

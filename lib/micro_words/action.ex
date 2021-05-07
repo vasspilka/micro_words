@@ -16,8 +16,7 @@ defmodule MicroWords.Action do
     field :explorer_id, binary()
     field :artefact_id, binary()
     field :location_id, binary()
-    # TODO change to input_data
-    field :data, map(), default: %{}
+    field :input_data, map(), default: %{}
     # result to affect the explorer on action taken usefull for location change
     field :result, map(), default: %{}
     field :reward, ActionDefinition.Reward.t(), default: %ActionDefinition.Reward{}
