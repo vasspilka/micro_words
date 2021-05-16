@@ -52,13 +52,13 @@ defmodule MicroWords.Worlds.Location do
   @spec id_from_attrs(Explorer.t()) :: binary()
   @doc "Get location_id from attributes of an entity."
   def id_from_attrs(%{location: location, world: world}) do
-    Enum.join(location, ",") <> ":" <> world
+    world <> ":" <> Enum.join(location, ",")
   end
 
   @spec get_world_from_locaction_id(binary()) :: binary()
   defp get_world_from_locaction_id(location_id) do
     location_id
     |> String.split(":")
-    |> List.last()
+    |> hd()
   end
 end

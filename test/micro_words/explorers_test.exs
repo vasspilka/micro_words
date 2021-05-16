@@ -38,7 +38,7 @@ defmodule MicroWords.ExplorersTest do
     test "explorer can move around correctly", %{world: world, explorer: explorer} do
       [max_x, max_y] = world.ruleset.dimensions()
 
-      assert {:ok, %{location: [^max_x, 1]}, _} = Explorers.make_action(explorer.id, :move_west)
+      assert {:ok, %{location: [^max_x, 1]}, _} = Explorers.take_action(explorer.id, :move_west)
 
       assert_receive_event(
         MicroWords,
@@ -50,7 +50,7 @@ defmodule MicroWords.ExplorersTest do
         end
       )
 
-      assert {:ok, %{location: [1, 1]}, _} = Explorers.make_action(explorer.id, :move_east)
+      assert {:ok, %{location: [1, 1]}, _} = Explorers.take_action(explorer.id, :move_east)
 
       assert_receive_event(
         MicroWords,
@@ -62,7 +62,7 @@ defmodule MicroWords.ExplorersTest do
         end
       )
 
-      assert {:ok, %{location: [2, 1]}, _} = Explorers.make_action(explorer.id, :move_east)
+      assert {:ok, %{location: [2, 1]}, _} = Explorers.take_action(explorer.id, :move_east)
 
       assert_receive_event(
         MicroWords,
@@ -74,7 +74,7 @@ defmodule MicroWords.ExplorersTest do
         end
       )
 
-      assert {:ok, %{location: [2, 2]}, _} = Explorers.make_action(explorer.id, :move_north)
+      assert {:ok, %{location: [2, 2]}, _} = Explorers.take_action(explorer.id, :move_north)
 
       assert_receive_event(
         MicroWords,
@@ -86,7 +86,7 @@ defmodule MicroWords.ExplorersTest do
         end
       )
 
-      assert {:ok, %{location: [2, 1]}, _} = Explorers.make_action(explorer.id, :move_south)
+      assert {:ok, %{location: [2, 1]}, _} = Explorers.take_action(explorer.id, :move_south)
 
       assert_receive_event(
         MicroWords,
@@ -98,7 +98,7 @@ defmodule MicroWords.ExplorersTest do
         end
       )
 
-      assert {:ok, %{location: [2, ^max_y]}, _} = Explorers.make_action(explorer.id, :move_south)
+      assert {:ok, %{location: [2, ^max_y]}, _} = Explorers.take_action(explorer.id, :move_south)
 
       assert_receive_event(
         MicroWords,
@@ -119,7 +119,7 @@ defmodule MicroWords.ExplorersTest do
       content = "Hello MicroWord!"
 
       assert {:ok, %Explorer{} = explorer, %Action{} = forge_action} =
-               Explorers.make_action(explorer.id, :forge_note, %{content: content})
+               Explorers.take_action(explorer.id, :forge_note, %{content: content})
 
       artefact_id = forge_action.artefact_id
 
@@ -139,7 +139,7 @@ defmodule MicroWords.ExplorersTest do
 
       assert {:ok, %Explorer{} = explorer,
               %Action{artefact_id: ^artefact_id, type: :plant_artefact} = plant_action} =
-               Explorers.make_action(explorer.id, :plant_artefact, forge_action)
+               Explorers.take_action(explorer.id, :plant_artefact, forge_action)
 
       assert_receive_event(
         MicroWords,

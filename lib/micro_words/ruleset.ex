@@ -35,13 +35,7 @@ defmodule MicroWords.Ruleset do
 
   @type command :: affect_command() | action_command()
 
-  # @type availability_fn :: (entity() -> [action()])
-  # @type on_build_fn :: (entity(), ActionDefinition.action_data() -> action())
-  # @type on_action_taken_fn :: (Explorer.t(), action() -> Explorer.t())
-  # @type world_reaction_fn :: (world_agent(), action() -> affect_command())
-  # @type affects_fn :: (entity(), action() -> entity())
-
-  # Defined through params
+  # Defined by params
   @callback dimensions() :: [integer()]
   @callback action_definitions(UserContext.t()) :: [ActionDefinition.t()]
 

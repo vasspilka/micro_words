@@ -5,20 +5,6 @@ defmodule MicroWordsWeb.PageLive do
   alias MicroWords.Worlds
   alias MicroWords.Worlds.Location
 
-  # TODO: Generate dynamically from ruleset
-  @allowed_actions [
-    # actions
-    "g",
-    "k",
-    "p",
-    "m",
-    # movement
-    "w",
-    "a",
-    "s",
-    "d"
-  ]
-
   @impl true
   def mount(_params, _session, socket) do
     # TODO: Get or create exlorer from socket.
@@ -45,59 +31,36 @@ defmodule MicroWordsWeb.PageLive do
   end
 
   @impl true
-  def handle_event("explorer-keypress", %{"key" => key}, socket) when key in @allowed_actions do
-    explorer = socket.assigns.explorer
-    location_id = socket.assigns.location_id
+  def handle_event("explorer-action", %{"action" => action, "data" => data}, socket)
+      when is_binary(action) do
+    action_name = String.to_atom(action)
 
-    :ok = MicroWordsWeb.Endpoint.unsubscribe("location:#{location_id}")
+    {:ok, explorer, _} = Explorers.take_action(socket.assigns.explorer.id, action_name, data)
 
-    action_definitions = explorer.ruleset.action_definitions(%{})
-    action = Enum.find(action_definitions, &(&1.key_binding == key)).name
+    new_location_id = Location.id_from_attrs(explorer)
 
-    ### Random action for experimentation DO
-    data =
-      case action do
-        :plant_artefact ->
-          random_artefact_id = Enum.map(explorer.artefacts, &elem(&1, 1).id) |> Enum.random()
+    {:ok, location} =
+      case socket.assigns.location_id do
+        ^new_location_id ->
+          {:ok, socket.assigns.location}
 
-          %{artefact_id: random_artefact_id}
+        old_location_id ->
+          :ok = MicroWordsWeb.Endpoint.unsubscribe("location:#{old_location_id}")
+          :ok = MicroWordsWeb.Endpoint.subscribe("location:#{new_location_id}")
 
-        :forge_note ->
-          content = :crypto.strong_rand_bytes(16) |> Base.url_encode64() |> binary_part(0, 16)
-
-          %{content: content}
-
-        :support_artefact ->
-          %{artefact_id: socket.assigns.location.artefact.id}
-
-        :weaken_artefact ->
-          %{artefact_id: socket.assigns.location.artefact.id}
-
-        _ ->
-          %{}
+          Worlds.get_location(new_location_id)
       end
-
-    ### END
-
-    {:ok, explorer, _} = Explorers.make_action(explorer.id, action, data)
-
-    # TODO: if action not movement we dont need to reassign location
-    location_id = Location.id_from_attrs(explorer)
-    {:ok, location} = Worlds.get_location(location_id)
-
-    :ok = MicroWordsWeb.Endpoint.subscribe("location:#{location_id}")
 
     {:noreply,
      assign(socket,
        explorer: explorer,
-       location_id: location_id,
-       location: location,
-       action_definitions: explorer.ruleset.action_definitions(%{})
+       location_id: new_location_id,
+       location: location
      )}
   end
 
-  def handle_event("explorer-keypress", %{"key" => _key}, socket) do
-    {:noreply, socket}
+  def handle_event("explorer-action", %{"action" => action}, socket) do
+    handle_event("explorer-action", %{"action" => action, "data" => %{}}, socket)
   end
 
   @impl true

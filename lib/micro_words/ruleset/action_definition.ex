@@ -145,14 +145,16 @@ defmodule MicroWords.Ruleset.ActionDefinition do
       end
 
       def build_action(explorer, data) do
+        validated_data = validate_data_form(data)
+
         explorer
-        |> on_build(data)
+        |> on_build(validated_data)
         |> Enum.reduce(
           %Action{
             type: @definition.name,
             explorer_id: explorer.id,
             location_id: Location.id_from_attrs(explorer),
-            input_data: data,
+            input_data: validated_data,
             ruleset: explorer.ruleset,
             cost: @definition.base_cost
           },
@@ -160,6 +162,21 @@ defmodule MicroWords.Ruleset.ActionDefinition do
             Map.replace(action, k, v)
           end
         )
+      end
+
+      def validate_data_form(data) do
+        @definition.data_form
+        |> Enum.map(fn {data_key, data_type} ->
+          form_input = data[data_key] || data["#{data_key}"]
+
+          value =
+            case data_type do
+              :string -> "#{form_input}"
+            end
+
+          {data_key, value}
+        end)
+        |> Enum.into(%{})
       end
     end
   end

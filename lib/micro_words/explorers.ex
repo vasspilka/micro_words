@@ -16,9 +16,9 @@ defmodule MicroWords.Explorers do
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 
-  @spec make_action(binary(), atom()) :: {:ok, Explorer.t(), Action.t()} | {:error, term()}
-  @spec make_action(binary(), atom(), map()) :: {:ok, Explorer.t(), Action.t()} | {:error, term()}
-  def make_action(explorer_id, type, data \\ %{}) do
+  @spec take_action(binary(), atom()) :: {:ok, Explorer.t(), Action.t()} | {:error, term()}
+  @spec take_action(binary(), atom(), map()) :: {:ok, Explorer.t(), Action.t()} | {:error, term()}
+  def take_action(explorer_id, type, data \\ %{}) do
     case %TakeAction{id: explorer_id, type: type, data: data}
          |> MicroWords.dispatch(returning: :execution_result) do
       {:ok, %{aggregate_state: explorer, events: [%{action: action}]}} ->

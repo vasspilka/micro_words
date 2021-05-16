@@ -1,50 +1,118 @@
 <h1 class="text-3xl font-bold text-center mb-8">
     You are at: <%= @location_id %>
 </h1>
-<div class="grid grid-cols-9 gap-4 min-h-full" phx-window-keyup="explorer-keypress">
+<div class="grid grid-cols-9 gap-4 min-h-full">
     <section class="col-span-2 grid grid-cols-1 bg-blue-100 ">
         <div>ID: <%= @explorer.id %></div>
         <div>ENERGY: <%= @explorer.energy %></div>
         <div>XP: <%= @explorer.xp %></div>
 
-        <div class="mt-8 mb-4">Inventory: </div>
+        <div class="mt-8 mb-4">Notes: </div>
         <table class="border-separate border border-green-800">
             <tbody>
             <%= for {_id, artefact} <- @explorer.artefacts do %>
                 <tr>
                     <td class="border"><%= artefact.content %></td>
+                    <td class="border">
+                        <form phx-submit="explorer-action">
+                            <input class="hidden" name="action" type="text" value="plant_artefact"></input>
+                            <input class="hidden" name="data[artefact_id]" type="text" value="<%= artefact.id %>"></input>
+                            <button class="p-2 shadow bg-teal-400 font-bold rounded text-white"
+                                    type="submit">
+                                Place
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             <% end %>
             </tbody>
         </table>
     </section>
-    <section class="col-span-5 text-center bg-green-100">
+    <section class="col-span-7 text-center bg-green-100">
         <p>Content</p>
         <%= if @location.artefact do %>
             <div class="h-64 min-h-max">
                 <%= @location.artefact.content %>
                 <div>Energy: <%=  @location.artefact.energy %></div>
             </div>
-        <%= else %>
+
+            <form phx-submit="explorer-action">
+                <input class="hidden" name="action" type="text" value="support_artefact"></input>
+                <input class="hidden" name="data[artefact_id]" type="text" value="<%= @location.artefact.id %>"></input>
+                <button class="p-2 shadow bg-teal-400 font-bold rounded text-white"
+                        type="submit">
+                    Support
+                </button>
+            </form>
+
+            <form phx-submit="explorer-action">
+                <input class="hidden" name="action" type="text" value="weaken_artefact"></input>
+                <input class="hidden" name="data[artefact_id]" type="text" value="<%= @location.artefact.id %>"></input>
+                <button class="p-2 shadow bg-teal-400 font-bold rounded text-white"
+                        type="submit">
+                    Discourage
+                </button>
+            </form>
+        <% else %>
             <div class="h-64 min-h-max"></div>
         <% end %>
         <p>Location</p>
         <div>Energy: <%= @location.ground.energy %></div>
-    </section>
-    <section class="col-span-2 bg-purple-100">
-        <p>Available Actions</p>
-        <table class="border-separate border border-green-800">
-            <tbody>
-            <%= for action_definition <- @action_definitions do %>
-                <tr>
-                    <td><%= action_definition.description %></td>
-                </tr>
-                <tr>
-                    <td>Key: </td>
-                    <td><%= action_definition.key_binding %></td>
-                </tr>
-            <% end %>
-            </tbody>
-        </table>
+
+        <div class="flex flex-row">
+            <div class="">
+                <form phx-submit="explorer-action">
+                        <!-- Message field -->
+                    <div class="flex flex-wrap mb-6">
+                        <div class="relative w-full appearance-none label-floating">
+                            <textarea class="tracking-wide py-2 px-4 mb-3 leading-relaxed appearance-none block border border-gray-200 rounded" 
+                                id="message" type="text" name="data[content]" placeholder="Note..."></textarea>
+                            </label>
+                        </div>
+                    </div>
+
+                    <input class="hidden" name="action" type="text" value="forge_note"></input>
+
+                    <div class="">
+                        <button class="shadow bg-teal-400 text-white font-bold py-2 px-4 rounded"
+                                type="submit">
+                            Create Note
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="grid grid-cols-3 grid-rows-2 gap-1 float-right">
+                <form class="col-start-2" phx-submit="explorer-action">
+                    <input class="hidden" name="action" type="text" value="move_north"></input>
+                    <button class="p-2 shadow bg-teal-400 font-bold rounded "
+                            type="submit">
+                        <div class="h-5 w-5 border-l-4 border-t-4 border-white transform rotate-45"></div>
+                    </button>
+                </form>
+                <div></div>
+                <form phx-submit="explorer-action">
+                    <input class="hidden" name="action" type="text" value="move_west"></input>
+                    <button class="p-2 shadow bg-teal-400 font-bold rounded"
+                            type="submit">
+                        <div class="h-5 w-5 border-b-4 border-l-4 border-white transform rotate-45"></div>
+                    </button>
+                </form>
+                <form phx-submit="explorer-action">
+                    <input class="hidden" name="action" type="text" value="move_south"></input>
+                    <button class="p-2 shadow bg-teal-400 font-bold rounded"
+                            type="submit">
+                        <div class="h-5 w-5 border-r-4 border-b-4 border-white transform rotate-45"></div>
+                    </button>
+                </form>
+                <form phx-submit="explorer-action">
+                    <input class="hidden" name="action" type="text" value="move_east"></input>
+                    <button class="p-2 shadow bg-teal-400 font-bold rounded"
+                            type="submit">
+                        <div class="h-5 w-5 border-t-4 border-r-4 border-white transform rotate-45"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+
     </section>
 </div>

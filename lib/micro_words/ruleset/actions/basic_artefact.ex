@@ -33,7 +33,7 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
       }
     }
 
-    def on_build(_explorer, %{content: _content}) do
+    def on_build(_explorer, _input_data) do
       [artefact_id: UUID.uuid4()]
     end
 
@@ -56,7 +56,6 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
       name: :plant_artefact,
       type: :reactive,
       description: "Places selected artefact to location.",
-      key_binding: "p",
       data_form: %{artefact_id: :string},
       world_reactions: [
         %WorldReaction{
@@ -168,7 +167,7 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
     def affects(%Location{artefact: artefact, ground: ground}, act) do
       [
         artefact: %{artefact | energy: artefact.energy - 10},
-        ground: %{ground | energy: ground.energy + act.cost + 15}
+        ground: %{ground | energy: ground.energy + act.cost + 10}
       ]
     end
   end

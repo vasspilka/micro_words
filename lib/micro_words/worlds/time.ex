@@ -24,7 +24,7 @@ defmodule MicroWords.Worlds.Time do
 
   @derive Jason.Encoder
   typedstruct do
-    field :world, binary()
+    field :world, binary(), enforce: true
     field :ruleset, binary()
     field :explorers, [binary()]
     field :locations, [binary()]
