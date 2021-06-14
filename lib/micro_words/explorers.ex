@@ -17,7 +17,8 @@ defmodule MicroWords.Explorers do
   end
 
   @spec take_action(binary(), atom()) :: {:ok, Explorer.t(), Action.t()} | {:error, term()}
-  @spec take_action(binary(), atom(), map()) :: {:ok, Explorer.t(), Action.t()} | {:error, term()}
+  @spec take_action(binary(), atom(), map()) ::
+          {:ok, Explorer.t(), Action.t() | nil} | {:error, term()}
   def take_action(explorer_id, type, data \\ %{}) do
     case %TakeAction{id: explorer_id, type: type, data: data}
          |> MicroWords.dispatch(returning: :execution_result) do

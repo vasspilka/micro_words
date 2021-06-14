@@ -1,4 +1,8 @@
 defmodule MicroWords.Ruleset.Actions.BasicArtefact do
+  @moduledoc """
+  Actions that involve the creation and basic interaction between explorers and artefacts.
+  """
+
   alias MicroWords.Ruleset.ActionDefinition
   alias MicroWords.Ruleset.ActionDefinition.Reward
   alias MicroWords.Ruleset.ActionDefinition.WorldReaction
@@ -41,7 +45,7 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
       artefact = %Artefact{
         type: :note,
         id: act.artefact_id,
-        originator: o.id,
+        links: [%Artefact.Link{type: :originator, id: o.id}],
         world: o.world,
         energy: act.cost,
         content: act.input_data.content
@@ -173,6 +177,6 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
   end
 
   # TODO
-  defmodule CopyArtefact do
-  end
+  # defmodule CopyArtefact do
+  # end
 end

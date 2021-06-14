@@ -139,7 +139,7 @@ defmodule MicroWords.ExplorersTest do
 
       assert {:ok, %Explorer{} = explorer,
               %Action{artefact_id: ^artefact_id, type: :plant_artefact} = plant_action} =
-               Explorers.take_action(explorer.id, :plant_artefact, forge_action)
+               Explorers.take_action(explorer.id, :plant_artefact, %{artefact_id: artefact_id})
 
       assert_receive_event(
         MicroWords,
@@ -179,7 +179,7 @@ defmodule MicroWords.ExplorersTest do
                artefact: %Artefact{
                  id: ^artefact_id,
                  content: "Hello MicroWord!",
-                 originator: ^explorer_id
+                 links: [%Artefact.Link{type: :originator, id: ^explorer_id}]
                }
              } = location
 

@@ -12,13 +12,11 @@ defmodule MicroWordsWeb.PageLive do
 
     # _world = socket.private.connect_params["world"]
     # _explorer_id = socket.private.connect_params["explorer_uuid"]
-    #
-
-    :ok = MicroWordsWeb.Endpoint.subscribe("explorer:#{explorer.id}")
 
     location_id = Location.id_from_attrs(explorer)
     {:ok, location} = Worlds.get_location(location_id)
 
+    :ok = MicroWordsWeb.Endpoint.subscribe("explorer:#{explorer.id}")
     :ok = MicroWordsWeb.Endpoint.subscribe("location:#{location_id}")
 
     {:ok,
@@ -33,7 +31,7 @@ defmodule MicroWordsWeb.PageLive do
   @impl true
   def handle_event("explorer-action", %{"action" => action, "data" => data}, socket)
       when is_binary(action) do
-    action_name = String.to_atom(action)
+    action_name = String.to_existing_atom(action)
 
     {:ok, explorer, _} = Explorers.take_action(socket.assigns.explorer.id, action_name, data)
 

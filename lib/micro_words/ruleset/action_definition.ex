@@ -9,7 +9,7 @@ defmodule MicroWords.Ruleset.ActionDefinition do
   - base_cost: The base energy cost of an action, the end action cost can be more depending on the
   on_build/2 callback.
   - reward: A reward given to Explorer when the action is succesfull.
-  - data_form: TODO: (Think about user context).
+  - data_form: The form of what the input data for this action should look.
   - world_reactions: This is a list of WorldReaction structs that helps define any reactions.
   that can happen and the agents responsible to do them.
   - descripton: A small description of the action that can be read by users.
@@ -50,14 +50,14 @@ defmodule MicroWords.Ruleset.ActionDefinition do
   alias MicroWords.Events.ExplorerActionTaken
 
   typedstruct module: Reward do
-    field :xp, integer(), default: 0
-    field :energy, integer(), default: 0
+    field(:xp, integer(), default: 0)
+    field(:energy, integer(), default: 0)
   end
 
   typedstruct module: WorldReaction do
-    field :from, MicroWords.action_taken_module()
-    field :agent, MicroWords.world_agent_module()
-    field :affects, MicroWords.affect_command_module()
+    field(:from, MicroWords.action_taken_module())
+    field(:agent, MicroWords.world_agent_module())
+    field(:affects, MicroWords.affect_command_module())
   end
 
   @type data_form :: %{atom() => atom()}
@@ -68,14 +68,14 @@ defmodule MicroWords.Ruleset.ActionDefinition do
   @type keypress :: binary()
 
   typedstruct do
-    field :name, atom()
-    field :base_cost, integer(), default: 0
-    field :reward, Reward.t(), default: %Reward{}
-    field :data_form, data_form(), default: %{}
-    field :world_reactions, [WorldReaction.t()], default: []
-    field :description, binary(), default: ""
-    field :key_binding, keypress()
-    field :type, action_type()
+    field(:name, atom())
+    field(:base_cost, integer(), default: 0)
+    field(:reward, Reward.t(), default: %Reward{})
+    field(:data_form, data_form(), default: %{})
+    field(:world_reactions, [WorldReaction.t()], default: [])
+    field(:description, binary(), default: "")
+    field(:key_binding, keypress())
+    field(:type, action_type())
   end
 
   # Optional definitions on action mo didules

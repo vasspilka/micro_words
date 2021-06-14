@@ -37,7 +37,8 @@ defmodule MicroWords.Ruleset do
 
   # Defined by params
   @callback dimensions() :: [integer()]
-  @callback action_definitions(UserContext.t()) :: [ActionDefinition.t()]
+  ## TODO: figure out input
+  @callback action_definitions(term()) :: [ActionDefinition.t()]
 
   # Defined in ruleset module without fallback
   @callback starting_location() :: [integer()]

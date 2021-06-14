@@ -27,8 +27,6 @@ defmodule MicroWords.Artefact do
     field :id, binary()
     field :content, binary()
     field :world, binary()
-    # TODO: Maybe link
-    field :originator, binary()
     field :links, [Link.t()], default: []
     field :energy, integer(), default: 0
     field :state, integer(), default: 0
