@@ -5,8 +5,8 @@ defmodule MicroWords.Ruleset do
   """
 
   alias MicroWords.{
-    Action,
-    UserContext
+    Action
+    # UserContext
   }
 
   alias MicroWords.Worlds.{Location, World}

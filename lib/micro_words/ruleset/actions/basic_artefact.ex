@@ -37,7 +37,7 @@ defmodule MicroWords.Ruleset.Actions.BasicArtefact do
       }
     }
 
-    def on_build(_explorer, _input_data) do
+    def on_build(_explorer, %{}) do
       [artefact_id: UUID.uuid4()]
     end
 
