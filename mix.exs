@@ -34,8 +34,9 @@ defmodule MicroWords.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:commanded,
-       github: "fahchen/commanded", branch: "fahchen/get-aggregate-state", override: true},
+      # {:commanded,
+      #  github: "fahchen/commanded", branch: "fahchen/get-aggregate-state", override: true},
+      {:commanded, "~> 1.2.0"},
       {:commanded_eventstore_adapter, "~> 1.2.0"},
       {:ecto_sql, "~> 3.4"},
       {:eventstore, "~> 1.2.0"},
