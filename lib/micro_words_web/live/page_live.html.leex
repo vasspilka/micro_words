@@ -7,12 +7,11 @@
         <div>ENERGY: <%= @explorer.energy %></div>
         <div>XP: <%= @explorer.xp %></div>
         <div class="mt-8 mb-4">Notes: </div>
-        <table class="border-separate border border-green-800">
-            <tbody>
+        <div class="grid grid-flow-row auto-rows-max">
             <%= for {_id, artefact} <- @explorer.artefacts do %>
-                <tr>
-                    <td class="border"><%= artefact.content %></td>
-                    <td class="border">
+                <div class="grid grid-cols-5 border border-gray-200">
+                    <div class="col-span-4"><%= artefact.content %></div>
+                    <div class="col-span-1">
                         <form phx-submit="explorer-action">
                             <input class="hidden" name="action" type="text" value="plant_artefact"></input>
                             <input class="hidden" name="data[artefact_id]" type="text" value="<%= artefact.id %>"></input>
@@ -21,18 +20,17 @@
                                 Place
                             </button>
                         </form>
-                    </td>
-                </tr>
+                    </div>
+                </div>
             <% end %>
-            </tbody>
-        </table>
-        <div class="mt-10 items-center">
+        </div>
+        <div class="mt-10 ">
             <form phx-submit="explorer-action">
                     <!-- Message field -->
-                <div class="flex flex-wrap mb-6">
-                    <div class="relative w-full appearance-none label-floating">
-                        <textarea class="tracking-wide py-2 px-4 mb-3 leading-relaxed appearance-none block border border-gray-200 rounded"
-                            id="message" type="text" name="data[content]" placeholder="Note..."></textarea>
+                <div class="flex flex-wrap mb-3">
+                    <div class="object-center">
+                        <textarea class="py-2 px-4 border border-gray-200 rounded"
+                                  id="message" type="text" name="data[content]" placeholder="Note..."></textarea>
                         </label>
                     </div>
                 </div>
