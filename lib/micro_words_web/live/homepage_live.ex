@@ -12,18 +12,25 @@ defmodule MicroWordsWeb.HomePageLive do
             <button
             class="m-1 p-2 <%= if assigns.world == world, do: "bg-yellow-400", else: "bg-teal-400 text-white" %> font-bold rounded"
             phx-click="select-world"
-            phx-value-world="<%= world %>"
-            >
-            <%= world %>
+            phx-value-world="<%= world %>" >
+                <%= world %>
             </button>
         <% end %>
     </div>
 
-    <form class="grid grid-cols-1 justify-items-center mt-5" phx-submit="enter-world">
+    <form class="grid grid-cols-1 justify-items-center mt-5" phx-submit="enter-world" phx-change="update-explorer">
       <label for="exlorer">Join as</label>
-      <input class="bg-gray-200 w-28 h-8" name="explorer" type="text" placeholder="username"></input>
+      <input
+        phx-debounce="2000"
+        class="bg-gray-200 w-28 h-8"
+        name="explorer"
+        type="text"
+        placeholder="username"
+        value="<%= assigns.explorer %>"
+        >
+      </input>
       <button
-        class="p-2 text-white bg-teal-400 font-bold w-21 mt-3"
+        class="p-3 text-white bg-teal-400 font-bold w-26 mt-3"
         type="submit">
         Enter
       </button>
@@ -33,12 +40,17 @@ defmodule MicroWordsWeb.HomePageLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, world: nil)}
+    {:ok, assign(socket, world: nil, explorer: "")}
   end
 
   @impl true
   def handle_event("select-world", %{"world" => world}, socket) do
     {:noreply, assign(socket, world: world)}
+  end
+
+  @impl true
+  def handle_event("update-explorer", %{"explorer" => explorer}, socket) do
+    {:noreply, assign(socket, explorer: explorer)}
   end
 
   @impl true
