@@ -1,4 +1,4 @@
-defmodule MicroWordsWeb.PageLive do
+defmodule MicroWordsWeb.WorldLive do
   use MicroWordsWeb, :live_view
 
   alias MicroWords.Explorers
@@ -6,12 +6,8 @@ defmodule MicroWordsWeb.PageLive do
   alias MicroWords.Worlds.Location
 
   @impl true
-  def mount(_params, _session, socket) do
-    # TODO: Get or create exlorer from socket.
-    {:ok, explorer} = MicroWords.Explorers.enter_world("dev_user", "dev_world")
-
-    # _world = socket.private.connect_params["world"]
-    # _explorer_id = socket.private.connect_params["explorer_uuid"]
+  def mount(params, _session, socket) do
+    {:ok, explorer} = MicroWords.Explorers.enter_world(params["username"], params["world"])
 
     location_id = Location.id_from_attrs(explorer)
     {:ok, location} = Worlds.get_location(location_id)

@@ -2,22 +2,23 @@ defmodule MicroWordsWeb.Router do
   use MicroWordsWeb, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_live_flash
-    plug :put_root_layout, {MicroWordsWeb.LayoutView, :root}
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_live_flash)
+    plug(:put_root_layout, {MicroWordsWeb.LayoutView, :root})
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   scope "/", MicroWordsWeb do
-    pipe_through :browser
+    pipe_through(:browser)
 
-    live "/", PageLive, :index
+    live("/", HomePageLive)
+    live("/:world", WorldLive, :index)
   end
 
   # Other scopes may use custom stacks.
@@ -36,8 +37,8 @@ defmodule MicroWordsWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: MicroWordsWeb.Telemetry
+      pipe_through(:browser)
+      live_dashboard("/dashboard", metrics: MicroWordsWeb.Telemetry)
     end
   end
 end
