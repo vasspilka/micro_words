@@ -1,17 +1,13 @@
 module.exports = {
-  future: {
-    // removeDeprecatedGapUtilities: true,
-    // purgeLayersByDefault: true,
-  },
+  mode: 'jit',
   purge: [
-    "../lib/**/*.ex",
-    "../lib/**/*.leex",
-    "../lib/**/*.eex",
-    "./js/**/*.js",
+    './js/**/*.js',
+    '../lib/*_web/**/*.*ex'
   ],
   theme: {
+  },
+  variants: {
     extend: {},
   },
-  variants: {},
   plugins: [],
-};
+}

@@ -15,7 +15,7 @@ defmodule MicroWords.MixProject do
     ]
   end
 
-  # Configuration for the OTP application.
+  # Configuration for the OTP application.right
   #
   # Type `mix help compile.app` for more information.
   def application do
@@ -36,22 +36,23 @@ defmodule MicroWords.MixProject do
     [
       # {:commanded,
       #  github: "fahchen/commanded", branch: "fahchen/get-aggregate-state", override: true},
-      {:commanded, "~> 1.2.0"},
+      {:commanded, "~> 1.3.0"},
       {:commanded_eventstore_adapter, "~> 1.2.0"},
       {:ecto_sql, "~> 3.4"},
-      {:eventstore, "~> 1.2.0"},
+      {:eventstore, "~> 1.3.0"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:phoenix, "~> 1.5.1"},
-      {:phoenix_ecto, "~> 4.1"},
-      {:phoenix_html, "~> 2.11"},
-      {:phoenix_live_dashboard, "~> 0.4"},
-      {:phoenix_live_view, "~> 0.15.0"},
+      {:phoenix, "~> 1.6"},
+      {:phoenix_ecto, "~> 4.4"},
+      {:phoenix_html, "~> 3.0"},
+      {:phoenix_live_dashboard, "~> 0.5"},
+      {:phoenix_live_view, "~> 0.16.0"},
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, ">= 0.0.0"},
-      {:telemetry_metrics, "~> 0.4"},
-      {:telemetry_poller, "~> 0.4"},
+      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_poller, "~> 1.0"},
       {:typed_struct, "~> 0.2.1"},
+      {:esbuild, "~> 0.2", only: :dev},
       {:dialyxir, "~> 1.0", only: :dev, runtime: false},
       {:credo, "~> 1.3", only: [:dev, :test], runtime: false},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
@@ -75,10 +76,15 @@ defmodule MicroWords.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
+      setup: ["deps.get", "ecto.setup", "cmd --cd assets npm install"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate", "test"],
+      "assets.deploy": [
+        "cmd --cd assets npm run deploy",
+        "esbuild default --minify",
+        "phx.digest"
+      ]
     ]
   end
 end
