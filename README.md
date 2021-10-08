@@ -17,9 +17,6 @@ After Everything was succesfully installed you can start the server with
 
 `mix phx.server`
 
-One can move around with the `aswd` keys as well as the arrows.
-To create a random artefact press `m` to place a random artefact to your current location press `p`
-
 ## Introduction to Concept
 
 The game consists of the following entities. Worlds & Locations, Explorers and Artefacts.
