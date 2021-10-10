@@ -3,16 +3,17 @@ defmodule MicroWordsWeb.HomePageLive do
 
   @impl true
   def render(assigns) do
-    ~L"""
+    ~H"""
     <h1 class="text-center text-2xl">Welcome to MicroWords</h1>
 
     <h1 class="text-center text-xl mt-2">Select a world</h1>
     <div class="flex flex-row justify-center">
         <%= for {world, _} <- Application.get_env(:micro_words, :worlds) do %>
+        <% color = if assigns.world == world, do: "bg-yellow-400", else: "bg-indigo-400 text-white" %>
             <button
-            class="m-1 p-2 <%= if assigns.world == world, do: "bg-yellow-400", else: "bg-teal-400 text-white" %> font-bold rounded"
+            class={"m-1 p-2 font-bold rounded " <> color}
             phx-click="select-world"
-            phx-value-world="<%= world %>" >
+            phx-value-world={world}>
                 <%= world %>
             </button>
         <% end %>
@@ -22,15 +23,14 @@ defmodule MicroWordsWeb.HomePageLive do
       <label for="exlorer">Join as</label>
       <input
         phx-debounce="2000"
-        class="bg-gray-200 w-28 h-8"
+        class="bg-gray-100 w-28 h-8"
         name="explorer"
         type="text"
         placeholder="username"
-        value="<%= assigns.explorer %>"
-        >
-      </input>
+        value={assigns.explorer}
+        />
       <button
-        class="p-3 text-white bg-teal-400 font-bold w-26 mt-3"
+        class="p-3 text-white bg-indigo-400 font-bold w-26 mt-3"
         type="submit">
         Enter
       </button>

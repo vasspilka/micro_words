@@ -30,16 +30,13 @@ defmodule MicroWords.DataCase do
   end
 
   setup tags do
-    # :ok = Ecto.Adapters.SQL.Sandbox.checkout(MicroWords.Repo)
-
-    # unless tags[:async] do
-    #   Ecto.Adapters.SQL.Sandbox.mode(MicroWords.Repo, {:shared, self()})
-    # end
+    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(MicroWords.Repo, shared: not tags[:async])
 
     on_exit(fn ->
       :ok = Application.stop(:micro_words)
       :ok = Application.stop(:commanded)
 
+      Ecto.Adapters.SQL.Sandbox.stop_owner(pid)
       #   {:ok, conn} =
       #     MicroWords.EventStore.config()
       #     |> EventStore.Config.default_postgrex_opts()

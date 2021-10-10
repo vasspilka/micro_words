@@ -4,6 +4,120 @@ defmodule MicroWordsWeb.WorldLive do
   alias MicroWords.Explorers
   alias MicroWords.Worlds
   alias MicroWords.Worlds.Location
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <h1 class="text-3xl font-bold text-center mb-8">
+    You are at: <%= @location_id %>
+    </h1>
+    <div class="grid grid-cols-9 gap-4 min-h-full">
+    <section class="col-span-2 grid grid-cols-1 bg-blue-100 ">
+        <div>ID: <%= @explorer.id %></div>
+        <div>ENERGY: <%= @explorer.energy %></div>
+        <div>XP: <%= @explorer.xp %></div>
+        <div class="mt-8 mb-4">Notes: </div>
+        <div class="grid grid-flow-row auto-rows-max">
+            <%= for {_id, artefact} <- @explorer.artefacts do %>
+                <div class="grid grid-cols-5 border border-gray-200">
+                    <div class="col-span-4"><%= artefact.content %></div>
+                    <div class="col-span-1">
+                        <button
+                            phx-click="explorer-action"
+                            phx-value-action="plant_artefact"
+                            phx-value-data={Jason.encode!(%{artefact_id: artefact.id})}
+                            class="p-2 shadow bg-teal-400 font-bold rounded text-white" >
+                            Place
+                        </button>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+        <div class="mt-10 ">
+            <form phx-submit="explorer-action">
+                <div class="flex flex-wrap mb-3">
+                    <div class="object-center">
+                        <textarea
+                          class="py-2 px-4 border border-gray-200 rounded"
+                          id="message"
+                          type="text"
+                          name="data[content]"
+                          placeholder="Note..."/>
+                    </div>
+                </div>
+
+                <input class="hidden" name="action" type="text" value="forge_note"/>
+
+                <div class="">
+                    <button class="shadow bg-teal-400 text-white font-bold py-2 px-4 rounded"
+                            type="submit">
+                        Create Note
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <section class="col-span-7 text-center bg-green-100">
+        <p>Content</p>
+        <%= if @location.artefact do %>
+            <div class="h-64 min-h-max">
+                <%= @location.artefact.content %>
+                <div>Energy: <%=  @location.artefact.energy %></div>
+            </div>
+            <button
+                class="p-2 shadow bg-teal-400 font-bold rounded text-white"
+                phx-click="explorer-action"
+                phx-value-action="weaken_artefact"
+                phx-value-data={Jason.encode!(%{artefact_id: @location.artefact.id})} >
+                Support
+            </button>
+            <button
+                class="p-2 shadow bg-teal-400 font-bold rounded text-white"
+                phx-click="explorer-action"
+                phx-value-action="weaken_artefact"
+                phx-value-data={Jason.encode!(%{artefact_id: @location.artefact.id})} >
+                Discourage
+            </button>
+        <% else %>
+            <div class="h-64 min-h-max"></div>
+        <% end %>
+        <p>Location</p>
+        <div>Energy: <%= @location.ground.energy %></div>
+
+        <div class="flex flex-row">
+            <div class="grid grid-cols-3 grid-rows-2 gap-1 float-right">
+                <div></div>
+                <button
+                    class="p-2 shadow bg-teal-400 font-bold rounded"
+                    phx-click="explorer-action"
+                    phx-value-action="move_north">
+                    <div class="h-5 w-5 border-l-4 border-t-4 border-white transform rotate-45"/>
+                </button>
+                <div></div>
+                <button
+                    class="p-2 shadow bg-teal-400 font-bold rounded"
+                    phx-click="explorer-action"
+                    phx-value-action="move_west">
+                        <div class="h-5 w-5 border-b-4 border-l-4 border-white transform rotate-45"/>
+                </button>
+                <button
+                    class="p-2 shadow bg-teal-400 font-bold rounded"
+                    phx-click="explorer-action"
+                    phx-value-action="move_south">
+                        <div class="h-5 w-5 border-r-4 border-b-4 border-white transform rotate-45"/>
+                </button>
+                <button
+                    class="p-2 shadow bg-teal-400 font-bold rounded"
+                    phx-click="explorer-action"
+                    phx-value-action="move_east">
+                        <div class="h-5 w-5 border-t-4 border-r-4 border-white transform rotate-45"/>
+                </button>
+            </div>
+        </div>
+
+    </section>
+    </div>
+    """
+  end
 
   @impl true
   def mount(params, _session, socket) do
@@ -25,9 +139,11 @@ defmodule MicroWordsWeb.WorldLive do
   end
 
   @impl true
-  def handle_event("explorer-action", %{"action" => action, "data" => data}, socket)
+  def handle_event("explorer-action", %{"action" => action, "data" => data} = some, socket)
       when is_binary(action) do
     action_name = String.to_existing_atom(action)
+
+    data = Jason.decode!(data)
 
     {:ok, explorer, _} = Explorers.take_action(socket.assigns.explorer.id, action_name, data)
 
@@ -54,7 +170,7 @@ defmodule MicroWordsWeb.WorldLive do
   end
 
   def handle_event("explorer-action", %{"action" => action}, socket) do
-    handle_event("explorer-action", %{"action" => action, "data" => %{}}, socket)
+    handle_event("explorer-action", %{"action" => action, "data" => "{}"}, socket)
   end
 
   @impl true

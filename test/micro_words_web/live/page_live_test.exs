@@ -4,8 +4,7 @@ defmodule MicroWordsWeb.PageLiveTest do
   import Phoenix.LiveViewTest
 
   test "disconnected and connected render", %{conn: conn} do
-    {:ok, page_live, disconnected_html} = live(conn, "/")
-    assert disconnected_html =~ "You are at:"
-    assert render(page_live) =~ "{dev_world:1,1}"
+    {:ok, page_live, _disconnected_html} = live(conn, "/")
+    assert render(page_live) =~ "Select a world"
   end
 end

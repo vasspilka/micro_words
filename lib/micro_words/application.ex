@@ -5,6 +5,7 @@ defmodule MicroWords.Application do
 
   use Application
 
+  @impl true
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
@@ -35,6 +36,7 @@ defmodule MicroWords.Application do
 
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
+  @impl true
   def config_change(changed, _new, removed) do
     MicroWordsWeb.Endpoint.config_change(changed, removed)
     :ok
