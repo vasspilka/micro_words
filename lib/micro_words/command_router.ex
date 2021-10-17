@@ -1,4 +1,4 @@
-defmodule MicroWords.Router do
+defmodule MicroWords.CommandRouter do
   use Commanded.Commands.Router
 
   alias MicroWords.Commands

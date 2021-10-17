@@ -1,18 +1,16 @@
 defmodule MicroWords.Rulesets.New do
-  alias MicroWords.Worlds.{Location, World}
-  alias MicroWords.Explorers.{Explorer, Journey}
-  alias MicroWords.{Action, Artefact}
-
-  alias MicroWords.Ruleset.Actions.BasicArtefact
-  alias MicroWords.Ruleset.Actions.WasdMovement
+  alias MicroWords.Ruleset.Actions.{
+    BasicMaterial,
+    WasdMovement
+  }
 
   @action_modules [
     WasdMovement.MoveSouth,
     WasdMovement.MoveEast,
     WasdMovement.MoveNorth,
     WasdMovement.MoveWest,
-    BasicArtefact.ForgeNote,
-    BasicArtefact.PlantArtefact
+    BasicMaterial.ForgeNote,
+    BasicMaterial.PlantMaterial
   ]
 
   use MicroWords.Ruleset,

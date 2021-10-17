@@ -14,9 +14,9 @@ Explorer takes journey on world "map" through locations
 Randomly generated environment
  - landmarks (are static and can have benefits)
  - food can be consumed or left
- - nothing [empty fields, user can place artefacts]
+ - nothing [empty fields, user can place materials]
  - NPCs? Monsters or other entities
- - Artefacts User generated environment
+ - Materials User generated environment
 
 
 Traits
@@ -44,18 +44,18 @@ Skills
   scope: explorer
   + Assume Identity
 
-  scope: artefact
+  scope: material
   + Boost
   + Impair
-  + Harvest (can seed same artefact)
+  + Harvest (can seed same material)
   + Sign (seeds will have author name, only can sign own)?
 
 
-Artefacts
+Materials
   For now we only create user posts somewhat like twitter
-  There will be interactions with artefacts though somewhat like social media
-  interactions can either be skills or artifact special (in case of special artefact like landmarks)
-  or higher energy artefacts
+  There will be interactions with materials though somewhat like social media
+  interactions can either be skills or artifact special (in case of special material like landmarks)
+  or higher energy materials
 
 
   Later people could post images or sound snippets (maybe parts of rulesets)

@@ -1,7 +1,7 @@
 defmodule MicroWords.Commands do
   use TypedStruct
 
-  alias MicroWords.Action
+  alias MicroWords.Explorers.Action
 
   typedstruct module: CreateWorld do
     field :name, binary()
@@ -18,7 +18,7 @@ defmodule MicroWords.Commands do
 
   typedstruct module: AffectLocation do
     field :location_id, binary()
-    field :action, MicroWords.Action.t(), enforce: true
+    field :action, Action.t(), enforce: true
   end
 
   typedstruct module: EnterWorld do

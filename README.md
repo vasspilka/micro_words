@@ -30,7 +30,7 @@ Now you can visit http://localhost:4000/ and use the UI to enter a world and int
 
 ## Introduction to Concept
 
-The game consists of the following entities. Worlds & Locations, Explorers and Artefacts.
+The game consists of the following entities. Worlds & Locations, Explorers and Materials.
 
 ### World & Location
 
@@ -45,7 +45,7 @@ World rulesets define how a world functions, we will explain them in more detail
 
 To consider:
 
-- World can have global tick (time), for evolution of artefacts and explorers
+- World can have global tick (time), for evolution of materials and explorers
 
 ### Explorer
 
@@ -53,40 +53,39 @@ An explorer is the character of the "user" of the application. Explorers will ha
 Available actions depend on the ruleset and on the state of the character (position, level and stats).
 Example actions can be to create content, "feed" it, "hurt" it etc.
 
-### Artefact
+### Material
 
-Artefacts is the content of the application. Like Explorers artefacts will have energy and will react to user actions.
-Based on the energy the artefacts they will
+Materials is the content of the application. Like Explorers materials have energy a user can interact with materials through locations. But can also create new material themselves through actions.
 
 Note that content will begin as short text in the beggining but then can be extended to hyperlinks, images, video and audio content.
 
-Artefacts start with some energy that the user spend to create them, then by interactions they can either gain or lose energy.
-Depending on the ruleset an artefact after obtaining a certain amount of energy will "evolve" to a new stage, the opossite can happen if from a higher stage
-an artefact will lose enough energy it will be devolved to a lower stage.
+Materials start with some energy that the user spend to create them, then by interactions they can either gain or lose energy.
+Depending on the ruleset an material after obtaining a certain amount of energy will "evolve" to a new stage, the opossite can happen if from a higher stage
+an material will lose enough energy it will be devolved to a lower stage.
 
 The type of stages and their behavior will also be part of the defined ruleset.
 
-An artefact can die (gets removed) when it's energy is depleted (getting to 0). That will destroy the artefact and release the space it was occupying to
-allow for other artefact to take its place.
+An material can die (gets removed) when it's energy is depleted (getting to 0). That will destroy the material and release the space it was occupying to
+allow for other material to take its place.
 
-Artefacts with sufficient energy will create seeds that can be planted for the same content to grow elsewhere.
+Materials with sufficient energy will create seeds that can be planted for the same content to grow elsewhere.
 
 ### Ruleset & Mechanics
 
-As explained earlier how an explorer can act and how the artefacts reacts as well as various other characteristics of the world are defined by the world ruleset. However to better understand what the ruleset actually does lets explore the mechanics.
+As explained earlier how an explorer can act and how the materials reacts as well as various other characteristics of the world are defined by the world ruleset. However to better understand what the ruleset actually does lets explore the mechanics.
 
 The explorer can move across the world field, on each step the "land" below him (lets call it a field) can have a piece of content or be empty.
-On empty fields the explorer can place pieces of content (artefacts) they have and on fields that already have placed artefacts the explorer can interact with them.
+On empty fields the explorer can place pieces of content (materials) they have and on fields that already have placed materials the explorer can interact with them.
 
-Overall how interactions happen is that a user will receive a set of actions that they can do at this moment to the artefact. When they do an action the artefact will do a reaction that in turn affects the explorer.
+Overall how interactions happen is that a user will receive a set of actions that they can do at this moment to the material. When they do an action the material will do a reaction that in turn affects the explorer.
 
-For example an explorer can "nourish" an artefact, that will cost him 20 energy then the artefact will re-react by receiving 20 energy, and sending a link to the user.
-Then with that link the artefact can further benefit the user if it "evolves" into the next stage.
+For example an explorer can "nourish" an material, that will cost him 20 energy then the material will re-react by receiving 20 energy, and sending a link to the user.
+Then with that link the material can further benefit the user if it "evolves" into the next stage.
 
-All these will be defined by the ruleset the world is under but the ExplorerActionTake -> ArtefactReacted -> ExplorerAffected are global mechanics that will be always present.
+All these will be defined by the ruleset the world is under but the ExplorerActionTake -> MaterialReacted -> ExplorerAffected are global mechanics that will be always present.
 
 ### Landmarks & NPCs
 
-In order to make the game more interesting there is a vision to create "special" system generated artefacts and NPCs.
+In order to make the game more interesting there is a vision to create "special" system generated materials and NPCs.
 Overall these will be used to aid players generate content (by providing energy or helping with seed dispersal).
 How many and types of NPCs and Landmarks are also part of world ruleset.

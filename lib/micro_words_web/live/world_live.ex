@@ -17,14 +17,14 @@ defmodule MicroWordsWeb.WorldLive do
         <div>XP: <%= @explorer.xp %></div>
         <div class="mt-8 mb-4">Notes: </div>
         <div class="grid grid-flow-row auto-rows-max">
-            <%= for {_id, artefact} <- @explorer.artefacts do %>
+            <%= for {_id, material} <- @explorer.materials do %>
                 <div class="grid grid-cols-5 border border-gray-200">
-                    <div class="col-span-4"><%= artefact.content %></div>
+                    <div class="col-span-4"><%= material.content %></div>
                     <div class="col-span-1">
                         <button
                             phx-click="explorer-action"
-                            phx-value-action="plant_artefact"
-                            phx-value-data={Jason.encode!(%{artefact_id: artefact.id})}
+                            phx-value-action="plant_material"
+                            phx-value-data={Jason.encode!(%{material_id: material.id})}
                             class="p-2 shadow bg-teal-400 font-bold rounded text-white" >
                             Place
                         </button>
@@ -58,23 +58,23 @@ defmodule MicroWordsWeb.WorldLive do
     </section>
     <section class="col-span-7 text-center bg-green-100">
         <p>Content</p>
-        <%= if @location.artefact do %>
+        <%= if @location.material do %>
             <div class="h-64 min-h-max">
-                <%= @location.artefact.content %>
-                <div>Energy: <%=  @location.artefact.energy %></div>
+                <%= @location.material.content %>
+                <div>Energy: <%=  @location.material.energy %></div>
             </div>
             <button
                 class="p-2 shadow bg-teal-400 font-bold rounded text-white"
                 phx-click="explorer-action"
-                phx-value-action="weaken_artefact"
-                phx-value-data={Jason.encode!(%{artefact_id: @location.artefact.id})} >
+                phx-value-action="support_material"
+                phx-value-data={Jason.encode!(%{material_id: @location.material.id})} >
                 Support
             </button>
             <button
                 class="p-2 shadow bg-teal-400 font-bold rounded text-white"
                 phx-click="explorer-action"
-                phx-value-action="weaken_artefact"
-                phx-value-data={Jason.encode!(%{artefact_id: @location.artefact.id})} >
+                phx-value-action="weaken_material"
+                phx-value-data={Jason.encode!(%{material_id: @location.material.id})} >
                 Discourage
             </button>
         <% else %>
@@ -143,7 +143,11 @@ defmodule MicroWordsWeb.WorldLive do
       when is_binary(action) do
     action_name = String.to_existing_atom(action)
 
-    data = Jason.decode!(data)
+    data =
+      case data do
+        %{} -> data
+        _ -> Jason.decode!(data)
+      end
 
     {:ok, explorer, _} = Explorers.take_action(socket.assigns.explorer.id, action_name, data)
 

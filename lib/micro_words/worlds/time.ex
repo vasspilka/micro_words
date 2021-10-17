@@ -1,3 +1,4 @@
+# NOTE: Not used
 defmodule MicroWords.Worlds.Time do
   @moduledoc """
   Time world agent exists to create the concept of a time dimension in a world.

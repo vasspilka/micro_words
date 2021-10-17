@@ -6,16 +6,15 @@ defmodule MicroWords.Worlds do
   }
 
   alias MicroWords.Worlds.{Location, World}
-  alias MicroWords.Rulesets.Basic
 
   @doc """
   Creates a new world with name from a ruleset.
 
   A world is generally represented by a two dimentional array
-  on which spaces artefacts can exists and explorers can travel through.
+  on which spaces materials can exists and explorers can travel through.
   """
   @spec create(binary(), module()) :: {:ok, %World{}} | {:error, term()}
-  def create(name, ruleset \\ Basic) do
+  def create(name, ruleset) do
     %CreateWorld{name: name, ruleset: ruleset}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end

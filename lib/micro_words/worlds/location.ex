@@ -3,7 +3,7 @@ defmodule MicroWords.Worlds.Location do
 
   @type coord :: [integer()]
 
-  alias MicroWords.Artefact
+  alias MicroWords.Worlds.Material
   alias MicroWords.Explorers.Explorer
   alias MicroWords.Worlds.Location
 
@@ -21,7 +21,7 @@ defmodule MicroWords.Worlds.Location do
   end
 
   typedstruct do
-    field :artefact, Artefact.t(), default: nil
+    field :material, Material.t(), default: nil
     field :ground, Ground.t(), default: %Ground{}
   end
 

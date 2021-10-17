@@ -2,7 +2,7 @@ defmodule MicroWords.Explorers.Explorer do
   use TypedStruct
 
   alias MicroWords.Explorers.Explorer
-  alias MicroWords.Artefact
+  alias MicroWords.Worlds.Material
 
   alias MicroWords.Commands.{
     EnterWorld,
@@ -23,7 +23,7 @@ defmodule MicroWords.Explorers.Explorer do
     field :ruleset, module()
     field :location, MicroWords.Worlds.Location.coord(), enforce: true
     field :energy, integer()
-    field :artefacts, %{binary() => Artefact.t()}, default: %{}
+    field :materials, %{binary() => Material.t()}, default: %{}
     field :xp, integer(), default: 0
     field :stats, map(), default: %{}
   end

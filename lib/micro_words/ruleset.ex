@@ -9,21 +9,8 @@ defmodule MicroWords.Ruleset do
     # UserContext
   }
 
-  alias MicroWords.Worlds.{Location, World}
-  alias MicroWords.Explorers.{Explorer, Journey}
-  alias MicroWords.Ruleset.ActionDefinition
-
-  alias MicroWords.Events.{
-    ExplorerActionTaken,
-    ExplorerAffected,
-    LocationAffected
-  }
-
-  alias MicroWords.Commands.{
-    AffectLocation,
-    TakeAction,
-    AffectExplorer
-  }
+  alias MicroWords.Explorers.Explorer
+  alias MicroWords.Ruleset.Definitions.ActionDefinition
 
   @type t() :: module()
   @type entity :: MicroWords.entity()
@@ -52,23 +39,6 @@ defmodule MicroWords.Ruleset do
 
   defmacro __using__(dimensions: dimensions, action_modules: action_modules) do
     quote do
-      alias MicroWords.{Action, Artefact}
-      alias MicroWords.Worlds.{Location, World}
-      alias MicroWords.Explorers.{Explorer, Journey}
-      alias MicroWords.Ruleset.ActionDefinition
-
-      alias MicroWords.Events.{
-        ExplorerActionTaken,
-        ExplorerAffected,
-        LocationAffected
-      }
-
-      alias MicroWords.Commands.{
-        AffectExplorer,
-        AffectLocation,
-        TakeAction
-      }
-
       @behaviour MicroWords.Ruleset
       @before_compile MicroWords.Ruleset
 

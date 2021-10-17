@@ -1,5 +1,5 @@
-alias MicroWords.Artefact
-alias MicroWords.Action
+alias MicroWords.Wordls.Material
+alias MicroWords.Explorers.Action
 alias MicroWords.Worlds
 alias MicroWords.Worlds.{Location, World}
 alias MicroWords.Explorers
@@ -17,9 +17,9 @@ alias MicroWords.Commands.{
   TakeAction
 }
 
-alias MicroWords.Ruleset.Actions.BasicArtefact.{
+alias MicroWords.Ruleset.Actions.BasicMaterial.{
   ForgeNote,
-  PlantArtefact,
-  SupportArtefact,
-  WeakenArtefact
+  PlantMaterial,
+  SupportMaterial,
+  WeakenMaterial
 }

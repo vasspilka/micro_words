@@ -1,15 +1,18 @@
 defmodule MicroWords.Ruleset.Actions.WasdMovement do
-  alias MicroWords.Action
+  @moduledoc """
+  Defines movement around in a two dimensional world.
+  """
+
+  alias MicroWords.Explorers.Action
   alias MicroWords.Explorers.Explorer
-  alias MicroWords.Ruleset.ActionDefinition
+  alias MicroWords.Ruleset.Definitions.ActionDefinition
 
   defmodule MoveNorth do
     use ActionDefinition, %ActionDefinition{
       name: :move_north,
       type: :movement,
       base_cost: 0,
-      description: "Move up by one.",
-      key_binding: "w"
+      description: "Move up by one."
     }
 
     def on_build(%Explorer{} = o, %{}) do
@@ -31,8 +34,7 @@ defmodule MicroWords.Ruleset.Actions.WasdMovement do
       name: :move_east,
       type: :movement,
       base_cost: 0,
-      description: "Move right by one.",
-      key_binding: "d"
+      description: "Move right by one."
     }
 
     def on_build(%Explorer{} = o, %{}) do
@@ -54,8 +56,7 @@ defmodule MicroWords.Ruleset.Actions.WasdMovement do
       name: :move_south,
       type: :movement,
       base_cost: 0,
-      description: "Move down by one.",
-      key_binding: "s"
+      description: "Move down by one."
     }
 
     def on_build(%Explorer{} = o, %{}) do
@@ -77,8 +78,7 @@ defmodule MicroWords.Ruleset.Actions.WasdMovement do
       name: :move_west,
       type: :movement,
       base_cost: 0,
-      description: "Move left by one.",
-      key_binding: "a"
+      description: "Move left by one."
     }
 
     def on_build(%Explorer{} = o, %{}) do

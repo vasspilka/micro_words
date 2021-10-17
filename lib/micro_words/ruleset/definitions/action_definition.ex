@@ -1,4 +1,4 @@
-defmodule MicroWords.Ruleset.ActionDefinition do
+defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
   @moduledoc """
   Action definition is an abstruction to help defining existing actions for use in rulesets.
 
@@ -13,7 +13,6 @@ defmodule MicroWords.Ruleset.ActionDefinition do
   - world_reactions: This is a list of WorldReaction structs that helps define any reactions.
   that can happen and the agents responsible to do them.
   - descripton: A small description of the action that can be read by users.
-  - key_binding: The key to bind this action to, used in the UI.
   - type: One of the 4 defined action types.
 
 
@@ -43,8 +42,9 @@ defmodule MicroWords.Ruleset.ActionDefinition do
   """
   use TypedStruct
 
-  alias MicroWords.Action
+  alias MicroWords.Explorers.Action
   alias MicroWords.Explorers.Explorer
+  alias MicroWords.Ruleset.Definitions.ActionDefinition
   alias MicroWords.Worlds.Location
 
   alias MicroWords.Events.ExplorerActionTaken
@@ -74,7 +74,6 @@ defmodule MicroWords.Ruleset.ActionDefinition do
     field(:data_form, data_form(), default: %{})
     field(:world_reactions, [WorldReaction.t()], default: [])
     field(:description, binary(), default: "")
-    field(:key_binding, keypress())
     field(:type, action_type())
   end
 
@@ -96,8 +95,8 @@ defmodule MicroWords.Ruleset.ActionDefinition do
 
   defmacro __using__(action_definition) do
     quote do
-      @behaviour MicroWords.Ruleset.ActionDefinition
-      @before_compile MicroWords.Ruleset.ActionDefinition
+      @behaviour ActionDefinition
+      @before_compile ActionDefinition
 
       @definition unquote(action_definition)
       @action_name @definition.name

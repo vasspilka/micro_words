@@ -23,7 +23,7 @@ defmodule MicroWords do
     AffectExplorer
   }
 
-  @type action :: MicroWords.Action.t()
+  @type action :: MicroWords.Explorers.Action.t()
   @type ruleset :: MicroWords.Ruleset.t()
   @type dimensions :: [integer()]
   @type world_agent :: Journey.t()
@@ -44,5 +44,5 @@ defmodule MicroWords do
 
   use Commanded.Application, otp_app: :micro_words
 
-  router(MicroWords.Router)
+  router(MicroWords.CommandRouter)
 end

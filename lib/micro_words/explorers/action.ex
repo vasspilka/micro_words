@@ -1,7 +1,7 @@
-defmodule MicroWords.Action do
+defmodule MicroWords.Explorers.Action do
   use TypedStruct
 
-  alias MicroWords.Ruleset.ActionDefinition
+  alias MicroWords.Ruleset.Definitions.ActionDefinition
 
   @type progress :: :drafted | :taken | :passed | :failed
 
@@ -14,7 +14,7 @@ defmodule MicroWords.Action do
     field :type, atom()
     field :ruleset, module()
     field :explorer_id, binary()
-    field :artefact_id, binary()
+    field :material_id, binary()
     field :location_id, binary()
     field :input_data, map(), default: %{}
     # result to affect the explorer on action taken usefull for location change

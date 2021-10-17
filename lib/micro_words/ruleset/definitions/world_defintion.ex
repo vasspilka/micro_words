@@ -1,4 +1,4 @@
-defmodule MicroWords.WorldDefinition do
+defmodule MicroWords.Ruleset.Definitions.WorldDefinition do
   use TypedStruct
 
   typedstruct do

@@ -5,7 +5,7 @@ defmodule MicroWords.Explorers do
   }
 
   alias MicroWords.Explorers.Explorer
-  alias MicroWords.Action
+  alias MicroWords.Explorers.Action
 
   @spec enter_world(binary(), binary()) :: {:ok, Explorer.t()} | {:error, term()}
   def enter_world(explorer_id, world \\ "basic") do

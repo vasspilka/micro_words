@@ -1,23 +1,21 @@
 defmodule MicroWords.Rulesets.Basic do
-  alias MicroWords.Worlds.{Location, World}
-  alias MicroWords.Explorers.{Explorer, Journey}
-  alias MicroWords.{Action, Artefact}
-
-  alias MicroWords.Ruleset.Actions.BasicArtefact
-  alias MicroWords.Ruleset.Actions.WasdMovement
+  alias MicroWords.Ruleset.Actions.{
+    BasicMaterial,
+    WasdMovement
+  }
 
   @action_modules [
     WasdMovement.MoveSouth,
     WasdMovement.MoveEast,
     WasdMovement.MoveNorth,
     WasdMovement.MoveWest,
-    BasicArtefact.ForgeNote,
-    BasicArtefact.PlantArtefact,
-    BasicArtefact.SupportArtefact,
-    BasicArtefact.WeakenArtefact
-    # Protect Artefact:
-    # Disenchant Artefact:
-    # ? Leach Artefact: (artefact -> explorer)
+    BasicMaterial.ForgeNote,
+    BasicMaterial.PlantMaterial,
+    BasicMaterial.SupportMaterial,
+    BasicMaterial.WeakenMaterial
+    # Protect Material:
+    # Disenchant Material:
+    # ? Leach Material: (material -> explorer)
   ]
 
   use MicroWords.Ruleset,

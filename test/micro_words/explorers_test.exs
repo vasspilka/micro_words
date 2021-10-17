@@ -2,10 +2,10 @@ defmodule MicroWords.ExplorersTest do
   use MicroWords.DataCase
   import Commanded.Assertions.EventAssertions
 
-  alias MicroWords.Artefact
+  alias MicroWords.Worlds.Material
   alias MicroWords.Explorers
   alias MicroWords.Explorers.Explorer
-  alias MicroWords.Action
+  alias MicroWords.Explorers.Action
   alias MicroWords.Worlds
   alias MicroWords.Worlds.Location
 
@@ -111,7 +111,7 @@ defmodule MicroWords.ExplorersTest do
       )
     end
 
-    test "explorer can create and plant artefact through action", %{
+    test "explorer can create and plant material through action", %{
       world: _world,
       explorer: explorer
     } do
@@ -121,12 +121,12 @@ defmodule MicroWords.ExplorersTest do
       assert {:ok, %Explorer{} = explorer, %Action{} = forge_action} =
                Explorers.take_action(explorer.id, :forge_note, %{content: content})
 
-      artefact_id = forge_action.artefact_id
+      material_id = forge_action.material_id
 
       assert forge_action.type == :forge_note
-      assert is_binary(artefact_id)
-      assert Enum.count(explorer.artefacts) == 1
-      assert explorer.artefacts[artefact_id]
+      assert is_binary(material_id)
+      assert Enum.count(explorer.materials) == 1
+      assert explorer.materials[material_id]
 
       assert_receive_event(
         MicroWords,
@@ -138,13 +138,13 @@ defmodule MicroWords.ExplorersTest do
       )
 
       assert {:ok, %Explorer{} = explorer,
-              %Action{artefact_id: ^artefact_id, type: :plant_artefact} = plant_action} =
-               Explorers.take_action(explorer.id, :plant_artefact, %{artefact_id: artefact_id})
+              %Action{material_id: ^material_id, type: :plant_material} = plant_action} =
+               Explorers.take_action(explorer.id, :plant_material, %{material_id: material_id})
 
       assert_receive_event(
         MicroWords,
         ExplorerActionTaken,
-        fn evt -> evt.action.type == :plant_artefact end,
+        fn evt -> evt.action.type == :plant_material end,
         fn event, _recorded_event ->
           assert event.action == plant_action
         end
@@ -153,7 +153,7 @@ defmodule MicroWords.ExplorersTest do
       assert_receive_event(
         MicroWords,
         LocationAffected,
-        fn evt -> evt.action.type == :plant_artefact end,
+        fn evt -> evt.action.type == :plant_material end,
         fn event, _recorded_event ->
           passed_plant_action = %{plant_action | progress: :passed}
           assert event.action == passed_plant_action
@@ -163,7 +163,7 @@ defmodule MicroWords.ExplorersTest do
       assert_receive_event(
         MicroWords,
         ExplorerAffected,
-        fn evt -> evt.action.type == :plant_artefact end,
+        fn evt -> evt.action.type == :plant_material end,
         fn event, _recorded_event ->
           passed_plant_action = %{plant_action | progress: :passed}
           assert event.action == passed_plant_action
@@ -176,17 +176,17 @@ defmodule MicroWords.ExplorersTest do
         |> Worlds.get_location()
 
       assert %Location{
-               artefact: %Artefact{
-                 id: ^artefact_id,
+               material: %Material{
+                 id: ^material_id,
                  content: "Hello MicroWord!",
-                 links: [%Artefact.Link{type: :originator, id: ^explorer_id}]
+                 links: [%Material.Link{type: :originator, id: ^explorer_id}]
                }
              } = location
 
-      {:ok, %{artefacts: artefacts_after_placement}} =
+      {:ok, %{materials: materials_after_placement}} =
         Explorers.enter_world(explorer_id, "dev_world")
 
-      refute artefacts_after_placement[artefact_id]
+      refute materials_after_placement[material_id]
     end
   end
 end
