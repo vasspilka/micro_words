@@ -9,13 +9,24 @@ One can think of it as a mix between minecraft and twitter.
 To setup run the following commands.
 
 ```
-$> mix do deps.get,ecto.create, event_store.create, event_store.init, event_store.migrate
-$> npm install --prefix ./assets
+mix deps.get
 ```
 
-After Everything was succesfully installed you can start the server with
+```
+mix do ecto.create, event_store.create, event_store.init, event_store.migrate
+```
 
-`mix phx.server`
+```
+npm install --prefix ./assets
+```
+
+After Everything was succesfully installed you can start the server with:
+
+```
+mix phx.server
+```
+
+Now you can visit http://localhost:4000/ and use the UI to enter a world and interact with it.
 
 ## Introduction to Concept
 
@@ -23,8 +34,7 @@ The game consists of the following entities. Worlds & Locations, Explorers and A
 
 ### World & Location
 
-A world is a space that can be explored and is consisted of locations and
-a Ruleset.
+A world is a space that can be explored and is consisted of locations and a Ruleset.
 
 A World can be explored and content can be created inside it.
 The space available in a world can be represented by a 2 dimensional (or more) integer field where each coordinate e.x `[12,34]` represents a location in that world.
