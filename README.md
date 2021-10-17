@@ -9,7 +9,7 @@ One can think of it as a mix between minecraft and twitter.
 To setup run the following commands.
 
 ```
-$> mix do ecto.create, event_store.create, event_store.init, event_store.migrate
+$> mix do deps.get,ecto.create, event_store.create, event_store.init, event_store.migrate
 $> npm install --prefix ./assets
 ```
 
