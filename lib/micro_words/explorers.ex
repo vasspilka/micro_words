@@ -12,7 +12,7 @@ defmodule MicroWords.Explorers do
     {:ok, world_state} = MicroWords.Worlds.view(world)
     ruleset = world_state.ruleset
 
-    %EnterWorld{id: explorer_id, world: world, ruleset: ruleset}
+    %EnterWorld{id: world <> ":" <> explorer_id, world: world, ruleset: ruleset}
     |> MicroWords.dispatch(returning: :aggregate_state)
   end
 

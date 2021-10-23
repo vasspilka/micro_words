@@ -73,6 +73,7 @@ defmodule MicroWords.Explorers.Explorer do
   def apply(%Explorer{}, %ExplorerEnteredWorld{} = evt) do
     %Explorer{
       id: evt.id,
+      name: String.split(evt.id, ":") |> Enum.at(1),
       world: evt.world,
       energy: evt.ruleset.initial_energy(),
       location: evt.location,

@@ -12,7 +12,7 @@ defmodule MicroWordsWeb.WorldLive do
     </h1>
     <div class="grid grid-cols-9 gap-4 min-h-full">
     <section class="col-span-2 grid grid-cols-1 bg-blue-100 ">
-        <div>ID: <%= @explorer.id %></div>
+        <div>ID: <%= @explorer.name %></div>
         <div>ENERGY: <%= @explorer.energy %></div>
         <div>XP: <%= @explorer.xp %></div>
         <div class="mt-8 mb-4">Notes: </div>
