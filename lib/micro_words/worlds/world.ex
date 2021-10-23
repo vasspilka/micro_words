@@ -4,7 +4,6 @@ defmodule MicroWords.Worlds.World do
   alias MicroWords.Worlds.World
 
   alias MicroWords.Commands.{
-    ViewWorld,
     CreateWorld
   }
 
@@ -24,9 +23,6 @@ defmodule MicroWords.Worlds.World do
     }
   end
 
-  def execute(%World{name: name}, %ViewWorld{name: name}) when not is_nil(name),
-    do: []
-
   def execute(%World{}, %CreateWorld{}), do: []
 
   def apply(%World{}, %WorldCreated{} = evt) do
@@ -34,5 +30,6 @@ defmodule MicroWords.Worlds.World do
       name: evt.name,
       ruleset: evt.ruleset
     }
+    |> IO.inspect()
   end
 end

@@ -8,19 +8,6 @@ defmodule MicroWords.Commands do
     field :ruleset, module()
   end
 
-  typedstruct module: ViewWorld do
-    field :name, binary()
-  end
-
-  typedstruct module: GetLocation do
-    field :location_id, binary()
-  end
-
-  typedstruct module: AffectLocation do
-    field :location_id, binary()
-    field :action, Action.t(), enforce: true
-  end
-
   typedstruct module: EnterWorld do
     @moduledoc """
     Create user command, also serves as waking up
@@ -30,13 +17,6 @@ defmodule MicroWords.Commands do
     field :id, binary()
     field :ruleset, module()
     field :world, binary()
-  end
-
-  typedstruct module: ReceiveRuleset do
-    @moduledoc "Accept ruleset from world (happens after create)"
-
-    field :id, binary()
-    field :ruleset, module()
   end
 
   typedstruct module: TakeAction do
@@ -51,6 +31,11 @@ defmodule MicroWords.Commands do
     @moduledoc "A user is affected by an action."
 
     field :id, binary()
+    field :action, Action.t(), enforce: true
+  end
+
+  typedstruct module: AffectLocation do
+    field :location_id, binary()
     field :action, Action.t(), enforce: true
   end
 end

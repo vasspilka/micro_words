@@ -8,7 +8,6 @@ defmodule MicroWords.Worlds.Location do
   alias MicroWords.Worlds.Location
 
   alias MicroWords.Commands.{
-    GetLocation,
     AffectLocation
   }
 
@@ -24,8 +23,6 @@ defmodule MicroWords.Worlds.Location do
     field :material, Material.t(), default: nil
     field :ground, Ground.t(), default: %Ground{}
   end
-
-  def execute(%Location{}, %GetLocation{}), do: []
 
   def execute(%Location{} = state, %AffectLocation{} = cmd) do
     with :ok <- cmd.action.ruleset.validate(state, cmd.action) do

@@ -1,9 +1,5 @@
 defmodule MicroWords.Worlds do
-  alias MicroWords.Commands.{
-    CreateWorld,
-    ViewWorld,
-    GetLocation
-  }
+  alias MicroWords.Commands.{CreateWorld}
 
   alias MicroWords.Worlds.{Location, World}
 
@@ -24,13 +20,16 @@ defmodule MicroWords.Worlds do
   """
   @spec view(binary()) :: {:ok, %World{}} | {:error, term()}
   def view(name) do
-    %ViewWorld{name: name}
-    |> MicroWords.dispatch(returning: :aggregate_state)
+    case MicroWords.aggregate_state(World, "micro_word_world-" <> name) do
+      %{name: nil} -> {:error, :not_found}
+      world -> {:ok, world}
+    end
   end
 
   @spec get_location(binary()) :: {:ok, %Location{}} | {:error, term()}
   def get_location(location_id) do
-    %GetLocation{location_id: location_id}
-    |> MicroWords.dispatch(returning: :aggregate_state)
+    id = "micro_word_world_location-" <> location_id
+
+    {:ok, MicroWords.aggregate_state(Location, id)}
   end
 end

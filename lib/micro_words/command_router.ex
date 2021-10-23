@@ -5,8 +5,7 @@ defmodule MicroWords.CommandRouter do
 
   dispatch(
     [
-      Commands.CreateWorld,
-      Commands.ViewWorld
+      Commands.CreateWorld
     ],
     to: MicroWords.Worlds.World,
     identity: :name,
@@ -26,7 +25,6 @@ defmodule MicroWords.CommandRouter do
 
   dispatch(
     [
-      Commands.GetLocation,
       Commands.AffectLocation
     ],
     to: MicroWords.Worlds.Location,
