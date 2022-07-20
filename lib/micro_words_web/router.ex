@@ -14,13 +14,6 @@ defmodule MicroWordsWeb.Router do
     plug(:accepts, ["json"])
   end
 
-  scope "/", MicroWordsWeb do
-    pipe_through(:browser)
-
-    live("/", HomePageLive)
-    live("/:world", WorldLive, :index)
-  end
-
   # Other scopes may use custom stacks.
   # scope "/api", MicroWordsWeb do
   #   pipe_through :api
@@ -40,5 +33,12 @@ defmodule MicroWordsWeb.Router do
       pipe_through(:browser)
       live_dashboard("/dashboard", metrics: MicroWordsWeb.Telemetry)
     end
+  end
+
+  scope "/", MicroWordsWeb do
+    pipe_through(:browser)
+
+    live("/", HomePageLive)
+    live("/:world", WorldLive, :index)
   end
 end

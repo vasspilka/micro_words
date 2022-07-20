@@ -42,14 +42,17 @@ defmodule MicroWords.Ruleset.Actions.BasicMaterial do
     end
 
     def on_action_taken(%Explorer{} = o, act) do
-      material = %Material{
-        type: :note,
-        id: act.material_id,
-        links: [%Link{type: :originator, id: o.id}],
-        world: o.world,
-        energy: act.cost,
-        content: act.input_data.content
-      }
+      material =
+        Material.build(
+          %{
+            type: :note,
+            id: act.material_id,
+            links: [%Link{type: :originator, id: o.id}],
+            world: o.world,
+            content: act.input_data.content
+          },
+          act
+        )
 
       [materials: Map.put(o.materials, act.material_id, material)]
     end

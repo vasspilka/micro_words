@@ -77,7 +77,7 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
     field(:type, action_type())
   end
 
-  # Optional definitions on action mo didules
+  # Optional definitions on action modules
   @callback on_build(Explorer.t(), map()) :: Keyword.t()
   @callback on_action_taken(Explorer.t(), Action.t()) :: Keyword.t()
   @callback on_validate(MicroWords.entity(), Action.t()) :: :ok | {:error, atom()}

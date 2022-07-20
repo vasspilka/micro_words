@@ -59,7 +59,21 @@ defmodule MicroWords.Events do
   typedstruct module: LocationAffected do
     @derive Jason.Encoder
     @moduledoc """
-    Location was affected by Explorer action.
+    Location was affected.
+
+    This event will be handled by the ruleset to
+    determine how a location gets affected by an action.
+    """
+
+    field :id, binary(), enforce: true
+    field :world, binary(), enforce: true
+    field :action, MicroWords.action(), enforce: true
+  end
+
+  typedstruct module: MaterialAffected do
+    @derive Jason.Encoder
+    @moduledoc """
+    Material was affected.
 
     This event will be handled by the ruleset to
     determine how a location gets affected by an action.
