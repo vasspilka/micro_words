@@ -30,6 +30,5 @@ defmodule MicroWords.Worlds.World do
       name: evt.name,
       ruleset: evt.ruleset
     }
-    |> IO.inspect()
   end
 end

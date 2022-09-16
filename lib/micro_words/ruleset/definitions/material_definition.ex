@@ -13,7 +13,8 @@ defmodule MicroWords.Ruleset.Definitions.MaterialDefinition do
   use TypedStruct
 
   typedstruct module: MaterialState do
-    # field(:level, integer(), default: 0)
+    field(:level, integer(), default: 0)
+    field(:gen, integer(), default: 0)
     field(:energy, integer(), default: 0)
   end
 

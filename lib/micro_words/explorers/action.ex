@@ -11,7 +11,7 @@ defmodule MicroWords.Explorers.Action do
 
   @derive Jason.Encoder
   typedstruct do
-    field :type, atom()
+    field :type, ActionDefinition.action_type()
     field :ruleset, module()
     field :explorer_id, binary()
     field :material_id, binary()

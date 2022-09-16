@@ -111,6 +111,7 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
         def reaction(%agent{}, %from{action: act}) do
           %@affects_module{action: act}
           |> Map.replace(:location_id, act.location_id)
+          |> Map.replace(:material_id, act.material_id)
         end
       end
 

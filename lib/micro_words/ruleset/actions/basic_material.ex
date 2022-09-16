@@ -38,7 +38,7 @@ defmodule MicroWords.Ruleset.Actions.BasicMaterial do
     }
 
     def on_build(_explorer, %{}) do
-      [material_id: UUID.uuid4()]
+      [material_id: Ecto.UUID.generate()]
     end
 
     def on_action_taken(%Explorer{} = o, act) do
