@@ -15,6 +15,7 @@ defmodule MicroWords.Worlds.Material do
     field :world, binary()
     field :links, [Link.t()], default: []
     field :state, map(), default: %{}
+    field :flowed, integer(), default: 0
   end
 
   @type apply_types :: :give_energy | :remove_energy

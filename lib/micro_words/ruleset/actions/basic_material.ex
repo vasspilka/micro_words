@@ -169,10 +169,10 @@ defmodule MicroWords.Ruleset.Actions.BasicMaterial do
       end
     end
 
-    def affects(%Location{material: material, ground: ground}, act) do
+    def affects(%Location{material: material, energy: energy}, act) do
       [
         material: %{material | energy: material.energy - 10},
-        ground: %{ground | energy: ground.energy + act.cost + 10}
+        energy: energy + act.cost + 10
       ]
     end
   end

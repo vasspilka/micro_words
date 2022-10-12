@@ -81,7 +81,7 @@ defmodule MicroWordsWeb.WorldLive do
             <div class="h-64 min-h-max"></div>
         <% end %>
         <p>Location</p>
-        <div>Energy: <%= @location.ground.energy %></div>
+        <div>Energy: <%= @location.energy %></div>
 
         <div class="flex flex-row">
             <div class="grid grid-cols-3 grid-rows-2 gap-1 float-right">
@@ -139,7 +139,7 @@ defmodule MicroWordsWeb.WorldLive do
   end
 
   @impl true
-  def handle_event("explorer-action", %{"action" => action, "data" => data} = some, socket)
+  def handle_event("explorer-action", %{"action" => action, "data" => data}, socket)
       when is_binary(action) do
     action_name = String.to_existing_atom(action)
 
