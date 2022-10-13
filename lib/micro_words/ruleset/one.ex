@@ -18,9 +18,15 @@ defmodule MicroWords.Rulesets.One do
     # ? Leach Material: (material -> explorer)
   ]
 
+  @link_modules []
+
+  @material_modules []
+
   use MicroWords.Ruleset,
     dimensions: [100, 100],
-    action_modules: @action_modules
+    action_modules: @action_modules,
+    link_modules: @link_modules,
+    material_modules: @material_modules
 
   @impl true
   def initial_energy(), do: 200_000

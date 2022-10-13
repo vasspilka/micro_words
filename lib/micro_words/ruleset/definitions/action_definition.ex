@@ -1,10 +1,10 @@
 defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
   @moduledoc """
-  Action definition is an abstruction to help defining existing actions for use in rulesets.
+  Action definition helps to define actions for use in rulesets.
 
   Fields Documentation:
 
-  - name: The action name is used to identify an action. Rulesets must not have more than
+  - name: The name is used to identify an action. Rulesets must not have more than
   one action with the same name.
   - base_cost: The base energy cost of an action, the end action cost can be more depending on the
   on_build/2 callback.
