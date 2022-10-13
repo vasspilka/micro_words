@@ -17,7 +17,7 @@ alias MicroWords.Commands.{
   TakeAction
 }
 
-alias MicroWords.Ruleset.Actions.BasicMaterial.{
+alias MicroWords.Ruleset.Actions.MaterialOne.{
   ForgeNote,
   PlantMaterial,
   SupportMaterial,

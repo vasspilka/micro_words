@@ -3,25 +3,20 @@ defmodule MicroWords.Ruleset.Definitions.MaterialDefinition do
   The material definition serves as an abstruction to create different material types.
   """
 
+  use TypedStruct
+
   alias MicroWords.Worlds.Material
   alias MicroWords.Explorers.Action
   alias MicroWords.Ruleset.Definitions.MaterialDefinition
-  alias MicroWords.Ruleset.Definitions.MaterialDefinition.MaterialState
+  alias MicroWords.WorldReaction
 
   @callback apply(Material.t(), Action.t()) :: Material.t()
-
-  use TypedStruct
-
-  typedstruct module: MaterialState do
-    field(:level, integer(), default: 0)
-    field(:gen, integer(), default: 0)
-    field(:energy, integer(), default: 0)
-  end
+  @callback evolve(Material.t()) :: Material.t()
 
   typedstruct do
     field(:name, atom())
-    field(:data, map())
-    field(:state, MaterialState.t())
+    field(:data_form, MicroWords.data_form(), default: %{})
+    field(:world_reactions, [WorldReaction.t()], default: [])
     field(:description, binary(), default: "")
   end
 

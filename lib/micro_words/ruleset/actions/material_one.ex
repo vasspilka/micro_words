@@ -1,4 +1,4 @@
-defmodule MicroWords.Ruleset.Actions.BasicMaterial do
+defmodule MicroWords.Ruleset.Actions.MaterialOne do
   @moduledoc """
   Actions that involve the creation and basic interaction between explorers and materials.
   """

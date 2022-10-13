@@ -1,6 +1,6 @@
-defmodule MicroWords.Rulesets.Basic do
+defmodule MicroWords.Rulesets.One do
   alias MicroWords.Ruleset.Actions.{
-    BasicMaterial,
+    MaterialOne,
     WasdMovement
   }
 
@@ -9,10 +9,10 @@ defmodule MicroWords.Rulesets.Basic do
     WasdMovement.MoveEast,
     WasdMovement.MoveNorth,
     WasdMovement.MoveWest,
-    BasicMaterial.ForgeNote,
-    BasicMaterial.PlantMaterial,
-    BasicMaterial.SupportMaterial,
-    BasicMaterial.WeakenMaterial
+    MaterialOne.ForgeNote,
+    MaterialOne.PlantMaterial,
+    MaterialOne.SupportMaterial,
+    MaterialOne.WeakenMaterial
     # Protect Material:
     # Disenchant Material:
     # ? Leach Material: (material -> explorer)

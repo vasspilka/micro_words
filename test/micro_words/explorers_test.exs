@@ -22,7 +22,7 @@ defmodule MicroWords.ExplorersTest do
   describe "common explorer cases" do
     setup do
       explorer_id = Ecto.UUID.generate()
-      {:ok, world} = Worlds.create("dev_world", Rulesets.Basic)
+      {:ok, world} = Worlds.create("dev_world", Rulesets.One)
 
       {:ok, %{id: explorer_id} = explorer} = Explorers.enter_world(explorer_id, "dev_world")
 

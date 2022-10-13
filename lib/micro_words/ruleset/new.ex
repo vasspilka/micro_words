@@ -1,6 +1,6 @@
 defmodule MicroWords.Rulesets.New do
   alias MicroWords.Ruleset.Actions.{
-    BasicMaterial,
+    MaterialOne,
     WasdMovement
   }
 
@@ -9,8 +9,8 @@ defmodule MicroWords.Rulesets.New do
     WasdMovement.MoveEast,
     WasdMovement.MoveNorth,
     WasdMovement.MoveWest,
-    BasicMaterial.ForgeNote,
-    BasicMaterial.PlantMaterial
+    MaterialOne.ForgeNote,
+    MaterialOne.PlantMaterial
   ]
 
   use MicroWords.Ruleset,

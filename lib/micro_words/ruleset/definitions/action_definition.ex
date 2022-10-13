@@ -33,8 +33,9 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
   explorer affects a location that then in turn affects another location that then affects an
   explorer.
 
-  For reactive functions it is important to know the progress if the action as it affect how it will continue to
-  be handled.
+  For reactive functions it is important to know the progress of the action.
+  As they can affect the actor in different ways.
+
 
   - :divine
   These actions are *NOT* taken by the explorer, instead these types of actions can affect any entity
@@ -46,6 +47,7 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
   alias MicroWords.Explorers.Explorer
   alias MicroWords.Ruleset.Definitions.ActionDefinition
   alias MicroWords.Worlds.Location
+  alias MicroWords.WorldReaction
 
   alias MicroWords.Events.ExplorerActionTaken
 
@@ -54,13 +56,6 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
     field(:energy, integer(), default: 0)
   end
 
-  typedstruct module: WorldReaction do
-    field(:from, MicroWords.action_taken_module())
-    field(:agent, MicroWords.world_agent_module())
-    field(:affects, MicroWords.affect_command_module())
-  end
-
-  @type data_form :: %{atom() => atom()}
   @type action_data :: map()
   @type action_type :: :movement | :simple | :reactive | :divine
 
@@ -71,7 +66,7 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
     field(:name, atom())
     field(:base_cost, integer(), default: 0)
     field(:reward, Reward.t(), default: %Reward{})
-    field(:data_form, data_form(), default: %{})
+    field(:data_form, MicroWords.data_form(), default: %{})
     field(:world_reactions, [WorldReaction.t()], default: [])
     field(:description, binary(), default: "")
     field(:type, action_type())

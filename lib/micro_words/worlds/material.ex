@@ -8,13 +8,20 @@ defmodule MicroWords.Worlds.Material do
   alias MicroWords.Worlds.Link
   alias MicroWords.Worlds.Material
 
+  typedstruct module: MaterialState do
+    field(:level, integer(), default: 0)
+    field(:gen, integer(), default: 0)
+    field(:energy, integer(), default: 0)
+  end
+
   typedstruct do
     field :type, module()
+    field :ruleset, module()
     field :id, binary()
     field :content, binary()
     field :world, binary()
     field :links, [Link.t()], default: []
-    field :state, map(), default: %{}
+    field :state, MaterialState(), default: %{}
     field :flowed, integer(), default: 0
   end
 

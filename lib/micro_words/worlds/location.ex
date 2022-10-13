@@ -16,7 +16,7 @@ defmodule MicroWords.Worlds.Location do
   }
 
   typedstruct do
-    field :material, Material.t(), default: nil
+    field :links, [Link.t()], default: []
     field :energy, integer(), default: 0
     field :flowed, integer(), default: 0
   end
@@ -32,15 +32,14 @@ defmodule MicroWords.Worlds.Location do
   end
 
   def apply(%Location{} = state, %LocationAffected{} = evt) do
-    location = evt.action.ruleset.apply(state, evt)
-
-    MicroWordsWeb.Endpoint.broadcast(
-      "location:#{evt.id}",
-      "location_affected",
-      location
+    evt.action.ruleset.apply(state, evt)
+    |> tap(
+      &MicroWordsWeb.Endpoint.broadcast(
+        "location:#{evt.id}",
+        "location_affected",
+        &1
+      )
     )
-
-    location
   end
 
   @spec id_from_attrs(Explorer.t()) :: binary()
