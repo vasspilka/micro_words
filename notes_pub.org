@@ -1,3 +1,9 @@
+
+ Links
+ - Links will be vital to connect everything together
+ - Need to put a bit more work in defining them
+
+
 Artifact
 
 rethink view
@@ -10,6 +16,33 @@ Can use binary for trait numbers for lower memory consumption
 
 World has dimensions [x] || [x,x] or more
 Explorer takes journey on world "map" through locations
+
+
+
+Materials
+  For now we only create user posts somewhat like twitter
+  There will be interactions with materials though somewhat like social media
+  interactions can either be skills or artifact special (in case of special material like landmarks)
+  or higher energy materials
+
+
+  Later people could post images or sound snippets (maybe parts of rulesets)
+
+
+
+NPCs
+
+ - Druid will harvest and plant to random locations
+ - Troll (feeds of note  and hackles players) xD
+
+Action Progress
+ - Consider having forward/backward progress instead of stages
+
+
+
+
+
+ Daydream:
 
 Randomly generated environment
  - landmarks (are static and can have benefits)
@@ -35,7 +68,6 @@ Traits
   + Mass? (strength and )
   + Vision?
 
-
 Skills
   - Can be learned
   - Have trait requirements
@@ -49,20 +81,3 @@ Skills
   + Impair
   + Harvest (can seed same material)
   + Sign (seeds will have author name, only can sign own)?
-
-
-Materials
-  For now we only create user posts somewhat like twitter
-  There will be interactions with materials though somewhat like social media
-  interactions can either be skills or artifact special (in case of special material like landmarks)
-  or higher energy materials
-
-
-  Later people could post images or sound snippets (maybe parts of rulesets)
-
-
-
-NPCs
-
- - Druid will harvest and plant to random locations
- - Troll (feeds of note  and hackles players) xD

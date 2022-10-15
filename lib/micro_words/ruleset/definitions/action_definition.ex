@@ -1,10 +1,10 @@
 defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
   @moduledoc """
-  Action definition is an abstruction to help defining existing actions for use in rulesets.
+  Action definition helps to define actions for use in rulesets.
 
   Fields Documentation:
 
-  - name: The action name is used to identify an action. Rulesets must not have more than
+  - name: The name is used to identify an action. Rulesets must not have more than
   one action with the same name.
   - base_cost: The base energy cost of an action, the end action cost can be more depending on the
   on_build/2 callback.
@@ -33,8 +33,9 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
   explorer affects a location that then in turn affects another location that then affects an
   explorer.
 
-  For reactive functions it is important to know the progress if the action as it affect how it will continue to
-  be handled.
+  For reactive functions it is important to know the progress of the action.
+  As they can affect the actor in different ways.
+
 
   - :divine
   These actions are *NOT* taken by the explorer, instead these types of actions can affect any entity
@@ -46,6 +47,7 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
   alias MicroWords.Explorers.Explorer
   alias MicroWords.Ruleset.Definitions.ActionDefinition
   alias MicroWords.Worlds.Location
+  alias MicroWords.WorldReaction
 
   alias MicroWords.Events.ExplorerActionTaken
 
@@ -54,13 +56,6 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
     field(:energy, integer(), default: 0)
   end
 
-  typedstruct module: WorldReaction do
-    field(:from, MicroWords.action_taken_module())
-    field(:agent, MicroWords.world_agent_module())
-    field(:affects, MicroWords.affect_command_module())
-  end
-
-  @type data_form :: %{atom() => atom()}
   @type action_data :: map()
   @type action_type :: :movement | :simple | :reactive | :divine
 
@@ -71,13 +66,13 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
     field(:name, atom())
     field(:base_cost, integer(), default: 0)
     field(:reward, Reward.t(), default: %Reward{})
-    field(:data_form, data_form(), default: %{})
+    field(:data_form, MicroWords.data_form(), default: %{})
     field(:world_reactions, [WorldReaction.t()], default: [])
     field(:description, binary(), default: "")
     field(:type, action_type())
   end
 
-  # Optional definitions on action mo didules
+  # Optional definitions on action modules
   @callback on_build(Explorer.t(), map()) :: Keyword.t()
   @callback on_action_taken(Explorer.t(), Action.t()) :: Keyword.t()
   @callback on_validate(MicroWords.entity(), Action.t()) :: :ok | {:error, atom()}
@@ -86,7 +81,7 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
 
   # Defined in __using__
   @callback validate(MicroWords.entity(), Action.t()) :: :ok | {:error, atom()}
-  @callback build_action(Explorer.t(), map()) :: Action.t()
+  @callback build(Explorer.t(), map()) :: Action.t()
   @callback reaction(MicroWords.world_agent(), MicroWords.action_taken_event()) ::
               MicroWords.affect_command() | [] | nil
   @callback apply(MicroWords.entity(), MicroWords.affect_event()) :: MicroWords.entity()
@@ -102,6 +97,26 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
       @action_name @definition.name
       def definition, do: @definition
 
+      def build(explorer, data) do
+        validated_data = validate_data_form(data)
+
+        explorer
+        |> on_build(validated_data)
+        |> Enum.reduce(
+          %Action{
+            type: @definition.name,
+            explorer_id: explorer.id,
+            location_id: Location.id_from_attrs(explorer),
+            input_data: validated_data,
+            ruleset: explorer.ruleset,
+            cost: @definition.base_cost
+          },
+          fn {k, v}, action ->
+            Map.replace(action, k, v)
+          end
+        )
+      end
+
       for %WorldReaction{
             from: from,
             agent: agent,
@@ -111,6 +126,7 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
         def reaction(%agent{}, %from{action: act}) do
           %@affects_module{action: act}
           |> Map.replace(:location_id, act.location_id)
+          |> Map.replace(:material_id, act.material_id)
         end
       end
 
@@ -141,26 +157,6 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
         |> Enum.reduce(entity, fn {k, v}, acc ->
           Map.replace(acc, k, v)
         end)
-      end
-
-      def build_action(explorer, data) do
-        validated_data = validate_data_form(data)
-
-        explorer
-        |> on_build(validated_data)
-        |> Enum.reduce(
-          %Action{
-            type: @definition.name,
-            explorer_id: explorer.id,
-            location_id: Location.id_from_attrs(explorer),
-            input_data: validated_data,
-            ruleset: explorer.ruleset,
-            cost: @definition.base_cost
-          },
-          fn {k, v}, action ->
-            Map.replace(action, k, v)
-          end
-        )
       end
 
       def validate_data_form(data) do

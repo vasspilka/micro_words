@@ -38,4 +38,9 @@ defmodule MicroWords.Commands do
     field :location_id, binary()
     field :action, Action.t(), enforce: true
   end
+
+  typedstruct module: AffectMaterial do
+    field :material_id, binary()
+    field :action, Action.t(), enforce: true
+  end
 end

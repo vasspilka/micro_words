@@ -6,12 +6,12 @@ defmodule MicroWords.Explorers.Action do
   @type progress :: :drafted | :taken | :passed | :failed
 
   # todo make this dynamic
-  # @ruleset_module MicroWords.Rulesets.Basic
+  # @ruleset_module MicroWords.Rulesets.One
   # @ruleset_module.action_type()
 
   @derive Jason.Encoder
   typedstruct do
-    field :type, atom()
+    field :type, ActionDefinition.action_type()
     field :ruleset, module()
     field :explorer_id, binary()
     field :material_id, binary()

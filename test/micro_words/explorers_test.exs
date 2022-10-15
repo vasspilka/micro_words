@@ -2,12 +2,14 @@ defmodule MicroWords.ExplorersTest do
   use MicroWords.DataCase
   import Commanded.Assertions.EventAssertions
 
-  alias MicroWords.Worlds.Material
   alias MicroWords.Explorers
-  alias MicroWords.Explorers.Explorer
   alias MicroWords.Explorers.Action
+  alias MicroWords.Explorers.Explorer
+  alias MicroWords.Rulesets
   alias MicroWords.Worlds
+  alias MicroWords.Worlds.Link
   alias MicroWords.Worlds.Location
+  alias MicroWords.Worlds.Material
 
   alias MicroWords.Events.{
     WorldCreated,
@@ -19,9 +21,10 @@ defmodule MicroWords.ExplorersTest do
 
   describe "common explorer cases" do
     setup do
-      explorer_id = UUID.uuid4()
-      {:ok, world} = Worlds.create("dev_world")
-      {:ok, %{id: ^explorer_id} = explorer} = Explorers.enter_world(explorer_id, "dev_world")
+      explorer_id = Ecto.UUID.generate()
+      {:ok, world} = Worlds.create("dev_world", Rulesets.One)
+
+      {:ok, %{id: explorer_id} = explorer} = Explorers.enter_world(explorer_id, "dev_world")
 
       assert_receive_event(MicroWords, WorldCreated, fn event, _recorded_event ->
         assert event.name == "dev_world"
@@ -179,7 +182,7 @@ defmodule MicroWords.ExplorersTest do
                material: %Material{
                  id: ^material_id,
                  content: "Hello MicroWord!",
-                 links: [%Material.Link{type: :originator, id: ^explorer_id}]
+                 links: [%Link{type: :situated_at, links_to: %{id: ^explorer_id}}]
                }
              } = location
 

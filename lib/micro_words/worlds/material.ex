@@ -6,18 +6,48 @@ defmodule MicroWords.Worlds.Material do
   use TypedStruct
 
   alias MicroWords.Worlds.Link
+  alias MicroWords.Worlds.Material
 
-  # Maybe dynamic definition based on rulesets
-  @type material_type() :: :note
+  typedstruct module: MaterialState do
+    field(:level, integer(), default: 0)
+    field(:gen, integer(), default: 0)
+    field(:energy, integer(), default: 0)
+    field(:entropy, integer(), default: 0)
+  end
 
   typedstruct do
-    field :type, material_type()
+    field :type, module()
+    field :ruleset, module()
     field :id, binary()
     field :content, binary()
     field :world, binary()
     field :links, [Link.t()], default: []
-    field :energy, integer(), default: 0
-    field :state, integer(), default: 0
-    field :gen, integer(), default: 0
+    field :state, MaterialState.t(), default: %{}
+    field :flowed, integer(), default: 0
+  end
+
+  @type apply_types :: :give_energy | :remove_energy
+
+  def build(
+        %{
+          type: material_module,
+          id: id,
+          content: content,
+          links: links,
+          world: world
+        },
+        act
+      ) do
+    %Material{
+      type: material_module,
+      id: id,
+      content: content,
+      links: links,
+      world: world,
+      state: %{energy: act.cost}
+    }
+  end
+
+  def give_energy() do
   end
 end

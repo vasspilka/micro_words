@@ -2,6 +2,7 @@ defmodule MicroWords.Explorers.Explorer do
   use TypedStruct
 
   alias MicroWords.Explorers.Explorer
+  alias MicroWords.Worlds.Link
   alias MicroWords.Worlds.Material
 
   alias MicroWords.Commands.{
@@ -25,6 +26,7 @@ defmodule MicroWords.Explorers.Explorer do
     field :energy, integer()
     field :materials, %{binary() => Material.t()}, default: %{}
     field :xp, integer(), default: 0
+    field :links, [Link.t()], default: []
     field :stats, map(), default: %{}
   end
 

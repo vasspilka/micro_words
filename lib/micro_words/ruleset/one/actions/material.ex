@@ -1,17 +1,17 @@
-defmodule MicroWords.Ruleset.Actions.BasicMaterial do
+defmodule MicroWords.Ruleset.One.Actions.Material do
   @moduledoc """
   Actions that involve the creation and basic interaction between explorers and materials.
   """
 
   alias MicroWords.Explorers.Action
   alias MicroWords.Explorers.Explorer
-  alias MicroWords.Worlds.Link
-  alias MicroWords.Worlds.Material
   alias MicroWords.Ruleset.Definitions.ActionDefinition
+  alias MicroWords.WorldReaction
+  # alias MicroWords.Worlds.Link
   alias MicroWords.Worlds.Location
+  alias MicroWords.Worlds.Material
 
   alias ActionDefinition.Reward
-  alias ActionDefinition.WorldReaction
 
   alias MicroWords.Events.{
     ExplorerActionTaken,
@@ -38,20 +38,30 @@ defmodule MicroWords.Ruleset.Actions.BasicMaterial do
     }
 
     def on_build(_explorer, %{}) do
-      [material_id: UUID.uuid4()]
+      [material_id: Ecto.UUID.generate()]
     end
 
     def on_action_taken(%Explorer{} = o, act) do
-      material = %Material{
-        type: :note,
-        id: act.material_id,
-        links: [%Link{type: :originator, id: o.id}],
-        world: o.world,
-        energy: act.cost,
-        content: act.input_data.content
-      }
+      situated_link = act.ruleset.build_link(o, :situated_at)
 
-      [materials: Map.put(o.materials, act.material_id, material)]
+      material =
+        Material.build(
+          %{
+            type: :note,
+            id: act.material_id,
+            links: [situated_link],
+            world: o.world,
+            content: act.input_data.content
+          },
+          act
+        )
+
+      link = act.ruleset.build_link(material, :carries_material)
+
+      [
+        links: o.links ++ [link],
+        materials: Map.put(o.materials, act.material_id, material)
+      ]
     end
   end
 
@@ -166,10 +176,10 @@ defmodule MicroWords.Ruleset.Actions.BasicMaterial do
       end
     end
 
-    def affects(%Location{material: material, ground: ground}, act) do
+    def affects(%Location{material: material, energy: energy}, act) do
       [
         material: %{material | energy: material.energy - 10},
-        ground: %{ground | energy: ground.energy + act.cost + 10}
+        energy: energy + act.cost + 10
       ]
     end
   end

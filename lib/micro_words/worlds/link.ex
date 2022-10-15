@@ -10,8 +10,11 @@ defmodule MicroWords.Worlds.Link do
 
     The link type helps us identify the reason of the link
     as well as the type of the linked entity.
+
+
+    A
     """
-    field :id, binary()
+    field :links_to, MicroWords.entity_pointer()
     field :type, atom()
   end
 end

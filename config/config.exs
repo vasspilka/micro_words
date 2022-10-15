@@ -10,9 +10,9 @@ import Config
 config :micro_words,
   # consider list and using macro for types.
   worlds: %{
-    "dev_world" => MicroWords.Rulesets.Basic,
-    "dev_world_2" => MicroWords.Rulesets.Basic,
-    "new_world" => MicroWords.Rulesets.New
+    "dev_world" => MicroWords.Ruleset.One,
+    "dev_world_2" => MicroWords.Ruleset.One
+    # "new_world" => MicroWords.Rulesets.New
   },
   ecto_repos: [MicroWords.Repo],
   generators: [binary_id: true]
