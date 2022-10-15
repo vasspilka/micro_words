@@ -1,4 +1,4 @@
-defmodule MicroWords.Ruleset.Actions.WasdMovement do
+defmodule MicroWords.Ruleset.One.Actions.Movement do
   @moduledoc """
   Defines movement around in a two dimensional world.
   """

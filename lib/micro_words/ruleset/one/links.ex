@@ -4,6 +4,12 @@ defmodule MicroWords.Ruleset.One.Links do
 
   alias MicroWords.Ruleset.Definitions.LinkDefinition
 
+  # defmodule ResidesAt do
+  #   use LinkDefinition, %LinkDefinition{
+  #     name: :resides_at
+  #   }
+  # end
+
   defmodule CarriesMaterial do
     use LinkDefinition, %LinkDefinition{
       name: :carries_material

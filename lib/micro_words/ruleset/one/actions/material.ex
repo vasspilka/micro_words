@@ -1,17 +1,17 @@
-defmodule MicroWords.Ruleset.Actions.MaterialOne do
+defmodule MicroWords.Ruleset.One.Actions.Material do
   @moduledoc """
   Actions that involve the creation and basic interaction between explorers and materials.
   """
 
   alias MicroWords.Explorers.Action
   alias MicroWords.Explorers.Explorer
-  alias MicroWords.Worlds.Link
-  alias MicroWords.Worlds.Material
   alias MicroWords.Ruleset.Definitions.ActionDefinition
+  alias MicroWords.WorldReaction
+  # alias MicroWords.Worlds.Link
   alias MicroWords.Worlds.Location
+  alias MicroWords.Worlds.Material
 
   alias ActionDefinition.Reward
-  alias ActionDefinition.WorldReaction
 
   alias MicroWords.Events.{
     ExplorerActionTaken,
@@ -42,19 +42,26 @@ defmodule MicroWords.Ruleset.Actions.MaterialOne do
     end
 
     def on_action_taken(%Explorer{} = o, act) do
+      situated_link = act.ruleset.build_link(o, :situated_at)
+
       material =
         Material.build(
           %{
             type: :note,
             id: act.material_id,
-            links: [%Link{type: :originator, id: o.id}],
+            links: [situated_link],
             world: o.world,
             content: act.input_data.content
           },
           act
         )
 
-      [materials: Map.put(o.materials, act.material_id, material)]
+      link = act.ruleset.build_link(material, :carries_material)
+
+      [
+        links: o.links ++ [link],
+        materials: Map.put(o.materials, act.material_id, material)
+      ]
     end
   end
 

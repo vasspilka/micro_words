@@ -4,15 +4,29 @@ defmodule MicroWords.Ruleset do
   functionality as a whole.
   """
 
+  use TypedStruct
+
   alias MicroWords.{
     Action
     # UserContext
   }
 
   alias MicroWords.Explorers.Explorer
-  alias MicroWords.Ruleset.Definitions.ActionDefinition
 
-  @type t() :: module()
+  alias MicroWords.Ruleset.Definitions.{
+    ActionDefinition,
+    LinkDefinition,
+    MaterialDefinition
+  }
+
+  typedstruct do
+    field :dimensions, MicroWords.dimensions()
+    field :action_modules, [module()]
+    field :link_modules, [module()]
+    field :material_modules, [module()]
+  end
+
+  @type ruleset_module() :: module()
   @type entity :: MicroWords.entity()
   @type action :: MicroWords.action()
   @type world_agent :: MicroWords.world_agent()
@@ -27,6 +41,8 @@ defmodule MicroWords.Ruleset do
   ## TODO: figure out input so you can surface this in UI
   ## allowing only executable actions
   @callback action_definitions(term()) :: [ActionDefinition.t()]
+  @callback link_definitions(term()) :: [LinkDefinition.t()]
+  @callback material_definitions(term()) :: [MaterialDefinition.t()]
 
   # Defined in ruleset module without fallback
   @callback starting_location() :: [integer()]
@@ -104,18 +120,18 @@ defmodule MicroWords.Ruleset do
       end
 
       @impl MicroWords.Ruleset
-      def build_action(explorer, action_name, data) do
-        @actions[action_name].build_action(explorer, data)
+      def build_action(entity, name, data) do
+        @actions[name].build(entity, data)
       end
 
       @impl MicroWords.Ruleset
-      def build_link(explorer, action_name, data) do
-        @links[action_name].build_link(explorer, data)
+      def build_link(entity, name, data \\ %{}) do
+        @links[name].build(entity, data)
       end
 
       @impl MicroWords.Ruleset
-      def build_material(explorer, material_name, data) do
-        @materials[material_name].build_material(explorer, data)
+      def build_material(entity, name, data) do
+        @materials[name].build(entity, data)
       end
 
       @impl MicroWords.Ruleset

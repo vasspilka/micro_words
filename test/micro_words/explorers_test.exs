@@ -182,7 +182,7 @@ defmodule MicroWords.ExplorersTest do
                material: %Material{
                  id: ^material_id,
                  content: "Hello MicroWord!",
-                 links: [%Link{type: :originator, id: ^explorer_id}]
+                 links: [%Link{type: :situated_at, links_to: %{id: ^explorer_id}}]
                }
              } = location
 

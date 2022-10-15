@@ -81,7 +81,7 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
 
   # Defined in __using__
   @callback validate(MicroWords.entity(), Action.t()) :: :ok | {:error, atom()}
-  @callback build_action(Explorer.t(), map()) :: Action.t()
+  @callback build(Explorer.t(), map()) :: Action.t()
   @callback reaction(MicroWords.world_agent(), MicroWords.action_taken_event()) ::
               MicroWords.affect_command() | [] | nil
   @callback apply(MicroWords.entity(), MicroWords.affect_event()) :: MicroWords.entity()
@@ -96,6 +96,26 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
       @definition unquote(action_definition)
       @action_name @definition.name
       def definition, do: @definition
+
+      def build(explorer, data) do
+        validated_data = validate_data_form(data)
+
+        explorer
+        |> on_build(validated_data)
+        |> Enum.reduce(
+          %Action{
+            type: @definition.name,
+            explorer_id: explorer.id,
+            location_id: Location.id_from_attrs(explorer),
+            input_data: validated_data,
+            ruleset: explorer.ruleset,
+            cost: @definition.base_cost
+          },
+          fn {k, v}, action ->
+            Map.replace(action, k, v)
+          end
+        )
+      end
 
       for %WorldReaction{
             from: from,
@@ -137,26 +157,6 @@ defmodule MicroWords.Ruleset.Definitions.ActionDefinition do
         |> Enum.reduce(entity, fn {k, v}, acc ->
           Map.replace(acc, k, v)
         end)
-      end
-
-      def build_action(explorer, data) do
-        validated_data = validate_data_form(data)
-
-        explorer
-        |> on_build(validated_data)
-        |> Enum.reduce(
-          %Action{
-            type: @definition.name,
-            explorer_id: explorer.id,
-            location_id: Location.id_from_attrs(explorer),
-            input_data: validated_data,
-            ruleset: explorer.ruleset,
-            cost: @definition.base_cost
-          },
-          fn {k, v}, action ->
-            Map.replace(action, k, v)
-          end
-        )
       end
 
       def validate_data_form(data) do

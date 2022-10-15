@@ -12,6 +12,7 @@ defmodule MicroWords.Worlds.Material do
     field(:level, integer(), default: 0)
     field(:gen, integer(), default: 0)
     field(:energy, integer(), default: 0)
+    field(:entropy, integer(), default: 0)
   end
 
   typedstruct do
@@ -21,7 +22,7 @@ defmodule MicroWords.Worlds.Material do
     field :content, binary()
     field :world, binary()
     field :links, [Link.t()], default: []
-    field :state, MaterialState(), default: %{}
+    field :state, MaterialState.t(), default: %{}
     field :flowed, integer(), default: 0
   end
 

@@ -1,28 +1,29 @@
-defmodule MicroWords.Rulesets.One do
-  alias MicroWords.Ruleset.Actions.{
-    MaterialOne,
-    WasdMovement
-  }
+defmodule MicroWords.Ruleset.One do
+  alias MicroWords.Ruleset
+  alias MicroWords.Ruleset.One
 
   @action_modules [
-    WasdMovement.MoveSouth,
-    WasdMovement.MoveEast,
-    WasdMovement.MoveNorth,
-    WasdMovement.MoveWest,
-    MaterialOne.ForgeNote,
-    MaterialOne.PlantMaterial,
-    MaterialOne.SupportMaterial,
-    MaterialOne.WeakenMaterial
+    One.Actions.Movement.MoveSouth,
+    One.Actions.Movement.MoveEast,
+    One.Actions.Movement.MoveNorth,
+    One.Actions.Movement.MoveWest,
+    One.Actions.Material.ForgeNote,
+    One.Actions.Material.PlantMaterial,
+    One.Actions.Material.SupportMaterial,
+    One.Actions.Material.WeakenMaterial
     # Protect Material:
     # Disenchant Material:
     # ? Leach Material: (material -> explorer)
   ]
 
-  @link_modules []
+  @link_modules [
+    One.Links.SituatedAt,
+    One.Links.CarriesMaterial
+  ]
 
   @material_modules []
 
-  use MicroWords.Ruleset,
+  use Ruleset,
     dimensions: [100, 100],
     action_modules: @action_modules,
     link_modules: @link_modules,

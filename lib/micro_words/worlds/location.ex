@@ -16,6 +16,7 @@ defmodule MicroWords.Worlds.Location do
   }
 
   typedstruct do
+    field :material, Material.t(), default: nil
     field :links, [Link.t()], default: []
     field :energy, integer(), default: 0
     field :flowed, integer(), default: 0

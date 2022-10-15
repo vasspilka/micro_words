@@ -31,7 +31,7 @@ defmodule MicroWords do
   end
 
   @type action :: MicroWords.Explorers.Action.t()
-  @type ruleset :: MicroWords.Ruleset.t()
+  @type ruleset :: MicroWords.Ruleset.ruleset_module()
   @type dimensions :: [integer()]
   @type world_agent :: Journey.t()
   @type world_agent_module :: Journey
